@@ -1,0 +1,88 @@
+Footer
+{ 
+    align-self: end;
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    background: linear-gradient(to bottom, #b13b93, #b20086, #7023a7, #6527bc);
+    width: 96%;
+    padding: 2% 2% 0 2%;
+    gap: 2vh;
+}
+
+#payingF
+{
+    display: flex;
+    justify-content:space-evenly;
+    list-style-type: none;
+}
+
+#Footer h2
+{
+    text-align: left;
+    margin: 0;
+    font-size: 30px;
+    color: white;
+}   
+
+#contact_aboutF
+{
+    margin: 2vh 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    gap: 1vw;
+}
+
+
+#contactsF
+{
+    display: flex;
+    flex-direction: column;
+    width: 16%;
+    align-items: start;
+    justify-content: center;
+    text-align: left;
+    gap: 2.5vh;
+}
+
+#contactIconsF
+{
+    display: flex;
+    justify-content: left;
+    width: 100%;
+    gap: 1vw;
+}
+
+#contactIconsF img
+{
+    height: 6vh;
+}
+
+#contactsF p
+{
+    color: white;
+    margin: 0;
+}
+
+#contactsF button
+{
+    width: 60%;
+}
+
+#contactsF button
+{
+    font-size: 14px;
+    padding: 5px 6px;
+    width: 70%;
+}
+
+#aboutUsF
+{
+    /* margin-top: 30px; */
+    color: white;
+    display: inline-block;
+    text-align: justify;
+    color: #aeaeae;
+    width: 84%;
+}
