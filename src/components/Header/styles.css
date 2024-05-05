@@ -1,11 +1,12 @@
 #Header
 {
-    height: 9vh;
+    height: 4vh;
     width: 100%;
-    background-color: #3a275f;
+    background-color: #0e0e0e;
     padding: 1vh 0;
     position: fixed;
     top: 0;
+    z-index: 1000;
 }
 
 #header
@@ -13,7 +14,7 @@
     display: flex;
     align-items: center;
     height: 100%;
-    margin: 0 0.7vw;
+    margin: 0 2vw;
     
 }
 
@@ -35,7 +36,7 @@
 {
     width: 45%;
     height: 100%;
-    font-size: 3vmin;
+    font-size: 2.5vmin;
 }
 
 #MenuH, #MenuH ul
@@ -83,7 +84,7 @@
     width: 35%;
     height: 100%;
     justify-content: end;
-    gap: 10%;
+    gap: 7%;
     font-size: 2.5vmin;
 }
 
@@ -93,13 +94,12 @@
     display: flex;
     align-items: center;
     justify-content: end;
-    padding: 0 5%;
 }
 
 #BasketH img
 {
-    height: 45%;
-    filter: invert();
+    height: 70%;
+    filter: invert(); /*Хуйня - переделать, чтобы при ховер цвет менялся*/
 }
 
 #BasketH:hover img
@@ -113,10 +113,9 @@
     align-items: center;
     justify-content: end;
     gap: 8%;
-    max-width: 80%;
 }
 
-#UserDataH > a
+#UserDataH  a
 {
     height: 100%;
     display: flex;
@@ -125,23 +124,21 @@
 
 #UserDataH a img
 {
-    height: 75%;
-    border-radius: 50%;
-    border: 3px solid #000;
+    height: 90%;
     filter: invert();
 }
 
-#UserDataH div
+#UserDataH
 {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: flex-start;
     height: 100%;
     justify-content: space-evenly;
     
 }
 
-#UserDataH div a
+#UserDataH a
 {
     position: relative;
     width: max-content;
