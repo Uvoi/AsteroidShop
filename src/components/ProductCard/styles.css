@@ -1,0 +1,100 @@
+.ProductCard
+{
+    /* background-color: #ff6c6c; */
+    height: 44vh;
+    width: 22%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.prdtImgData{
+    display: flex;
+    height: 70%;
+    width: 100%;
+    gap:2px;
+    align-items: stretch;
+    align-content: stretch;
+}
+
+.prdtImgData img
+{
+    flex-grow: 1;
+    height: 100%;
+    width: auto;
+    object-fit: cover;
+    overflow: hidden;
+}
+
+.prdtImgData span
+{
+    font-size: clamp(16px, 1.15vw, 20px);
+    writing-mode: vertical-lr;
+    width: fit-content;
+    height: fit-content;
+    align-self: center;
+    font-weight: bold;
+}
+
+.prdtData
+{
+    width: 100%;
+    display: flex;
+    height: auto;
+    flex-direction: column;
+    padding: 0 5%;
+    text-align: center;
+}
+
+.prdtData h3
+{
+    font-size: clamp(16px, 1.3vw, 24px);
+    margin: 0% 0 3% 0;
+    font-weight: bold;
+    width: 90%;
+}
+
+.prdtData p
+{ 
+    width: 100%;
+    height: max-content;
+    font-size: clamp(10px, 1vw, 18px);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 90%;
+}
+
+.prdtNumberData_Button
+{
+    align-items: center;
+    margin-top: 3%;
+    width: 90%;
+    display: flex;
+}
+
+.prdtNumberData
+{
+    width: 100%;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: left;
+}
+
+.prdtNumberData span
+{
+    font-size: clamp(14px, 1.1vw, 20px);
+}
+
+.prdtBasketBtn{
+    height: 70%;
+    width: 20%;
+    padding: 3px 4px;
+}
+
+.prdtBasketBtn img{
+    height: 100%;
+    width: 70%;
+}
