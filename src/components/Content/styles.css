@@ -1,0 +1,8 @@
+#Main
+{
+    padding: 20vh 5vw 10vh 5vw;
+    display: flex;
+    height: 100%;
+    width: 90vw;
+    flex-direction: column;
+}
