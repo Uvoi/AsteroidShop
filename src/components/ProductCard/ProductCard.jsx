@@ -6,12 +6,12 @@ import { Button } from '@mui/material';
 import basket from './../../images/basket.svg'
 
 
-const ProductCard = ({theme="", prdtImg="", prdtTitle, prdtDescription, prdtWeight, prdtCategory="", prdtPrice})=>
+const ProductCard = ({theme="", prdtImg="", prdtTitle, prdtDescription, prdtWeight, prdtCategory="", prdtPrice, imgLink=""})=>
 {
     return( 
         <div className='ProductCard' style={{color: theme.palette.text.secondary}}>
             <div className="prdtImgData">
-                <img src={pass} alt="" />
+                <img src={imgLink?imgLink:pass} alt="" />
                 <span style={{color: theme.palette.text.primary}}>{prdtCategory}</span>
             </div>
             <div className="prdtData">

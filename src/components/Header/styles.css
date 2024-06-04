@@ -25,6 +25,13 @@
     height: 100%;
     width: 25%;
 }
+#LogoH button
+{
+    background-color: #ffffff00;
+    border: none;
+    cursor: pointer;
+    height: 100%;
+}
 
 #LogoH img
 {

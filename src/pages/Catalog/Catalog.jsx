@@ -36,7 +36,8 @@ const Catalog = ({ theme }) => {
             description: item.description,
             weight: item.weight,
             price: item.price,
-            category: item.category
+            category: item.category,
+            imgLink: item.imgLink
           };
         });
         setAsteroidData(newData); 
@@ -138,6 +139,7 @@ const Catalog = ({ theme }) => {
               prdtWeight={asteroidData[key].weight}
               prdtPrice={asteroidData[key].price}
               prdtCategory={asteroidData[key].category}
+              imgLink={asteroidData[key].imgLink}
             />
           ))}
         </ProductsContainer>

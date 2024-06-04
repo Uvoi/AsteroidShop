@@ -7,18 +7,19 @@ import basket from './../../images/basket.svg'
 
 
 
-const Header = (props)=>
+const Header = ({onToggleTheme})=>
 {
+
     return(
         <div id='Header'>
             <div id="header">
-                <div id="LogoH"><a href="/"><img src={logo} alt="" /></a></div>
+                <div id="LogoH"><button onClick={onToggleTheme}><img src={logo} alt="" /></button></div>
                 <div id='MenuH' className='text_stroke'>
                     <ul>
                         <li id='MainPageH'><a href='/'>Главная</a></li>
-                        <li id='CatalogPageH'><a href='catalog'>Каталог</a></li>
-                        <li id='AboutPageH'><a href='about'>О нас</a></li>
-                        <li id='ContactPageH'><a href='help'>Помощь</a></li>
+                        <li id='CatalogPageH'><a href='/catalog'>Каталог</a></li>
+                        <li id='AboutPageH'><a href='/about'>О нас</a></li>
+                        <li id='ContactPageH'><a href='/help'>Помощь</a></li>
                     </ul>
                 </div>
                 <div id="Basket_UserDataH">
