@@ -1,0 +1,111 @@
+#Basket {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8vh;
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.basket-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.basket-table th,
+.basket-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.basket-table th {
+    background: #f4f4f4;
+}
+
+.basket-table input[type="number"] {
+    width: 60px;
+    border: 2px solid black;
+    font-size: 20px;
+    background-color: #ffffff00;
+    color: black;
+}
+
+.basket-table input[type="number"]::-moz-placeholder,
+.basket-table input[type="number"]::-webkit-input-placeholder {
+    color: black;
+}
+
+.basket-summary {
+    text-align: right;
+}
+
+.basket-summary h2 {
+    margin-bottom: 20px;
+    color: black;
+    font-size: 25px;
+}
+
+.basket-summary button {
+    padding: 10px 20px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.basket-summary button:hover {
+    background: #0056b3;
+}
+
+.basket-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.basket-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+}
+
+.basket-table input[type="number"] {
+    border-bottom: 2px solid black;
+    font-size: 25px;
+    background-color: #ffffff00;
+    color: rgb(0, 0, 0);
+}
+
+.basket-table button {
+    width: 150px;
+}
+
+.basket-table button {
+    color: white;
+}
+
+.basket-table input[type="number"]::-moz-placeholder, 
+.basket-table input[type="number"]::-webkit-input-placeholder {
+    color: rgb(0, 0, 0); 
+}
+
+.basket-table textarea::-moz-placeholder, 
+.basket-table textarea::-webkit-input-placeholder {
+    color: rgb(0, 0, 0); 
+}
+
+.basket-table textarea {
+    resize: none;
+    height: 30vh;
+    overflow: hidden;
+    overflow-y: auto;
+    border-bottom: none;
+    border: 3px dashed black;
+}

@@ -1,0 +1,74 @@
+#AboutUs {
+    width: 80%;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+#AboutUs h1, #AboutUs h2 {
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.about-content {
+    text-align: justify;
+    margin-bottom: 40px;
+}
+
+.about-content p {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.team-section {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.team-section h2 {
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.team-members {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.team-member {
+    width: 200px;
+    margin: 0 20px 30px;
+    text-align: center;
+}
+
+.team-member img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+    border: 5px solid #f9f9f9;
+    transition: border-color 0.3s ease;
+}
+
+.team-member img:hover {
+    border-color: #333;
+}
+
+.team-member h3 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.team-member p {
+    font-size: 16px;
+    color: #666;
+}
