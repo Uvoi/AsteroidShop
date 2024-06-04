@@ -23,7 +23,7 @@ const Header = ({onToggleTheme})=>
                     </ul>
                 </div>
                 <div id="Basket_UserDataH">
-                    <a id='BasketH' href=""><img src={basket} alt="" /></a>
+                    <a id='BasketH' href='/basket'><img src={basket} alt="" /></a>
                     <div id="UserDataH">
                         <a href='' className='bot_line'>baobab</a>
                         <a href=""><img src={user} alt="" /></a>
