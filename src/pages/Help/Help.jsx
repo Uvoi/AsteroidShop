@@ -34,11 +34,12 @@ const Contact = (props) => {
         <input type='email' id='emailHelp' placeholder='Эл. почта' />
         <textarea type='text' id='messageHelp' placeholder='Текст обращения' />
         <div id='sendButtonHelp'>
-          <Button variant="contained" onClick={sendContact} color="primary">
+          <Button variant="contained" onClick={sendContact} color="secondary">
             Отправить
             </Button>
         </div>
       </div>
+      <div id="contactDataHelpWrapper">
       <div id='contactDataHelp'>
         <h1>Связь с нами</h1>
         <div id='contactDataImgsHelp'>
@@ -50,6 +51,7 @@ const Contact = (props) => {
           <p>+7 (330) 133-01-33</p>
           <p>+7 (27) 922-41-469</p>
         </div>
+      </div>
       </div>
     </div>
   );
