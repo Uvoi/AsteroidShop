@@ -1,0 +1,90 @@
+.ProductCard {
+    position: relative;
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+
+.removeBtn {
+    position: absolute;
+    top: 10px;
+    right: 10px; /* Перемещение в правый верхний угол */
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #ff0000;
+    cursor: pointer;
+}
+
+.prdtImgData {
+    display: flex;
+    height: 100px;
+    width: auto;
+    gap: 10px;
+    align-items: center;
+}
+
+.prdtImgData img {
+    height: 100%;
+    width: auto;
+    object-fit: cover;
+    overflow: hidden;
+}
+
+.prdtImgData span {
+    font-size: clamp(16px, 1.15vw, 20px);
+    font-weight: bold;
+}
+
+.prdtData {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0 10px;
+    text-align: left;
+}
+
+.prdtData h3 {
+    font-size: clamp(16px, 1.3vw, 24px);
+    margin: 0 0 5px 0;
+    font-weight: bold;
+}
+
+.prdtData p {
+    font-size: clamp(10px, 1vw, 18px);
+    margin: 0 0 10px 0;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Ограничиваем количество строк до 5 */
+    -webkit-box-orient: vertical;
+    word-wrap: break-word; /* Перенос текста при достижении границы */
+    white-space: normal; /* Позволяет переносить текст по словам */
+}
+
+
+.prdtNumberData_Button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.prdtNumberData {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.prdtBasketBtn {
+    padding: 3px 4px;
+}
+
+.prdtBasketBtn img {
+    height: 24px;
+    width: auto;
+}
