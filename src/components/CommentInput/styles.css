@@ -1,0 +1,27 @@
+.CommentInput
+{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 2%;
+}
+
+.inputComI
+{
+    padding: 0.7vmin 1vmin;
+    font-size: 2.5vmin;
+    border-radius: 5px;
+    width: 93%;
+    height: 4vmin;
+}
+
+.sendComI
+{
+    padding: 0px !important;
+    font-size: 4vmin !important;
+    height: 5.74vmin;
+    width: 5%;
+    vertical-align: top;
+    align-self: flex-start;
+    line-height: 1.5 !important;
+}
