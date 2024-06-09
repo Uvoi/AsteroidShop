@@ -1,8 +1,7 @@
 #Header
 {
-    height: 4vh;
+    height: 4.5vh;
     width: 100%;
-    background-color: #0e0e0e;
     padding: 1vh 0;
     position: fixed;
     top: 0;
@@ -78,13 +77,6 @@
     text-decoration: none;
 }
 
-#MenuH ul a:hover
-{
-    background-color:rgb(117, 211, 117);
-    /* -webkit-text-stroke: 1px black; 
-    color: rgba(255, 255, 255, 0); */
-}
-
 #Basket_UserDataH
 {
     display: flex;
@@ -131,8 +123,7 @@
 
 #UserDataH a img
 {
-    height: 90%;
-    filter: invert();
+    height: 100%;
 }
 
 #UserDataH
@@ -152,3 +143,20 @@
     align-self: self-end;
     text-decoration: none;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
