@@ -11,10 +11,10 @@ import vkLogo from '../../images/vk.png'
 import githubLogo from '../../images/github.svg'
 import { Button } from '@mui/material';
 
-const Footer = (props)=>
+const Footer = ({theme})=>
 {
     return(
-        <footer id='Footer'>
+        <footer id='Footer' style={{backgroundColor: theme.palette.header.primary}}>
 
             <ul id="payingF">
                 <li><img src={visaLogo} alt=""/></li>
@@ -35,7 +35,7 @@ const Footer = (props)=>
                     </div>
                     <p>+7 (330) 133-01-33</p>
                     <p>+7 (27) 922-41-469</p>
-                    <Button variant="contained">Задать вопрос</Button>
+                    <Button variant="contained" href='/help'>Задать вопрос</Button>
                 </div>
 
                 <span id="aboutUsF">
@@ -43,7 +43,7 @@ const Footer = (props)=>
                 </span>
             </div>
 
-            <span id="rights">© Baobab, 1988-2024. Все права защищены. </span>
+            <span id="rights" style={{color: theme.palette.text.ultra}}>© Baobab, 1988-2024. Все права защищены. </span>
         
         </footer>
     );

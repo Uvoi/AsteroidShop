@@ -4,7 +4,6 @@ Footer
     display: flex;
     flex-direction: column;
     text-align: right;
-    background: linear-gradient(to bottom, #b13b93, #b20086, #7023a7, #6527bc);
     width: 96%;
     padding: 2% 2% 0 2%;
     gap: 2vh;
