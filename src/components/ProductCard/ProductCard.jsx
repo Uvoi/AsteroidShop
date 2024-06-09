@@ -1,17 +1,19 @@
 import React from 'react';
 import './styles.css'
+import { useNavigate} from 'react-router-dom';
+
 import pass from '../../images/pass.jpg'
 import { Button } from '@mui/material';
-// import {} from '@mui/material'
 import basket from './../../images/basket.svg'
 
 
-const ProductCard = ({theme="", prdtImg="", prdtTitle, prdtDescription, prdtWeight, prdtCategory="", prdtPrice, imgLink=""})=>
+const ProductCard = ({theme="", prdtImg="",cardId, prdtTitle, prdtDescription, prdtWeight, prdtCategory="", prdtPrice, imgLink=""})=>
 {
+    let navigate = useNavigate();
     return( 
-        <div className='ProductCard' style={{color: theme.palette.text.secondary}}>
+        <div id={'ProductCard_'+cardId} className='ProductCard' style={{color: theme.palette.text.secondary}}>
             <div className="prdtImgData">
-                <img src={imgLink?imgLink:pass} alt="" />
+                <img src={imgLink?imgLink:pass} onClick={()=>{navigate('/asteroid?id='+cardId)}} alt="" />
                 <span style={{color: theme.palette.text.primary}}>{prdtCategory}</span>
             </div>
             <div className="prdtData">
