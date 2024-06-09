@@ -5,8 +5,11 @@ const darkTheme = createTheme({
   palette: {
     mode: 'dark',
     background: {
-      default: '#130118', // Dark background color
+      default: '#1a0121', // Dark background color
       paper: '#1C0F24', // Paper background color
+    },
+    header: {
+      primary: '#0c000f'
     },
     primary: {
       main: '#6325cf',
@@ -35,6 +38,9 @@ const lightTheme = createTheme({
     background: {
       default: '#FAF3E0', // Light background color
       paper: '#F1E9D2', // Paper background color
+    },
+    header: {
+      primary: '#743882',
     },
     primary: {
       main: '#5C33FF',
