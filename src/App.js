@@ -31,9 +31,9 @@ function App() {
     <NotificationProvider>
       <ThemeProvider theme={theme}> 
         <div className="App" style={{ backgroundColor: theme.palette.background.default}}>
-          <Header onToggleTheme={toggleTheme} />
+          <Header onToggleTheme={toggleTheme} theme={theme} />
           <Content theme={theme}/>
-          <Footer />
+          <Footer theme={theme}/>
         </div>
       </ThemeProvider>
     </NotificationProvider>
