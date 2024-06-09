@@ -65,7 +65,7 @@
     flex-direction: column;
     justify-content: start;
     gap: 5vh;
-    background-color: #130118;
+    background-color: #1a0121;
     padding: 30px;
     border-radius: 10px; /* Для закругления углов */
     backdrop-filter: blur(10px);
@@ -79,7 +79,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #130118; /* Полупрозрачный темный фон */
+    background-color: #1a0121; /* Полупрозрачный темный фон */
     filter: blur(20px); /* Размытие фона псевдоэлемента */
     z-index: -2; /* Помещение псевдоэлемента под содержимое внутреннего div */
   }
