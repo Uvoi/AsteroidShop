@@ -41,11 +41,11 @@ const Catalog = ({ theme }) => {
           };
         });
         setAsteroidData(newData); 
-      } else {
+      }
+       else {
         console.error('Полученные данные не являются массивом');
       }
     };
-
     getAllData();
   }, []);
 
@@ -73,34 +73,79 @@ const Catalog = ({ theme }) => {
 
   const [selectCategoryValue, setSelectCategoryValue] = useState(parseFiltersFromUrl(searchParams));
 
-  const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    let selectedValues = typeof value === 'string' ? value.split(',') : value;
+  const handleChange = (event=null) => {
+    let selectedValues;
+    if (event){
+      const { value } = event.target;
+      selectedValues = typeof value === 'string' ? value.split(',') : value;
+    }
+    else{
+      selectedValues=selectCategoryValue
+    } 
 
+  
     if (selectedValues.includes(selectCategories.all)) {
       if (selectedValues[selectedValues.length - 1] === selectCategories.all && selectedValues.length > 1) {
         selectedValues = [selectCategories.all];
       } else {
-        selectedValues = selectedValues.filter((item) => item !== selectCategories.all);
+        selectedValues = selectedValues.filter(item => item !== selectCategories.all);
       }
     }
     if (selectedValues.length === 0) {
       selectedValues = [selectCategories.all];
     }
     setSelectCategoryValue(selectedValues);
+
+    const normalizedSelectedValues = selectedValues.map(val => normalizeCategory(val));
+  
+    Object.keys(asteroidData).forEach(key => {
+      const productCard = document.getElementById("ProductCard_" + key);
+      const normalizedCategory = normalizeCategory(asteroidData[key].category);
+      if (productCard) {
+        if (normalizedSelectedValues.includes(normalizeCategory(selectCategories.all)) || 
+        (normalizedSelectedValues.includes(normalizedCategory)) ||
+        (selectedValues.includes(returnWeightCategory(asteroidData[key].weight))))
+          {
+          productCard.style.display = 'flex';
+        } else {
+          productCard.style.display = 'none';
+        }
+      }
+    });
   };
+
+  const normalizeCategory = (category) => {
+    return category.slice(0, -1);
+  };
+
+  const returnWeightCategory = (weight) => {
+    if ((weight > 0.000001) && (weight < 1)) 
+      return 'Малые'
+    if ((weight > 1) && (weight < 50))
+      return 'Средние'
+    if (weight > 50)
+      return 'Большие'
+  };
+  
+  
+  
 
   useEffect(() => {
     const filterQuery = selectCategoryValue
       .filter(category => category !== selectCategories.all)
       .map(category => category.toLowerCase().replace(/ /g, '_'))
       .join(',');
-
+      
     const newUrl = filterQuery ? `/catalog?filters=${filterQuery}` : '/catalog';
     navigate(newUrl, { replace: true });
+
   }, [selectCategoryValue, navigate]);
+
+  useEffect(() => {
+    if (Object.keys(asteroidData).length > 0) { // Проверяем, что данные загружены
+      handleChange();
+    }
+  }, [asteroidData]);
 
   return (
     <div id='Catalog'>
@@ -132,6 +177,7 @@ const Catalog = ({ theme }) => {
         <ProductsContainer>
           {Object.keys(asteroidData).map(key => (
             <ProductCard
+              cardId = {key}            
               key={key}
               theme={theme}
               prdtTitle={asteroidData[key].title}
