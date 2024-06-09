@@ -1,0 +1,178 @@
+
+.starButton
+{
+    margin-right: 2%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
+}
+
+
+.starButton button {
+  cursor: pointer;
+  height: 100%;
+  width: 100%;
+    font-size: 2.5vmin;
+    background-color: #8f056300;
+    position: relative;
+    color: #ffffff;
+    transition: all .3s ease-in-out;
+    border-style: none;
+  }
+  
+  .starButton .star-1 {
+    position: absolute;
+    opacity: 0;
+    top: 20%;
+    left: 20%;
+    width: 25px;
+    height: auto;
+    filter: drop-shadow(0 0 0 #fffdef);
+    z-index: -5;
+    transition: all 1s cubic-bezier(0.05, 0.83, 0.43, 0.96);
+  }
+  
+  .starButton .star-2 {
+    position: absolute;
+    opacity: 0;
+    top: 45%;
+    left: 45%;
+    width: 15px;
+    height: auto;
+    filter: drop-shadow(0 0 0 #fffdef);
+    z-index: -5;
+    transition: all 1s cubic-bezier(0, 0.4, 0, 1.01);
+  }
+  
+  .starButton .star-3 {
+    position: absolute;
+    opacity: 0;
+    top: 40%;
+    left: 40%;
+    width: 5px;
+    height: auto;
+    filter: drop-shadow(0 0 0 #fffdef);
+    z-index: -5;
+    transition: all 1s cubic-bezier(0, 0.4, 0, 1.01);
+  }
+  
+  .starButton .star-4 {
+    position: absolute;
+    opacity: 0;
+    top: 20%;
+    left: 40%;
+    width: 8px;
+    height: auto;
+    filter: drop-shadow(0 0 0 #fffdef);
+    z-index: -5;
+    transition: all .8s cubic-bezier(0, 0.4, 0, 1.01);
+  }
+  
+  .starButton .star-5 {
+    position: absolute;
+    opacity: 0;
+    top: 25%;
+    left: 45%;
+    width: 15px;
+    height: auto;
+    filter: drop-shadow(0 0 0 #fffdef);
+    z-index: -5;
+    transition: all .6s cubic-bezier(0, 0.4, 0, 1.01);
+  }
+  
+  .starButton .star-6 {
+    position: absolute;
+    opacity: 0;
+    top: 5%;
+    left: 50%;
+    width: 5px;
+    height: auto;
+    filter: drop-shadow(0 0 0 #fffdef);
+    z-index: -5;
+    transition: all .8s ease;
+  }
+  
+  .starButton button:hover:enabled {
+    background: transparent;
+    color: #ffffff;
+  }
+  
+  .starButton  button:hover:enabled .star-1 {
+    position: absolute;
+    opacity: 1;
+    top: -80%;
+    left: -30%;
+    width: 25px;
+    height: auto;
+    filter: drop-shadow(0 0 10px #fffdef);
+    z-index: 2;
+  }
+  
+  .starButton button:hover:enabled .star-2 {
+    position: absolute;
+    opacity: 1;
+    top: -25%;
+    left: 10%;
+    width: 15px;
+    height: auto;
+    filter: drop-shadow(0 0 10px #fffdef);
+    z-index: 2;
+  }
+  
+  .starButton button:hover:enabled .star-3 {
+    position: absolute;
+    opacity: 1;
+    top: 55%;
+    left: 25%;
+    width: 5px;
+    height: auto;
+    filter: drop-shadow(0 0 10px #fffdef);
+    z-index: 2;
+  }
+  
+  .starButton button:hover:enabled .star-4 {
+    position: absolute;
+    opacity: 1;
+    top: 30%;
+    left: 80%;
+    width: 8px;
+    height: auto;
+    filter: drop-shadow(0 0 10px #fffdef);
+    z-index: 2;
+  }
+  
+  .starButton button:hover:enabled .star-5 {
+    position: absolute;
+    opacity: 1;
+    top: 25%;
+    left: 115%;
+    width: 15px;
+    height: auto;
+    filter: drop-shadow(0 0 10px #fffdef);
+    z-index: 2;
+  }
+  
+  .starButton button:hover:enabled .star-6 {
+    position: absolute;
+    opacity: 1;
+    top: 5%;
+    left: 60%;
+    width: 5px;
+    height: auto;
+    filter: drop-shadow(0 0 10px #fffdef);
+    z-index: 2;
+  }
+  
+  .starButton .fil0 {
+    fill: #FFFDEF
+  }
+
+  .starButton button:disabled {
+    color: rgb(155, 155, 155);
+    background: #8f0563;
+    cursor: not-allowed;
+    transition: background 0.4s, color 0.4s; /* добавлено свойство transition */
+}
