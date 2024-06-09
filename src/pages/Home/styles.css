@@ -43,6 +43,11 @@
     border: none;
 }   
 
+.asteroidMenu:disabled:hover
+{
+    cursor:default;
+}
+
 .asteroidMenu:hover
 {
     border-bottom: 2px solid white;
@@ -51,8 +56,7 @@
 
 .asteroidMenuHidden
 {
-    /* display: none; */
-    /* visibility: hidden; */
+    
 }
 
 #mainImageHm .asteroidMenu:nth-child(2)

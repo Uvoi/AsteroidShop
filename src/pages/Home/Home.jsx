@@ -5,6 +5,7 @@ import './styles.css'
 import { useNotification } from '../../components/Notification/Notification';
 import homeMain from "../../images/home3.jpg"
 import homeMainWtBg from "../../images/home3wtbg1.png"
+import { useNavigate } from 'react-router-dom';
 
 const Home = (props)=>
 {
@@ -12,6 +13,8 @@ const Home = (props)=>
     const showNotification = useNotification();
     const asteroidMenuAnimation = useAnimation();
     const MainWtBgImgAnimation = useAnimation();
+    
+    let navigate = useNavigate();
 
     useEffect(() => {
         if (!asteroidClick) {
@@ -24,15 +27,15 @@ const Home = (props)=>
       }, [asteroidClick]);
 
     const buttonsLeft = [
-        { label: 'Железные', id:1 },
-        { label: 'Каменные', id:2 },
-        { label: 'Железо-каменные', id:3 },
+        { label: 'железные', id:1 },
+        { label: 'каменные', id:2 },
+        { label: 'железо-каменные', id:3 },
       ];
 
     const buttonsRight = [
-        { label: 'Малые', id:4 },
-        { label: 'Средние', id:5 },
-        { label: 'Большие', id:6 },
+        { label: 'малые', id:4 },
+        { label: 'средние', id:5 },
+        { label: 'большие', id:6 },
     ];
 
 
@@ -90,6 +93,8 @@ const Home = (props)=>
                             animate={asteroidMenuAnimation}
                             className={`asteroidMenu ${!asteroidClick ? "asteroidMenuHidden" : ""}`}
                             initial="hidden"
+                            onClick={()=>{navigate('/catalog?filters='+button.label)}}
+                            disabled={!asteroidClick}
                         >
                             {button.label}
                         </motion.button>
@@ -107,6 +112,8 @@ const Home = (props)=>
                             animate={asteroidMenuAnimation}
                             className={`asteroidMenu ${!asteroidClick ? "asteroidMenuHidden" : ""}`}
                             initial="hidden"
+                            onClick={()=>{navigate('/catalog?filters='+button.label)}}
+                            disabled={!asteroidClick}
                         >
                             {button.label}
                         </motion.button>
