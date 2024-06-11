@@ -6,6 +6,7 @@ import './styles.css';
 import Help from '../../pages/Help/Help';
 import AddToDB from '../AddToDB/AddToDB';
 import Asteroid from '../../pages/Asteroid/Asteroid';
+import Basket from '../../pages/Basket/Basket';
 
 
 const Content = ({theme})=>
@@ -41,6 +42,7 @@ const Content = ({theme})=>
                     <Route exact path='/help/' element={<Help/>}/>
                     <Route exact path='/catalog/add/' element={<AddToDB/>}/>
                     <Route exact path='/asteroid/' element={<Asteroid theme={theme}/>}/>
+                    <Route exact path='/basket/' element={<Basket theme={theme}/>}/>
                 </Routes>
             </Router>
         </div>
