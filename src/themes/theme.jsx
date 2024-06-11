@@ -37,7 +37,7 @@ const lightTheme = createTheme({
     mode: 'light',
     background: {
       default: '#FAF3E0', // Light background color
-      paper: '#F1E9D2', // Paper background color
+      paper: '#f7e9c1', // Paper background color
     },
     header: {
       primary: '#743882',
