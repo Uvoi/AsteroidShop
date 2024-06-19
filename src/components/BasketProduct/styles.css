@@ -8,6 +8,7 @@
     align-items: center;
     padding: 2%;
     border-radius: 10px;
+    margin: 10px 0;
 }
 
 .imgDataBP {
@@ -30,7 +31,7 @@
 
 .imgDataBP span {
     font-size: clamp(16px, 1.15vw, 20px);
-    writing-mode: vertical-lr;
+    writing-mode: vertical-rl;
     width: fit-content;
     height: fit-content;
     align-self: center;
