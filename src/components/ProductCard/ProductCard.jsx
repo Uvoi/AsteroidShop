@@ -5,6 +5,7 @@ import { useNavigate} from 'react-router-dom';
 import pass from '../../images/pass.jpg'
 import { Button } from '@mui/material';
 import basket from './../../images/basket.svg'
+import {addToBasket} from '../../functions/user/user'
 
 
 const ProductCard = ({theme="", prdtImg="",cardId, prdtTitle, prdtDescription, prdtWeight, prdtCategory="", prdtPrice, imgLink=""})=>
@@ -28,7 +29,9 @@ const ProductCard = ({theme="", prdtImg="",cardId, prdtTitle, prdtDescription, p
                     style={{
                         backgroundColor: theme.palette.primary.main, 
                         color:theme.palette.text.primary,
-                        }}>
+                        }}
+                        onClick={()=>{addToBasket(cardId)}}
+                        >
                         <img src={basket} alt="" style={{filter:`invert(100%)`}}/>
                     </Button>
                 </div>
