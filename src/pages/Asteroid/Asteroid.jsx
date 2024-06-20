@@ -3,12 +3,13 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import './styles.css';
 
-import basket from './../../images/basket.svg'
 import { Accordion, AccordionDetails, AccordionSummary, Button, Divider, Typography } from '@mui/material';
+import { ArrowDropDown } from '@mui/icons-material';
+import basket from './../../images/basket.svg'
 import CommentsContainer from '../../components/CommentsContainer/CommentsContainer';
 import Comment from '../../components/Comment/Comment';
 import CommentInput from '../../components/CommentInput/CommentInput';
-import { ArrowBackTwoTone, ArrowDropDown, ArrowDropDownCircle, ArrowDropUp } from '@mui/icons-material';
+import {addToBasket} from '../../functions/user/user'
 
 const Asteroid = ({theme})=>
 {
@@ -112,7 +113,6 @@ const Asteroid = ({theme})=>
                     <div id="asteroidDataRightAs" style={{color: theme.palette.text.primary}}>
                         <div id='asteroidDataRightTopAs'>
                             <h1 style={{color: theme.palette.text.ultra}}>{asteroidData.title}</h1>
-                            {/* <hr/> */}
                             <p>Вес: {asteroidData.weight} т.</p>
                             <p>Диаметр: {asteroidData.diameter} км.</p>
                             <p>Категория: <span style={asteroidData.category == "Железный"?{color: "#A0A0A0"}:(asteroidData.category == "Каменный"?{color: "#8f633f"}:{color:"#a18874"})}>{asteroidData.category}</span></p>
@@ -120,7 +120,7 @@ const Asteroid = ({theme})=>
                         </div>
                         <div id="asteroidPriceAndBuy">
                             <h2>{asteroidData.price}.000 <sub>₽</sub></h2>
-                            <Button variant='contained'>
+                            <Button variant='contained' onClick={()=>{addToBasket(idFromUrl)}}>
                                 В корзину 
                                 <img src={basket} alt="" />
                             </Button>
