@@ -82,7 +82,7 @@ export function addBasketInBrowser(prodId)
 
     function clearBasketLS()
     {
-        for (let i = localStorage.length-1; i != 0 ; i--) {
+        for (let i = localStorage.length-1; i != -1 ; i--) {
             console.log(i)
             const key = localStorage.key(i);
             console.log(key,"--kii")
