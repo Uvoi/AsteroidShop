@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './styles.css';
 import { motion, useAnimation } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 import pass from '../../images/pass.jpg';
 import { Button, Checkbox } from '@mui/material';
 import { darkTheme } from '../../themes/theme';
 
-const BasketProduct = ({ theme="", prdtTitle, prdtDescription, prdtDiameter, prdtWeight, prdtCategory="", prdtPrice, imgLink="", id, uniqueKey, deleteFunc=null }) => {
+const BasketProduct = ({ theme="", prdtTitle, prdtDescription, prdtDiameter, prdtWeight, prdtCategory="", prdtPrice, imgLink="", id, uniqueKey, check, deleteFunc=null, checkFunc=null, delAllFlag }) => {
+  const [checked, setChecked] = useState(check)
+  let navigate = useNavigate();
+  
   const returnWeightCategory = (weight) => {
     if ((weight > 0.000001) && (weight < 1)) 
       return 'Малый';
@@ -24,7 +28,7 @@ const BasketProduct = ({ theme="", prdtTitle, prdtDescription, prdtDiameter, prd
       {await controls.start({
         x: 1900,
         height: 0,
-        transition: { duration: 0.5 },
+        transition: { duration: 1 },
       });}
     else
     {
@@ -37,6 +41,14 @@ const BasketProduct = ({ theme="", prdtTitle, prdtDescription, prdtDiameter, prd
     deleteFunc(uniqueKey);
   };
 
+  useEffect(() => {
+    if (delAllFlag==true)
+    {
+      deleteProduct()
+    }
+  }, [delAllFlag])
+
+
   const deleteProduct = async () => {
     await startAnimation();
   };
@@ -47,7 +59,7 @@ const BasketProduct = ({ theme="", prdtTitle, prdtDescription, prdtDiameter, prd
     >
       <div style={{border: "1px solid" + theme.palette.primary.main}} className='basketProduct'>
         <div className="imgDataBP">
-          <img src={imgLink ? imgLink : pass} alt="" />
+          <img src={imgLink?imgLink:pass} onClick={()=>{navigate('/asteroid?id='+id)}} alt="" />
           <span style={prdtCategory === "Железный" ? {color: "#A0A0A0"} : (prdtCategory === "Каменный" ? {color: "#8f633f"} : {color:"#a18874"})}>{prdtCategory}</span>
         </div>
         <div className="prdtDataBP">
@@ -61,7 +73,11 @@ const BasketProduct = ({ theme="", prdtTitle, prdtDescription, prdtDiameter, prd
             </p>
             <div className="cost_buyBtnBP">
               <h2>{prdtPrice}.000 <sub>₽</sub></h2>
-              <Checkbox className='checkBBP' defaultChecked/>
+              <Checkbox className='checkBBP' 
+              checked={checked}
+              onChange={(e)=>{checkFunc(uniqueKey); setChecked(e.target.checked); console.log(checked)}}
+              inputProps={{ 'aria-label': 'controlled' }}
+              />
               <Button variant='contained' className='buyNowBP'>
                 Купить
               </Button>

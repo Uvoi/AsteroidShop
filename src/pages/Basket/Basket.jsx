@@ -5,7 +5,7 @@ import axios from 'axios';
 
 import { useNotification } from '../../components/Notification/Notification';
 import BasketProduct from '../../components/BasketProduct/BasketProduct';
-import { getProdsFromLS, delProdFromBasket, clearBasket } from '../../functions/user/user';
+import { getProdsFromLS, delProdFromBasket} from '../../functions/user/user';
 import { motion, AnimatePresence, useAnimation } from 'framer-motion';
 
 const Basket = ({ theme }) => {
@@ -14,8 +14,8 @@ const Basket = ({ theme }) => {
   const [isDeleteProd, setIsDeleteProd] = useState(false);
   const [elementsVisible, setElementsVisible] = useState(false);
   const initialLoad = useRef(true);
-
-  const allProdsControl = useAnimation();
+  const [summOfChecked, SetSummOfChecked] = useState(0);
+  const [isDelAll, setIsDellAll] = useState(false);
 
   useEffect(() => {
     const getProdsFormSer = () => {
@@ -45,6 +45,7 @@ const Basket = ({ theme }) => {
         category: item.category,
         diameter: item.diameter,
         imgLink: item.imgLink,
+        checked: true,
       }));
       setProdData(newData);
       if (newData.length > 0) {
@@ -73,23 +74,55 @@ const Basket = ({ theme }) => {
     } else if (prodData.length === 0) {
       setElementsVisible(false);
     }
+    SetSummOfChecked(getSummOfChecked())
   }, [prodData]);
+
+
+  useEffect(() => {
+    var str = String(summOfChecked)
+    SetSummOfChecked(str.replace(/(\d)(?=(\d{3})+(\D|$))/g, '$1.'))
+  }, [summOfChecked]);
+
 
   async function resetBasket()
   {
-    await allProdsControl.start({
-      x: 1900,
-      height: 0,
-      transition: { duration: 0.5 },
-    })
-    clearBasket()
+    setIsDellAll(true)
     setIsDeleteProd(!isDeleteProd)
   }
+
+
+  const setChecked = (uKey) =>
+    {
+      prodData.forEach(product => {
+        if (product.uniqueKey == uKey)
+          {
+            product.checked=!product.checked
+          }
+      });
+      console.log(prodData)
+      SetSummOfChecked(getSummOfChecked())
+    }
+
+
+  const getSummOfChecked = () =>
+    {
+      var summ = 0
+      prodData.forEach(product => {
+        if (product.checked == true)
+          {
+            summ += product.price;
+          }
+      });
+      return summ;
+    }
+
+      
+
 
   return (
     <div id='Basket' style={{ backgroundColor: theme.palette.background.paper }}>
       <div id="basket">
-      <motion.div id='basketProducts' animate={allProdsControl}>
+      <div id='basketProducts'>
         {prodData.map(product => (
           <BasketProduct
             key={product.uniqueKey}
@@ -103,16 +136,19 @@ const Basket = ({ theme }) => {
             prdtPrice={product.price}
             prdtCategory={product.category}
             imgLink={product.imgLink}
+            check={product.checked}
             deleteFunc={deleteProd}
+            checkFunc={setChecked}
+            delAllFlag={isDelAll}
           />
         ))}
-        </motion.div>
+        </div>
         <AnimatePresence>
           {!elementsVisible && !initialLoad.current && (
             <motion.div
-            initial={{ opacity: 0 }}
+            initial={{ opacity: 0 , transition: { duration: 0 }}}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0, transition: { duration: 1 } }}
+            exit={{ opacity: 0, transition: { duration: 0 } }}
             id='emptyBasket'
             >
             <h3 style={{ color: theme.palette.text.primary }}>Корзина пуста</h3>
@@ -121,15 +157,18 @@ const Basket = ({ theme }) => {
           )}
         </AnimatePresence>
         <AnimatePresence>
-          {elementsVisible && (
+          {elementsVisible && !initialLoad.current && (
             <motion.div
               id="buttonsBas"
               initial={{ opacity: 1 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0, padding:0, transition: { duration: 0.5 } }}
             >
-              <Button variant='contained' onClick={resetBasket}>Очистить корзину</Button>
-              <Button variant='contained'>Заказать</Button>
+              <Button variant='contained' color='secondary' onClick={resetBasket}>Очистить корзину</Button>
+              <div>
+                <h2 style={{ color: theme.palette.text.primary }}>{summOfChecked}.000<sub>₽</sub></h2>
+                <Button variant='contained'>Заказать</Button>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
