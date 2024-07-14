@@ -1,19 +1,22 @@
 from fastapi import  FastAPI, Response, Depends
 from fastapi.middleware.cors import CORSMiddleware
+from uuid import UUID, uuid4
 
 from endpoints.data import router as data_router
+from endpoints.session import router as session_router
 
 
 app = FastAPI()
 
 app.include_router(data_router)
+app.include_router(session_router)
 
 
 origins = [
-    "http://localhost:3000",  # Клиент на React, Vue и т.д., если он запущен на порту 3000
-    "http://127.0.0.1:3000",   # То же самое, но с другим адресом
-    "http://localhost:8000",  # Если ваш клиент тоже тут
-    "http://127.0.0.1:8000"   # И этот тоже
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000" 
 ]
 app.add_middleware(
     CORSMiddleware,
