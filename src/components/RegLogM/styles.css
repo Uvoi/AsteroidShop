@@ -1,0 +1,99 @@
+#RegLogM
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30vw;
+    height: 75vh;
+    box-shadow: 24;
+    padding: 2%;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+#switchRegLogM
+{
+    height: 10%;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+#switchRegLogM h2
+{
+    /* width: 40%; */
+}
+
+#switchRegLogM h2:first-child
+{
+    text-align: right;
+}
+
+#switchRegLogM h2:last-child
+{
+    text-align: left;
+}
+
+#regLogM
+{
+    margin-top: 5%;
+    height: 90%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: left;
+}
+
+
+.regLogDataWrapper
+{
+    width: 100%;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    gap: 10%;
+    justify-content: space-between;
+}
+
+.InputsM
+{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    gap: 15px;
+    /* margin-bottom: 10%; */
+}
+
+.InputsM .MuiInputBase-input
+{
+    width: 100%;
+    font-size: 3.5vmin;
+    padding: 0 5px;
+}
+
+.regLogBnt
+{
+    width: 30%;
+    align-self: self-end;
+}
+
+
+#RegM
+{
+    /* display: none; */
+}
+
+#LoginM
+{
+    /* display: none; */
+}
+
+.hidden
+{
+    display: none;
+}
