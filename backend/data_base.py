@@ -192,6 +192,27 @@ def getProductByID(product_id):
             return None
 
 
+def getCustomerByEmail(email):
+    with SessionLocal() as session:
+        customer = session.query(Customer).filter(Customer.email == email).first()
+        if customer:
+            customer_dict = {
+                "id": customer.customerid,
+                "firstname": customer.firstname,
+                "lastname": customer.lastname,
+                "email": customer.email,
+                "address": customer.address,
+                "city": customer.city,
+                "postalcode": customer.postalcode,
+                "country": customer.country,
+                "password": customer.password,
+            }
+            customer_dict = {k: (v if v is not None else '') for k, v in customer_dict.items()}
+            return customer_dict
+        else:
+            return None
+
+
 def getCompositionByID(product_id):
     with SessionLocal() as session:
         composition = session.query(Composition).filter(Composition.productid == product_id).first()
