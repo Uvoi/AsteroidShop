@@ -1,15 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './styles.css'
 import logo from './../../images/logo.svg'
-import user from './../../images/userImg.png'
+import userLogo from './../../images/userImg.png'
 import basket from './../../images/basket.svg'
 import StarButton from '../StarButton/StarButton';
+import { useEffect } from 'react';
+import { Backdrop, Modal} from '@mui/material';
+import RegLogM from '../RegLogM/RegLogM';
+import axios from 'axios';
 
 
 
 
-const Header = ({onToggleTheme, theme})=>
+const Header = ({onToggleTheme, theme, user, updateUser})=>
 {
+    const [regOrLog, setRegOrLog] = useState(true);
+
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
+    const deleteSess = () =>
+        {
+            axios.post('http://localhost:8000/api/session/delete', {
+            }, { withCredentials: true })
+            .then(response => {
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.error('There was an error!', error);
+            });
+        }
 
     return(
         <div id='Header' style={{background: theme.palette.header.primary}}>
@@ -26,10 +47,36 @@ const Header = ({onToggleTheme, theme})=>
                 </div>
                 <div id="Basket_UserDataH">
                     <a id='BasketH' href="/basket"><img src={basket} alt="" /></a>
+                    {user!=null?
                     <div id="UserDataH">
-                        <a href='' className='bot_line'>baobab</a>
-                        <a href=""><img src={user} alt="" /></a>
+                        <a href='/profile' className='bot_line'>{user.firstname}</a>
+                        <a href="/profile"><img src={userLogo} alt="" /></a>
+                        <button onClick={deleteSess}>del</button>
                     </div>
+                    : 
+                    <div id="UserLogReg">
+                        <button className='bot_line' onClick={()=>{handleOpen(); setRegOrLog(false)}}>Вход</button>
+                        <p>/</p>
+                        <button className='bot_line' onClick={()=>{handleOpen(); setRegOrLog(true)}}>Регистрация</button>
+                    </div>
+                    }
+
+                    <Modal
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                    closeAfterTransition
+                    slots={{ backdrop: Backdrop }}
+                    slotProps={{
+                      backdrop: {
+                        timeout: 1000,
+                      },
+                    }}
+                    >  
+                        <RegLogM action={regOrLog} close={handleClose} theme={theme} updateUser={updateUser}/>    
+                    </Modal>
+                    
                 </div>
             </div>
         </div>

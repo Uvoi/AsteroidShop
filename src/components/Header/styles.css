@@ -109,9 +109,10 @@
 {
     height: 100%;
     display: flex;
-    align-items: center;
-    justify-content: end;
     gap: 8%;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-evenly;   
 }
 
 #UserDataH  a
@@ -132,8 +133,41 @@
     flex-direction: row;
     align-items: flex-start;
     height: 100%;
-    justify-content: space-evenly;
-    
+    justify-content: space-evenly;   
+}
+
+
+#UserLogReg
+{
+    height: 100%;
+    display: flex;
+    gap: 5%;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-evenly;  
+    color: #fbd97d;
+}
+
+#UserLogReg button
+{
+    color: white;
+    border: none;
+    background: none;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: max-content;
+    align-self: self-end;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#UserLogReg p
+{
+    height: 100%;
+    display: flex;
+    align-items: center;
 }
 
 #UserDataH a
