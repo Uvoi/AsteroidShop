@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { ThemeProvider } from '@mui/material/styles';
+import axios from 'axios';
 
 import { NotificationProvider } from './components/Notification/Notification';
 import Header from './components/Header/Header';
@@ -11,6 +12,8 @@ import './App.css';
 function App() {
   const storedTheme = localStorage.getItem('theme');
   const [currentTheme, setCurrentTheme] = useState(storedTheme == "lightTheme" ? lightTheme: darkTheme); 
+  const [userData, setUserData] = useState({}); 
+  const [updateUser, setUpdateUser] = useState(false)
 
   const toggleTheme = () => {
     setCurrentTheme(currentTheme === lightTheme ? darkTheme : lightTheme);
@@ -25,14 +28,34 @@ function App() {
   }, [currentTheme]);
 
   const theme = currentTheme;
+
+  const whoAmI = () => {
+    axios
+      .get(`http://localhost:8000/api/session/whoami`, axios.defaults.withCredentials = true)
+      .then(response => {
+        setUserData(response.data)
+      })
+      .catch(error => {
+        if (error.response.status == 403)
+          {
+            setUserData(null)
+          }
+
+      });
+  };
+
+  useEffect(() => {
+    whoAmI()
+  }, [updateUser])
+  
   
 
   return (
     <NotificationProvider>
       <ThemeProvider theme={theme}> 
         <div className="App" style={{ backgroundColor: theme.palette.background.default}}>
-          <Header onToggleTheme={toggleTheme} theme={theme} />
-          <Content theme={theme}/>
+          <Header onToggleTheme={toggleTheme} theme={theme} user={userData} updateUser={()=>setUpdateUser(!updateUser)}/>
+          <Content theme={theme} user={userData} updateUser={()=>setUpdateUser(!updateUser)}/>
           <Footer theme={theme}/>
         </div>
       </ThemeProvider>
