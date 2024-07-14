@@ -15,10 +15,11 @@ class Customer(Base):
     firstname = Column(String(50))
     lastname = Column(String(50))
     email = Column(String(100))
-    address = Column(String(255))
-    city = Column(String(100))
-    postalcode = Column(String(20))
-    country = Column(String(100))
+    address = Column(String(255), nullable=True)
+    city = Column(String(100), nullable=True)
+    postalcode = Column(String(20), nullable=True)
+    country = Column(String(100), nullable=True)
+    password = Column(String(), nullable=False)
 
 # Определяем модель для таблицы Products
 class Product(Base):
@@ -51,23 +52,20 @@ class Comments(Base):
     __tablename__ = 'comments'
     commentsid = Column(Integer, primary_key=True)
     productid = Column(Integer)
-    customerid = Column(Integer, ForeignKey('customers.customerid'))  # Ensure this is correct
+    customerid = Column(Integer, ForeignKey('customers.customerid'))
     text = Column(String())
     date = Column(DateTime, default=func.current_timestamp())
-    customer = relationship("Customer", backref="comments")  # This should link to the Customer model
+    customer = relationship("Customer", backref="comments")
 
 
-# Создаем соединение с базой данных
+
 SQLALCHEMY_DATABASE_URL = "postgresql://postgres:0@localhost/asteroid_shop"
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
-# Создаем таблицы в базе данных
 Base.metadata.create_all(bind=engine)
 
-# Создаем сессию для работы с базой данных
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-# Создаем нового заказчика
 new_customer = Customer(
     firstname="John",
     lastname="Doe",
@@ -78,53 +76,12 @@ new_customer = Customer(
     country="USA"
 )
 
-# Добавляем нового заказчика в базу данных
-# with SessionLocal() as session:
-#     session.add(new_customer)
-#     session.commit()
-
-# Выводим список всех заказчиков
 def printCustomers():
     with SessionLocal() as session:
         customers = session.query(Customer).all()
         print("Список всех заказчиков:")
         for customer in customers:
             print(f"ID: {customer.customerid}, Имя: {customer.firstname}, Фамилия: {customer.lastname}, Эл. почта: {customer.email}")
-
-# def addProduct(id,name, description, price, weight,diameter, imglink):
-#     new_product = Product(
-#         productid=id,
-#         name=name,
-#         description=description,
-#         price=price,
-#         weight=weight,
-#         diameter=diameter,
-#         imglink = imglink
-#     )
-#     with SessionLocal() as session:
-#         session.add(new_product)
-#         session.commit()
-
-# def addComposition(iron, nickel, sulfur, magnesium, silicon, aluminum, calcium, oxygen, id=0):
-#     new_composition = Composition(
-#         productid = id,
-#         iron = iron,
-#         nickel = nickel,
-#         sulfur = sulfur,
-#         magnesium = magnesium,
-#         silicon = silicon,
-#         aluminum = aluminum,
-#         calcium = calcium,
-#         oxygen = oxygen,
-#     )
-#     with SessionLocal() as session:
-#         session.add(new_composition)
-#         session.commit()
-
-# def addNewProduct(id,name, description, price, weight,diameter, imglink,composition):
-#     pass
-    
-
 
 def addProduct(session, name, description, price, weight, diameter, imglink, id=None):
     new_product = Product(
@@ -138,7 +95,7 @@ def addProduct(session, name, description, price, weight, diameter, imglink, id=
     if id:
         new_product.productid = id
     session.add(new_product)
-    session.flush()  # This will generate the id if it was not provided
+    session.flush()  
     return new_product.productid
 
 def addComposition(session, iron, nickel, sulfur, magnesium, silicon, aluminum, calcium, oxygen, productid):
@@ -158,7 +115,7 @@ def addComposition(session, iron, nickel, sulfur, magnesium, silicon, aluminum, 
 def addNewProduct(name, description, price, weight, diameter, imglink, composition, id=None):
     try:
         with SessionLocal() as session:
-            with session.begin():  # Start a transaction
+            with session.begin():
                 product_id = addProduct(session, name, description, price, weight, diameter, imglink, id)
                 addComposition(session, *composition.split(','), product_id)
                 session.commit()
@@ -169,7 +126,7 @@ def addNewProduct(name, description, price, weight, diameter, imglink, compositi
 
 def addNewComment(prodID, userID, text):
     with SessionLocal() as session:
-        with session.begin():  # Start a transaction
+        with session.begin():
             new_comment = Comments(
                 productid=prodID,
                 customerid=userID,
@@ -178,13 +135,22 @@ def addNewComment(prodID, userID, text):
             session.add(new_comment)
             session.commit()
 
+def addNewCustomer(firstname, lastname, email, password):
+    with SessionLocal() as session:
+        with session.begin(): 
+            new_customer = Customer(
+                firstname=firstname,
+                lastname=lastname,
+                email=email,
+                password=password
+            )
+            session.add(new_customer)
+            session.commit()
+            return True
 
-# Добавляем новый продукт в базу данных
-# with SessionLocal() as session:
-#     session.add(new_product)
-#     session.commit()
 
-# Создаем сессию для работы с базой данных
+
+
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 db = SessionLocal()
 
@@ -193,7 +159,6 @@ def getAllProducts():
     allProducts = []
     with SessionLocal() as session:
         products = session.query(Product).all()
-        # print("\nСписок всех продуктов:")
         for product in products:
             product_dict = {
                 "id": product.productid,
@@ -246,24 +211,9 @@ def getCompositionByID(product_id):
         else:
             return None
 
-# def getCommentsByProdID(product_id):
-#     allComments = []
-#     with SessionLocal() as session:
-#         comments = session.query(Comments).filter(Comments.productid == product_id)
-#         for comment in comments:
-#             comments_dict = {
-#                 "prodId" : comment.productid,
-#                 "customerName" : comment.customerid,
-#                 "text" : comment.text,
-#                 "date" : comment.date
-#             }
-#             allComments.append(comments_dict)
-#         return allComments
 
 def format_datetime(date_str):
-    # Парсим дату в формате ISO 8601
     dt = datetime.fromisoformat(date_str)
-    # Форматируем дату в новом формате дд.мм.гггг чч:мм
     formatted_date = dt.strftime('%d.%m.%Y %H:%M')
     return formatted_date
 
@@ -271,17 +221,15 @@ def format_datetime(date_str):
 def getCommentsByProdID(product_id):
     allComments = []
     with SessionLocal() as session:
-        # Ensure you are using the relationship name 'customer'
         comments = session.query(Comments).options(joinedload(Comments.customer)).filter(Comments.productid == product_id)
         
         for comment in comments:
-            # Check if comment.customer is not None to avoid AttributeError
             if comment.customer:
                 customer_name = f"{comment.customer.firstname} {comment.customer.lastname}"
                 comments_dict = {
                     "id": comment.commentsid,
                     "prodId": comment.productid,
-                    "customerName": customer_name,  # Using the relationship to access customer details
+                    "customerName": customer_name,
                     "text": comment.text,
                     "date": format_datetime(str(comment.date))
                 }
@@ -291,25 +239,3 @@ def getCommentsByProdID(product_id):
 
 
 
-
-# def getCustomerById(customer_id):
-#     with SessionLocal() as session:
-#         customer = session.query(Composition).filter(Composition.productid == product_id).first()
-#         if composition:
-#             composition_dict = {
-#                 "id" : composition.productid,
-#                 "iron" : composition.iron,
-#                 "nickel" : composition.nickel,
-#                 "sulfur" : composition.sulfur,
-#                 "magnesium" : composition.magnesium,
-#                 "silicon" : composition.silicon,
-#                 "aluminum" : composition.aluminum,
-#                 "calcium" : composition.calcium,
-#                 "oxygen" : composition.oxygen
-#             }
-#             return composition_dict
-#         else:
-#             return None
-
-
-        
