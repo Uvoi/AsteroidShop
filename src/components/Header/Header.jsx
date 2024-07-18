@@ -7,14 +7,15 @@ import StarButton from '../StarButton/StarButton';
 import { Backdrop, Modal} from '@mui/material';
 import RegLogM from '../RegLogM/RegLogM';
 import axios from 'axios';
-import { themeContext } from '../../App';
+import { themeContext, userContext } from '../../App';
 
 
 
 
-const Header = ({onToggleTheme, user, updateUser})=>
+const Header = ({onToggleTheme, updateUser})=>
 {
     const theme = useContext(themeContext)
+    const user = useContext(userContext)
     const [regOrLog, setRegOrLog] = useState(true);
 
     const [open, setOpen] = useState(false);

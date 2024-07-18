@@ -25,8 +25,8 @@ const Content = ({user, updateUser})=>
                     <Route exact path='/catalog/add' element={<AddToDB/>}/>
                     <Route exact path='/asteroid' element={<Asteroid/>}/>
                     <Route exact path='/basket' element={<Basket/>}/>
-                    <Route exact path='/profile' element={<Profile user={user} updateUser={updateUser}/>}/>
-                    <Route exact path='/order' element={<Order user={user}/>}/>
+                    <Route exact path='/profile' element={<Profile updateUser={updateUser}/>}/>
+                    <Route exact path='/order' element={<Order/>}/>
                 </Routes>
             </Router>
         </div>

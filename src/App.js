@@ -10,6 +10,7 @@ import { darkTheme, lightTheme } from './themes/theme';
 import './App.css';
 
 export const themeContext = createContext("")
+export const userContext = createContext({})
 
 function App() {
   const storedTheme = localStorage.getItem('theme');
@@ -38,11 +39,7 @@ function App() {
         setUserData(response.data)
       })
       .catch(error => {
-        if (error.response.status == 403)
-          {
             setUserData(null)
-          }
-
       });
   };
 
@@ -57,9 +54,11 @@ function App() {
       <ThemeProvider theme={theme}> 
         <div className="App" style={{ backgroundColor: theme.palette.background.default}}>
           <themeContext.Provider value={theme}>
-            <Header onToggleTheme={toggleTheme} user={userData} updateUser={()=>setUpdateUser(!updateUser)}/>
-            <Content user={userData} updateUser={()=>setUpdateUser(!updateUser)}/>
+          <userContext.Provider value={userData}>
+            <Header onToggleTheme={toggleTheme} updateUser={()=>setUpdateUser(!updateUser)}/>
+            <Content updateUser={()=>setUpdateUser(!updateUser)}/>
             <Footer/>
+          </userContext.Provider>
           </themeContext.Provider>
         </div>
       </ThemeProvider>
