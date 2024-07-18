@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, createContext} from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 
@@ -8,6 +8,8 @@ import Content from './components/Content/Content';
 import Footer from './components/Footer/Footer';
 import { darkTheme, lightTheme } from './themes/theme';
 import './App.css';
+
+export const themeContext = createContext("")
 
 function App() {
   const storedTheme = localStorage.getItem('theme');
@@ -54,9 +56,11 @@ function App() {
     <NotificationProvider>
       <ThemeProvider theme={theme}> 
         <div className="App" style={{ backgroundColor: theme.palette.background.default}}>
-          <Header onToggleTheme={toggleTheme} theme={theme} user={userData} updateUser={()=>setUpdateUser(!updateUser)}/>
-          <Content theme={theme} user={userData} updateUser={()=>setUpdateUser(!updateUser)}/>
-          <Footer theme={theme}/>
+          <themeContext.Provider value={theme}>
+            <Header onToggleTheme={toggleTheme} user={userData} updateUser={()=>setUpdateUser(!updateUser)}/>
+            <Content user={userData} updateUser={()=>setUpdateUser(!updateUser)}/>
+            <Footer/>
+          </themeContext.Provider>
         </div>
       </ThemeProvider>
     </NotificationProvider>
