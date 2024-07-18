@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './styles.css'
+import { themeContext } from '../../App';
 
 
-const StarButton = ({theme, href, children})=>
+const StarButton = ({href, children})=>
 {
+    const theme = useContext(themeContext)
     return(
         <a href={href} className="starButton">
         <button className='bot_line'> 

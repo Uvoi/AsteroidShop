@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from '../../pages/Home/Home';
 import Catalog from '../../pages/Catalog/Catalog';
@@ -7,42 +7,26 @@ import Help from '../../pages/Help/Help';
 import AddToDB from '../AddToDB/AddToDB';
 import Asteroid from '../../pages/Asteroid/Asteroid';
 import Basket from '../../pages/Basket/Basket';
+import Profile from '../../pages/Profile/Profile';
+import Order from '../../pages/Order/Order';
 
 
-const Content = ({theme})=>
+const Content = ({user, updateUser})=>
 {
-    // const [modalActive, setModalActive] = useState(false);
 
-    // const isUserAuthenticated = () => {
-    //     if(User.name == undefined && User.email == undefined)
-    //     {
-    //         console.log(1)
-    //         return false
-            
-    //     }
-    //     else
-    //     {
-    //         console.log(2)
-    //     return true
-    //     }
-    //   };
-
-    //   const openModal = () => {
-    //     setModalActive(true);
-    //   };
     
-
     return(
         <div id='Main'>
-           {/* <Modal active = {modalActive} setActive={setModalActive}> <Login active = {modalActive} setActive={setModalActive} ParentUpdate={childUpdate}></Modal> */}
             <Router>
                 <Routes>
                     <Route exact path='/' element={<Home/>}/>
-                    <Route exact path='/catalog/' element={<Catalog theme={theme}/>}/>
-                    <Route exact path='/help/' element={<Help/>}/>
-                    <Route exact path='/catalog/add/' element={<AddToDB/>}/>
-                    <Route exact path='/asteroid/' element={<Asteroid theme={theme}/>}/>
-                    <Route exact path='/basket/' element={<Basket theme={theme}/>}/>
+                    <Route exact path='/catalog' element={<Catalog/>}/>
+                    <Route exact path='/help' element={<Help/>}/>
+                    <Route exact path='/catalog/add' element={<AddToDB/>}/>
+                    <Route exact path='/asteroid' element={<Asteroid/>}/>
+                    <Route exact path='/basket' element={<Basket/>}/>
+                    <Route exact path='/profile' element={<Profile user={user} updateUser={updateUser}/>}/>
+                    <Route exact path='/order' element={<Order user={user}/>}/>
                 </Routes>
             </Router>
         </div>

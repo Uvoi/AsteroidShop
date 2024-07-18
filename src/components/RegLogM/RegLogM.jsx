@@ -1,13 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import './styles.css'
 import { motion, useAnimation } from 'framer-motion';
 import { Button, Switch, TextField, } from '@mui/material';
 import axios from 'axios';
 import { useNotification } from '../Notification/Notification';
+import { themeContext } from '../../App';
 
 
-const RegLogM = ({action, close, updateUser, theme})=>
+const RegLogM = ({action, close, updateUser})=>
 {
+    const theme = useContext(themeContext)
     const [regOrLog, setRegOrLog] = useState(action);
     const [switcher, setSwitcher] = useState(action);
     const [nameInput, setNameInput] = useState("");

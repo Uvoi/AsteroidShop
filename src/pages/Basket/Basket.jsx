@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import './styles.css';
 import Button from '@mui/material/Button';
 import axios from 'axios';
@@ -6,9 +6,11 @@ import axios from 'axios';
 import { useNotification } from '../../components/Notification/Notification';
 import BasketProduct from '../../components/BasketProduct/BasketProduct';
 import { getProdsFromLS, delProdFromBasket} from '../../functions/user/user';
-import { motion, AnimatePresence, useAnimation } from 'framer-motion';
+import { motion, AnimatePresence} from 'framer-motion';
+import { themeContext } from '../../App';
 
-const Basket = ({ theme }) => {
+const Basket = () => {
+  const theme = useContext(themeContext)
   const showNotification = useNotification();
   const [prodData, setProdData] = useState([]);
   const [isDeleteProd, setIsDeleteProd] = useState(false);
@@ -128,7 +130,6 @@ const Basket = ({ theme }) => {
             key={product.uniqueKey}
             id={product.id}
             uniqueKey={product.uniqueKey}
-            theme={theme}
             prdtDiameter={product.diameter}
             prdtTitle={product.title}
             prdtDescription={product.description}
@@ -166,8 +167,8 @@ const Basket = ({ theme }) => {
             >
               <Button variant='contained' color='secondary' onClick={resetBasket}>Очистить корзину</Button>
               <div>
-                <h2 style={{ color: theme.palette.text.primary }}>{summOfChecked}.000<sub>₽</sub></h2>
-                <Button variant='contained'>Заказать</Button>
+                <h2 style={{ color: theme.palette.text.primary }}>{summOfChecked}.000 <sub>₽</sub></h2>
+                <Button href='/order' variant='contained'>Заказать</Button>
               </div>
             </motion.div>
           )}
@@ -176,5 +177,6 @@ const Basket = ({ theme }) => {
     </div>
   );
 };
+// getCheckedIds собирает ид выбранных передать пока никак. мб через контекст както
 
 export default Basket;

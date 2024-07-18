@@ -2,7 +2,7 @@ import React from 'react';
 import './styles.css'
 
 
-const CommentsContainer = ({theme, children})=>
+const CommentsContainer = ({children})=>
 {
     return(
         <div id='CommentsContainer'>

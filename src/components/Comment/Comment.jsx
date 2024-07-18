@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './styles.css'
 
 import userPic from './../../images/userImg.png'
+import { themeContext } from '../../App';
 
 
-const Comment = ({theme, user, dateTime, children})=>
+const Comment = ({user, dateTime, children})=>
 {
+    const theme = useContext(themeContext)
     return(
         <div id='Comment'>
             <div id='comment'>

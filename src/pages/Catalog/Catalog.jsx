@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import './styles.css';
 
@@ -10,8 +10,11 @@ import Chip from '@mui/material/Chip';
 import ProductsContainer from '../../components/ProductsContainer/ProductsContainer';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { themeContext } from '../../App';
 
-const Catalog = ({ theme }) => {
+const Catalog = () => {
+  const theme = useContext(themeContext)
+
   const [asteroidData, setAsteroidData] = useState({});
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -179,7 +182,6 @@ const Catalog = ({ theme }) => {
             <ProductCard
               cardId = {key}            
               key={key}
-              theme={theme}
               prdtTitle={asteroidData[key].title}
               prdtDescription={asteroidData[key].description}
               prdtWeight={asteroidData[key].weight}

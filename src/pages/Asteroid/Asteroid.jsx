@@ -1,4 +1,4 @@
-import {React, useState, useEffect} from 'react';
+import {React, useState, useEffect, useContext} from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import './styles.css';
@@ -10,9 +10,11 @@ import CommentsContainer from '../../components/CommentsContainer/CommentsContai
 import Comment from '../../components/Comment/Comment';
 import CommentInput from '../../components/CommentInput/CommentInput';
 import {addToBasket} from '../../functions/user/user'
+import { themeContext } from '../../App';
 
-const Asteroid = ({theme})=>
+const Asteroid = ()=>
 {
+    const theme = useContext(themeContext)
     const [searchParams, setSearchParams] = useSearchParams();
     const [asteroidData, setAsteroidData] = useState({});
 
@@ -149,11 +151,10 @@ const Asteroid = ({theme})=>
                 
                 <h3 style={{color: theme.palette.text.primary}}>Комментарии</h3>
                         
-                <CommentsContainer theme={theme}>
+                <CommentsContainer>
                     {Object.keys(commentsData).slice(-3).map(key => (
                         <Comment
                             key={key}
-                            theme={theme}
                             user={commentsData[key].customerName}
                             dateTime={commentsData[key].date}
                         >
@@ -175,7 +176,6 @@ const Asteroid = ({theme})=>
                                 {Object.keys(commentsData).slice(0, -3).map(key => (
                                     <Comment
                                         key={key}
-                                        theme={theme}
                                         user={commentsData[key].customerName}
                                         dateTime={commentsData[key].date}
                                     >
@@ -186,7 +186,7 @@ const Asteroid = ({theme})=>
                         </Accordion>
                     )}
 
-                    <CommentInput userID={1} prodID={idFromUrl} theme={theme} updateComments={getCommentsFromServ}/>
+                    <CommentInput userID={1} prodID={idFromUrl} updateComments={getCommentsFromServ}/>
                 </CommentsContainer>
 
             </div>

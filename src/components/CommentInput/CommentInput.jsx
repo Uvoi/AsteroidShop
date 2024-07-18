@@ -1,11 +1,13 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useContext } from 'react';
 import './styles.css';
 import { Button } from '@mui/material';
 import axios from 'axios';
+import { themeContext } from '../../App';
 
-const CommentInput = ({ theme, prodID, userID, updateComments=null }) => {
+const CommentInput = ({ prodID, userID, updateComments=null }) => {
+    const theme = useContext(themeContext)
     const textareaRef = useRef(null);
-    const [commentText, setCommentText] = useState(''); // Добавляем состояние для текста комментария
+    const [commentText, setCommentText] = useState('');
 
     useEffect(() => {
         const textarea = textareaRef.current;
@@ -24,9 +26,9 @@ const CommentInput = ({ theme, prodID, userID, updateComments=null }) => {
         const sendCommData = {
             ProdID: prodID,
             UserID: userID,
-            Text: commentText  // Используем состояние commentText
+            Text: commentText
         };
-        axios.post(`http://localhost:8000/api/comments/add`, sendCommData, { withCredentials: true })  // Используем метод POST
+        axios.post(`http://localhost:8000/api/comments/add`, sendCommData, { withCredentials: true })
             .then(response => {
                 console.log("Success");
             })
@@ -61,7 +63,7 @@ const CommentInput = ({ theme, prodID, userID, updateComments=null }) => {
                 }}
                 value={commentText}
                 onChange={e => setCommentText(e.target.value)}
-                onKeyDown={handleKeyDown}  // Добавляем обработчик нажатия клавиш
+                onKeyDown={handleKeyDown}
             />
             <Button variant='contained' className='sendComI' type='submit'>✉️</Button>
         </form>

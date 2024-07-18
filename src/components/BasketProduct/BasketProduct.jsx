@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './styles.css';
 import { motion, useAnimation } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
@@ -6,8 +6,10 @@ import { useNavigate } from 'react-router-dom';
 import pass from '../../images/pass.jpg';
 import { Button, Checkbox } from '@mui/material';
 import { darkTheme } from '../../themes/theme';
+import { themeContext } from '../../App';
 
-const BasketProduct = ({ theme="", prdtTitle, prdtDescription, prdtDiameter, prdtWeight, prdtCategory="", prdtPrice, imgLink="", id, uniqueKey, check, deleteFunc=null, checkFunc=null, delAllFlag }) => {
+const BasketProduct = ({prdtTitle, prdtDescription, prdtDiameter, prdtWeight, prdtCategory="", prdtPrice, imgLink="", id, uniqueKey, check, deleteFunc=null, checkFunc=null, delAllFlag }) => {
+  const theme = useContext(themeContext)
   const [checked, setChecked] = useState(check)
   let navigate = useNavigate();
   

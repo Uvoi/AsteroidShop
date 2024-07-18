@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './styles.css'
 import { useNavigate} from 'react-router-dom';
 
@@ -6,11 +6,13 @@ import pass from '../../images/pass.jpg'
 import { Button } from '@mui/material';
 import basket from './../../images/basket.svg'
 import {addToBasket} from '../../functions/user/user'
+import { themeContext } from '../../App';
 
 
-const ProductCard = ({theme="", prdtImg="",cardId, prdtTitle, prdtDescription, prdtWeight, prdtCategory="", prdtPrice, imgLink=""})=>
+const ProductCard = ({prdtImg="",cardId, prdtTitle, prdtDescription, prdtWeight, prdtCategory="", prdtPrice, imgLink=""})=>
 {
     let navigate = useNavigate();
+    const theme = useContext(themeContext)
     return( 
         <div id={'ProductCard_'+cardId} className='ProductCard' style={{color: theme.palette.text.secondary}}>
             <div className="prdtImgData">

@@ -1,19 +1,20 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import './styles.css'
 import logo from './../../images/logo.svg'
 import userLogo from './../../images/userImg.png'
 import basket from './../../images/basket.svg'
 import StarButton from '../StarButton/StarButton';
-import { useEffect } from 'react';
 import { Backdrop, Modal} from '@mui/material';
 import RegLogM from '../RegLogM/RegLogM';
 import axios from 'axios';
+import { themeContext } from '../../App';
 
 
 
 
-const Header = ({onToggleTheme, theme, user, updateUser})=>
+const Header = ({onToggleTheme, user, updateUser})=>
 {
+    const theme = useContext(themeContext)
     const [regOrLog, setRegOrLog] = useState(true);
 
     const [open, setOpen] = useState(false);
@@ -38,10 +39,10 @@ const Header = ({onToggleTheme, theme, user, updateUser})=>
                 <div id="LogoH"><button onClick={onToggleTheme}><img src={logo} alt="" /></button></div>
                 <div id='MenuH' className='text_stroke'>
                     <ul>
-                        <li ><StarButton href="/" theme={theme}>Главная</StarButton></li>
-                        <li ><StarButton href="/catalog" theme={theme}>Каталог</StarButton></li>
-                        <li ><StarButton href="/about" theme={theme}>О нас</StarButton></li>
-                        <li ><StarButton href="/help" theme={theme}>Помощь</StarButton></li>
+                        <li ><StarButton href="/">Главная</StarButton></li>
+                        <li ><StarButton href="/catalog">Каталог</StarButton></li>
+                        <li ><StarButton href="/about">О нас</StarButton></li>
+                        <li ><StarButton href="/help">Помощь</StarButton></li>
                         
                     </ul>
                 </div>
@@ -74,7 +75,7 @@ const Header = ({onToggleTheme, theme, user, updateUser})=>
                       },
                     }}
                     >  
-                        <RegLogM action={regOrLog} close={handleClose} theme={theme} updateUser={updateUser}/>    
+                        <RegLogM action={regOrLog} close={handleClose} updateUser={updateUser}/>    
                     </Modal>
                     
                 </div>
