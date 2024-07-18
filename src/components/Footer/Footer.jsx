@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './styles.css'
 import visaLogo from '../../images/visa.png'
 import mastercardLogo from '../../images/mastercard.png'
@@ -10,9 +10,11 @@ import telegramLogo from '../../images/telegram.png'
 import vkLogo from '../../images/vk.png'
 import githubLogo from '../../images/github.svg'
 import { Button } from '@mui/material';
+import { themeContext } from '../../App';
 
-const Footer = ({theme})=>
+const Footer = ()=>
 {
+    const theme = useContext(themeContext)
     return(
         <footer id='Footer' style={{backgroundColor: theme.palette.header.primary}}>
 
