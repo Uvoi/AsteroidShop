@@ -40,6 +40,7 @@ export function addBasketInBrowser(prodId)
             {
                 addBasketInBrowser(prodId)
             }
+        localStorage.setItem('countOfProd'+prodId, Number(localStorage.getItem('countOfProd'+prodId))+1)
     }
 
     export function delProdFromBasket(prodId)
@@ -59,11 +60,11 @@ export function addBasketInBrowser(prodId)
         for (let i = 0; i < localStorage.length; i++) {
             const key = localStorage.key(i);
             if (key.startsWith('prod')) {
-            const value = localStorage.getItem(key);
-            if (parseInt(value) === prodId) {
-                localStorage.removeItem(key);
-                break; 
-            }
+                const value = localStorage.getItem(key);
+                if (parseInt(value) === prodId) {
+                    localStorage.removeItem(key);
+                    break; 
+                }
             }
         }
     }
@@ -85,7 +86,6 @@ export function addBasketInBrowser(prodId)
         for (let i = localStorage.length-1; i != -1 ; i--) {
             console.log(i)
             const key = localStorage.key(i);
-            console.log(key,"--kii")
             if (key.startsWith('prod')) {
                 localStorage.removeItem(key);
             }

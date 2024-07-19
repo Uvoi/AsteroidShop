@@ -9,11 +9,11 @@ import { getProdsFromLS, delProdFromBasket} from '../../functions/user/user';
 import { motion, AnimatePresence} from 'framer-motion';
 import { themeContext } from '../../App';
 
+
 const Basket = () => {
   const theme = useContext(themeContext)
   const showNotification = useNotification();
   const [prodData, setProdData] = useState([]);
-  const [isDeleteProd, setIsDeleteProd] = useState(false);
   const [elementsVisible, setElementsVisible] = useState(false);
   const initialLoad = useRef(true);
   const [summOfChecked, SetSummOfChecked] = useState(0);
@@ -25,7 +25,6 @@ const Basket = () => {
       axios
         .post(`http://localhost:8000/api/basket/getByMass`, prodIds, axios.defaults.withCredentials = true)
         .then(response => {
-          console.log(response.data);
           parseProdsData(response.data);
         })
         .catch(error => {
@@ -33,7 +32,7 @@ const Basket = () => {
         });
     };
     getProdsFormSer();
-  }, [isDeleteProd]);
+  }, []);
 
   const parseProdsData = data => {
     if (Array.isArray(data)) {
@@ -50,6 +49,8 @@ const Basket = () => {
         checked: true,
       }));
       setProdData(newData);
+      let updatedProdData = updateCheckedStatus(newData);
+      setProdData(updatedProdData);
       if (newData.length > 0) {
         setElementsVisible(true);
       }
@@ -58,8 +59,36 @@ const Basket = () => {
     }
   };
 
-  const deleteProd = uniqueKey => {
+  const updateCheckedStatus = (prodData) => {
+    const newProdData = [...prodData];
+    const countMap = new Map();
+  
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key.startsWith('countOfProd')) {
+        const id = key.replace('countOfProd', '');
+        const count = parseInt(localStorage.getItem(key), 10);
+        countMap.set(id, count);
+      }
+    }
+    newProdData.forEach(product => {
+      const count = countMap.get(product.id.toString()) || 0;
+      if (count > 0) {
+        product.checked = true;
+        countMap.set(product.id.toString(), count - 1);
+      } else {
+        product.checked = false;
+      }
+    });
+  
+    return newProdData;
+  };
+  
+
+  const deleteProd = (uniqueKey) => {
     const itemToDelete = prodData.find(product => product.uniqueKey === uniqueKey);
+    if (itemToDelete.checked)
+      localStorage.setItem('countOfProd'+itemToDelete.id, Number(localStorage.getItem('countOfProd'+itemToDelete.id))-1)
     delProdFromBasket(itemToDelete.id);
     setProdData(prevData => {
       const newData = prevData.filter(product => product.uniqueKey !== uniqueKey);
@@ -86,11 +115,20 @@ const Basket = () => {
   }, [summOfChecked]);
 
 
-  async function resetBasket()
-  {
-    setIsDellAll(true)
-    setIsDeleteProd(!isDeleteProd)
+  function resetBasket() {
+    setIsDellAll(true);
+    setTimeout(() => {
+      const keysToRemove = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key.startsWith('countOfProd') || key.startsWith('countProd')) {
+          keysToRemove.push(key);
+        }
+      }
+      keysToRemove.forEach((key) => localStorage.removeItem(key));
+    }, 2000);
   }
+  
 
 
   const setChecked = (uKey) =>
@@ -99,9 +137,12 @@ const Basket = () => {
         if (product.uniqueKey == uKey)
           {
             product.checked=!product.checked
+            if (product.checked)
+              localStorage.setItem('countOfProd'+uKey[0], Number(localStorage.getItem('countOfProd'+uKey[0]))+1)
+            else 
+              localStorage.setItem('countOfProd'+uKey[0], Number(localStorage.getItem('countOfProd'+uKey[0]))-1)
           }
       });
-      console.log(prodData)
       SetSummOfChecked(getSummOfChecked())
     }
 
@@ -117,7 +158,6 @@ const Basket = () => {
       });
       return summ;
     }
-
       
 
 
@@ -168,7 +208,7 @@ const Basket = () => {
               <Button variant='contained' color='secondary' onClick={resetBasket}>Очистить корзину</Button>
               <div>
                 <h2 style={{ color: theme.palette.text.primary }}>{summOfChecked}.000 <sub>₽</sub></h2>
-                <Button href='/order' variant='contained'>Заказать</Button>
+                <Button href='/basket/order' variant='contained'>Заказать</Button>
               </div>
             </motion.div>
           )}
@@ -177,6 +217,5 @@ const Basket = () => {
     </div>
   );
 };
-// getCheckedIds собирает ид выбранных передать пока никак. мб через контекст както
 
 export default Basket;
