@@ -13,9 +13,6 @@ class SessionData(BaseModel):
     lastname: str
     email: str
     address: Optional[str] = ''
-    city: Optional[str] = ''
-    postalcode: Optional[str] = ''
-    country: Optional[str] = ''
     password: str
 
 
@@ -24,9 +21,6 @@ class SessionDataOut(BaseModel):
     lastname: str
     email: str
     address: str = ''
-    city: str = ''
-    postalcode: str = ''
-    country: str = ''
 
 cookie_params = CookieParameters(path="/")
 
