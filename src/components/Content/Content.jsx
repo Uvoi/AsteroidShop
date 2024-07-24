@@ -1,8 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import './styles.css';
+
 import Home from '../../pages/Home/Home';
 import Catalog from '../../pages/Catalog/Catalog';
-import './styles.css';
 import Help from '../../pages/Help/Help';
 import AddToDB from '../AddToDB/AddToDB';
 import Asteroid from '../../pages/Asteroid/Asteroid';
@@ -11,7 +12,7 @@ import Profile from '../../pages/Profile/Profile';
 import Order from '../../pages/Order/Order';
 
 
-const Content = ({user, updateUser})=>
+const Content = ({updateUser})=>
 {
 
     
@@ -25,8 +26,8 @@ const Content = ({user, updateUser})=>
                     <Route exact path='/catalog/add' element={<AddToDB/>}/>
                     <Route exact path='/asteroid' element={<Asteroid/>}/>
                     <Route exact path='/basket' element={<Basket/>}/>
+                    <Route exact path='/basket/order' element={<Order/>}/>
                     <Route exact path='/profile' element={<Profile updateUser={updateUser}/>}/>
-                    <Route exact path='/order' element={<Order/>}/>
                 </Routes>
             </Router>
         </div>
