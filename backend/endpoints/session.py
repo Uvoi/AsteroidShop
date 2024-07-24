@@ -13,9 +13,6 @@ class User(BaseModel):
     lastname: str
     email: str
     address: str
-    city: str
-    postalcode: str
-    country: str
     password: str
 
 
@@ -31,13 +28,13 @@ async def check_user(user: User, action):
 
 
 async def reg_user(user: User):
-    if not getCustomerByEmail(user.email):
+    if not await getCustomerByEmail(user.email):
         addNewCustomer(user.firstname, user.lastname, user.email, user.password)
-        return getCustomerByEmail(user.email)
+        return await getCustomerByEmail(user.email)
     raise HTTPException(status_code=468, detail="User with this email is already exist")
 
 async def log_user(user: User):
-    customer = getCustomerByEmail(user.email)
+    customer = await getCustomerByEmail(user.email)
     if customer:
         if customer["password"] == user.password:
             return customer
@@ -47,12 +44,12 @@ async def log_user(user: User):
 @router.post("/create")
 async def create_session(session_d : auth.SessionData, action, response : Response):
     customer = await check_user(session_d, action)
-    data = auth.SessionData(firstname = customer["firstname"], lastname = customer["lastname"], email = customer["email"], address = customer["address"], city = customer["city"], postalcode = customer["postalcode"], country = customer["country"], password = customer["password"])
+    data = auth.SessionData(firstname = customer["firstname"], lastname = customer["lastname"], email = customer["email"], address = customer["address"], password = customer["password"])
 
     session = uuid4()
     await auth.backend.create(session, data)
     auth.cookie.attach_to_response(response, session)
-    return f"created session for {data}"
+    return f"created session for {customer["firstname"], customer["lastname"]}"
 
 
 
