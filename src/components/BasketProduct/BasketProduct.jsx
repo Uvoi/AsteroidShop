@@ -30,16 +30,17 @@ const BasketProduct = ({prdtTitle, prdtDescription, prdtDiameter, prdtWeight, pr
       {await controls.start({
         x: 1900,
         height: 0,
-        transition: { duration: 1 },
+        transition: { duration: 0.7 },
       });}
     else
     {
       {await controls.start({
         x: -1900,
         height: 0,
-        transition: { duration: 0.5 },
+        transition: { duration: 0.7 },
       });}
     }
+    console.log('del')
     deleteFunc(uniqueKey);
   };
 
@@ -56,7 +57,7 @@ const BasketProduct = ({prdtTitle, prdtDescription, prdtDiameter, prdtWeight, pr
   };
 
   return (
-    <motion.div className='BasketProduct' id={"BasketProductId="+uniqueKey}
+    <motion.label className='BasketProduct' id={"BasketProductId="+uniqueKey}
         animate={controls}
     >
       <div style={{border: "1px solid" + theme.palette.primary.main}} className='basketProduct'>
@@ -80,7 +81,7 @@ const BasketProduct = ({prdtTitle, prdtDescription, prdtDiameter, prdtWeight, pr
               onChange={(e)=>{checkFunc(uniqueKey); setChecked(e.target.checked); console.log(checked)}}
               inputProps={{ 'aria-label': 'controlled' }}
               />
-              <Button variant='contained' className='buyNowBP'>
+              <Button variant='contained' className='buyNowBP' href={'/basket/order/?id='+id}>
                 Купить
               </Button>
             </div>
@@ -88,7 +89,7 @@ const BasketProduct = ({prdtTitle, prdtDescription, prdtDiameter, prdtWeight, pr
         </div>
         <button className="removeBtnBP" style={theme === darkTheme ? {filter: `invert(100%)`} : {}} onClick={deleteProduct}/>
       </div>
-    </motion.div>
+    </motion.label>
   );
 };
 
