@@ -297,3 +297,31 @@ def delete_basket(customer_id: int):
         else:
             raise ValueError("Basket not found for the given customer_id")
 
+def change_user_name(customer_id: int, new_name: dict):
+    with SessionLocal() as session:
+        customer = session.query(Customer).filter(Customer.customerid == customer_id).first()
+        if customer:
+            try:
+                customer.firstname = new_name.firstName
+                customer.lastname = new_name.lastName
+                session.commit()
+            except Exception as e:
+                session.rollback()
+                print(f"Error changing user name: {e}")
+                raise
+        else:
+            raise ValueError("Customer not found for the given customer_id")
+
+def change_user_address(customer_id: int, new_address: dict):
+    with SessionLocal() as session:
+        customer = session.query(Customer).filter(Customer.customerid == customer_id).first()
+        if customer:
+            try:
+                customer.address = new_address.address
+                session.commit()
+            except Exception as e:
+                session.rollback()
+                print(f"Error changing user address: {e}")
+                raise
+        else:
+            raise ValueError("Customer not found for the given customer_id")

@@ -114,3 +114,24 @@ async def deleteProductFromBasket(session_data: auth.SessionData = Depends(auth.
     delete_basket(UserID)
     return "basket deleted"
 
+@router.patch("/api/user/name", dependencies=[Depends(auth.cookie)])
+async def changeUserName(newName: UserName, session_data: auth.SessionData = Depends(auth.verifier)):
+    User = await getCustomerByEmail(session_data.email)
+    if not User:
+        raise HTTPException(status_code=404, detail="User not found")
+    UserID = User['id']
+    change_user_name(UserID, newName)
+    return "UserName changed"
+
+#TODO сделать обновление сессии в соотвествии с новым именем
+
+@router.patch("/api/user/address", dependencies=[Depends(auth.cookie)])
+async def changeUserAddress(newAddress: UserAddress, session_data: auth.SessionData = Depends(auth.verifier)):
+    User = await getCustomerByEmail(session_data.email)
+    if not User:
+        raise HTTPException(status_code=404, detail="User not found")
+    UserID = User['id']
+    change_user_address(UserID, newAddress)
+    return "User address changed"
+
+#TODO сделать обновление сессии в соотвествии с новым адресом
