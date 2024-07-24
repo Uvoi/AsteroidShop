@@ -1,14 +1,11 @@
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Float, DateTime, func, CheckConstraint, text, SmallInteger, Date
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Float, DateTime, func, CheckConstraint, text, SmallInteger, Date, ARRAY
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker, joinedload
 from datetime import datetime
-#from datetime import datetime
 
 
-# Создаем базовый класс для всех моделей
 Base = declarative_base()
 
-# Определяем модель для таблицы Customers
 class Customer(Base):
     __tablename__ = 'customers'
     customerid = Column(Integer, primary_key=True)
@@ -16,15 +13,10 @@ class Customer(Base):
     lastname = Column(String(50))
     email = Column(String(100))
     address = Column(String(255), nullable=True)
-    city = Column(String(100), nullable=True)
-    postalcode = Column(String(20), nullable=True)
-    country = Column(String(100), nullable=True)
     password = Column(String(), nullable=False)
 
-# Определяем модель для таблицы Products
 class Product(Base):
     __tablename__ = 'products'
-
     productid = Column(Integer, primary_key=True)
     name = Column(String(100), nullable=False)
     description = Column(String)
@@ -46,8 +38,6 @@ class Composition(Base):
     calcium = Column(SmallInteger)
     oxygen = Column(SmallInteger)
 
-from sqlalchemy.orm import relationship
-
 class Comments(Base):
     __tablename__ = 'comments'
     commentsid = Column(Integer, primary_key=True)
@@ -58,7 +48,6 @@ class Comments(Base):
     customer = relationship("Customer", backref="comments")
 
 
-
 SQLALCHEMY_DATABASE_URL = "postgresql://postgres:0@localhost/asteroid_shop"
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
@@ -66,15 +55,6 @@ Base.metadata.create_all(bind=engine)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-new_customer = Customer(
-    firstname="John",
-    lastname="Doe",
-    email="john.doe@example.com",
-    address="123 Main St",
-    city="Anytown",
-    postalcode="12345",
-    country="USA"
-)
 
 def printCustomers():
     with SessionLocal() as session:
@@ -192,7 +172,7 @@ def getProductByID(product_id):
             return None
 
 
-def getCustomerByEmail(email):
+async def getCustomerByEmail(email):
     with SessionLocal() as session:
         customer = session.query(Customer).filter(Customer.email == email).first()
         if customer:
@@ -202,9 +182,6 @@ def getCustomerByEmail(email):
                 "lastname": customer.lastname,
                 "email": customer.email,
                 "address": customer.address,
-                "city": customer.city,
-                "postalcode": customer.postalcode,
-                "country": customer.country,
                 "password": customer.password,
             }
             customer_dict = {k: (v if v is not None else '') for k, v in customer_dict.items()}
