@@ -9,7 +9,7 @@ import basket from './../../images/basket.svg'
 import CommentsContainer from '../../components/CommentsContainer/CommentsContainer';
 import Comment from '../../components/Comment/Comment';
 import CommentInput from '../../components/CommentInput/CommentInput';
-import {addToBasket} from '../../functions/user/user'
+import {addToBasket} from '../../functions/basket'
 import { themeContext } from '../../App';
 
 const Asteroid = ()=>
