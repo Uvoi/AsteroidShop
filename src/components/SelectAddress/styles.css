@@ -1,0 +1,35 @@
+.SelectAddress
+{
+    border-radius: 10px;
+    width: 50%;
+}
+
+.SelectAddress .react-dadata__input
+{
+    border: 1px solid #5C33FF;
+}
+
+.SelectAddress .react-dadata__input:hover, .SelectAddress .react-dadata__input:focus
+{
+    border: 1px solid #5C33FF;
+}
+
+.SelectAddress .react-dadata__input:focus
+{
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 0 3px #8a63ff34;
+}
+
+.react-dadata__suggestions
+{
+    background-color: #582a62 !important;
+}
+
+.react-dadata__suggestion
+{
+    color: #E0E0E0 !important;
+}
+
+.react-dadata--highlighted
+{
+    color: #efff44 !important;
+}
