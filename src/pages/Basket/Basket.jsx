@@ -5,7 +5,8 @@ import axios from 'axios';
 
 import { useNotification } from '../../components/Notification/Notification';
 import BasketProduct from '../../components/BasketProduct/BasketProduct';
-import { getProdsFromLS, delProdFromBasket} from '../../functions/user/user';
+import { getBasket, delProdFromBasket, clearBasket} from '../../functions/basket';
+import { checkSession } from '../../functions/user';
 import { motion, AnimatePresence} from 'framer-motion';
 import { themeContext } from '../../App';
 
@@ -20,18 +21,17 @@ const Basket = () => {
   const [isDelAll, setIsDellAll] = useState(false);
 
   useEffect(() => {
-    const getProdsFormSer = () => {
-      var prodIds = getProdsFromLS();
-      axios
-        .post(`http://localhost:8000/api/basket/getByMass`, prodIds, axios.defaults.withCredentials = true)
-        .then(response => {
-          parseProdsData(response.data);
-        })
-        .catch(error => {
-          console.error(error);
-        });
+    const getProdsFromServer = async () => {
+        try {
+            const prodIds = await getBasket();
+            const response = await axios.post(`http://localhost:8000/api/basket/getByMass`, prodIds, { withCredentials: true });
+            parseProdsData(response.data);
+        } catch (error) {
+            console.error(error);
+        }
     };
-    getProdsFormSer();
+
+    getProdsFromServer();
   }, []);
 
   const parseProdsData = data => {
@@ -85,11 +85,11 @@ const Basket = () => {
   };
   
 
-  const deleteProd = (uniqueKey) => {
+  const deleteProd = async (uniqueKey) => {
     const itemToDelete = prodData.find(product => product.uniqueKey === uniqueKey);
     if (itemToDelete.checked)
       localStorage.setItem('countOfProd'+itemToDelete.id, Number(localStorage.getItem('countOfProd'+itemToDelete.id))-1)
-    delProdFromBasket(itemToDelete.id);
+    await delProdFromBasket(itemToDelete.id);
     setProdData(prevData => {
       const newData = prevData.filter(product => product.uniqueKey !== uniqueKey);
       if (newData.length === 0 && !initialLoad.current) {
@@ -117,6 +117,8 @@ const Basket = () => {
 
   function resetBasket() {
     setIsDellAll(true);
+    clearBasket();
+    setElementsVisible(false);
     setTimeout(() => {
       const keysToRemove = [];
       for (let i = 0; i < localStorage.length; i++) {
@@ -138,9 +140,9 @@ const Basket = () => {
           {
             product.checked=!product.checked
             if (product.checked)
-              localStorage.setItem('countOfProd'+uKey[0], Number(localStorage.getItem('countOfProd'+uKey[0]))+1)
+              localStorage.setItem('countOfProd'+product.id, Number(localStorage.getItem('countOfProd'+product.id))+1)
             else 
-              localStorage.setItem('countOfProd'+uKey[0], Number(localStorage.getItem('countOfProd'+uKey[0]))-1)
+              localStorage.setItem('countOfProd'+product.id, Number(localStorage.getItem('countOfProd'+product.id))-1)
           }
       });
       SetSummOfChecked(getSummOfChecked())
@@ -178,7 +180,7 @@ const Basket = () => {
             prdtCategory={product.category}
             imgLink={product.imgLink}
             check={product.checked}
-            deleteFunc={deleteProd}
+            deleteFunc={async(prod)=>(await checkSession() && isDelAll)?NaN:deleteProd(prod)}
             checkFunc={setChecked}
             delAllFlag={isDelAll}
           />
