@@ -14,6 +14,7 @@ class Customer(Base):
     email = Column(String(100))
     address = Column(String(255), nullable=True)
     password = Column(String(), nullable=False)
+    baskets = relationship("Basket", back_populates="customer")
 
 class Product(Base):
     __tablename__ = 'products'
@@ -46,6 +47,13 @@ class Comments(Base):
     text = Column(String())
     date = Column(DateTime, default=func.current_timestamp())
     customer = relationship("Customer", backref="comments")
+
+class Basket(Base):
+    __tablename__ = 'basket'
+    customerid = Column(Integer, ForeignKey('customers.customerid'), primary_key=True)
+    productids = Column(ARRAY(Integer), nullable=False)
+    customer = relationship("Customer", back_populates="baskets")
+
 
 
 SQLALCHEMY_DATABASE_URL = "postgresql://postgres:0@localhost/asteroid_shop"
@@ -235,5 +243,57 @@ def getCommentsByProdID(product_id):
         return allComments
 
 
+def add_product_to_basket(customer_id, product_id):
+    with SessionLocal() as session:
+        basket = session.query(Basket).filter(Basket.customerid == customer_id).first()
+        
+        if basket:
+            updated_productids = basket.productids.copy()
+            updated_productids.append(product_id)
+            basket.productids = updated_productids
+        else:
+            basket = Basket(customerid=customer_id, productids=[product_id])
+            session.add(basket)
+        
+        session.commit()
 
+
+def get_products_from_basket(customer_id):
+    with SessionLocal() as session:
+        basket = session.query(Basket).filter(Basket.customerid == customer_id).first()
+        if basket:
+            return basket.productids
+        else:
+            return []
+
+
+def delete_product_from_basket(customer_id: int, product_id: int):
+    with SessionLocal() as session:
+        basket = session.query(Basket).filter(Basket.customerid == customer_id).first()
+        if basket:
+            try:
+                updated_productids = [pid for pid in basket.productids if pid != product_id]
+                basket.productids = updated_productids
+                session.commit()
+            except Exception as e:
+                session.rollback()
+                print(f"Error deleting product from basket: {e}")
+                raise
+        else:
+            raise ValueError("Basket not found for the given customer_id")
+
+
+def delete_basket(customer_id: int):
+    with SessionLocal() as session:
+        basket = session.query(Basket).filter(Basket.customerid == customer_id).first()
+        if basket:
+            try:
+                session.delete(basket)
+                session.commit()
+            except Exception as e:
+                session.rollback()
+                print(f"Error deleting basket: {e}")
+                raise
+        else:
+            raise ValueError("Basket not found for the given customer_id")
 
