@@ -15,7 +15,7 @@ function addToBasketLS(prodId)
 
 function addToBasketServ(prodId)
 {
-    axios.post(`http://localhost:8000/api/basket/add`, {ProdID:prodId}, { withCredentials: true })
+    axios.post(`http://localhost:8000/api/basket/add`, {ProdIDs:prodId}, { withCredentials: true })
     .then(response => {
         console.log("Prod sended");
     })
@@ -74,6 +74,18 @@ export async function delProdFromBasket(prodId)
 }
 
 
+function clearBasketLS()
+{
+    for (let i = localStorage.length-1; i != -1 ; i--) {
+        console.log(i)
+        const key = localStorage.key(i);
+        if (key.startsWith('prod') || key.startsWith('countOfProd')) {
+            localStorage.removeItem(key);
+        }
+    }
+    localStorage.removeItem('countProd')
+}
+
 async function clearBasketServ()
 {
     axios.delete(`http://localhost:8000/api/basket/`, { withCredentials: true })
@@ -125,5 +137,11 @@ export async function getBasket() {
     }
 }
 
-
-
+export function sendLSBasketToServ()
+{
+    var prodIDs = getBasketLS()
+    if (prodIDs)
+        addToBasketServ(prodIDs)
+        clearBasketLS()
+    
+}

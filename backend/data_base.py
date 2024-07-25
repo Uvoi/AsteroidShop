@@ -243,19 +243,20 @@ def getCommentsByProdID(product_id):
         return allComments
 
 
-def add_product_to_basket(customer_id, product_id):
+def add_products_to_basket(customer_id: int, product_ids: list[int]):
     with SessionLocal() as session:
         basket = session.query(Basket).filter(Basket.customerid == customer_id).first()
         
         if basket:
             updated_productids = basket.productids.copy()
-            updated_productids.append(product_id)
+            updated_productids.extend(product_ids)
             basket.productids = updated_productids
         else:
-            basket = Basket(customerid=customer_id, productids=[product_id])
+            basket = Basket(customerid=customer_id, productids=product_ids)
             session.add(basket)
         
         session.commit()
+
 
 
 def get_products_from_basket(customer_id):

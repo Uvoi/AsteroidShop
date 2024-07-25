@@ -31,7 +31,7 @@ const ProductCard = ({cardId, prdtTitle, prdtDescription, prdtWeight, prdtCatego
                         backgroundColor: theme.palette.primary.main, 
                         color:theme.palette.text.primary,
                         }}
-                        onClick={async()=>{await addToBasket(cardId)}}
+                        onClick={async()=>{await addToBasket([cardId])}}
                         >
                         <img src={basket} alt="" style={{filter:`invert(100%)`}}/>
                     </Button>

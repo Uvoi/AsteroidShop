@@ -5,6 +5,7 @@ import { Button, Switch, TextField, } from '@mui/material';
 import axios from 'axios';
 import { useNotification } from '../Notification/Notification';
 import { themeContext } from '../../App';
+import { sendLSBasketToServ } from '../../functions/basket';
 
 
 const RegLogM = ({action, close, updateUser})=>
@@ -58,7 +59,6 @@ const RegLogM = ({action, close, updateUser})=>
 
     const handleChange = async () =>
         {
-            console.log()
             switcher?switchRtoL():switchLtoR()
             setSwitcher(!switcher)
         }
@@ -66,7 +66,6 @@ const RegLogM = ({action, close, updateUser})=>
         const sendToServ = (e,act) =>
             {
                 e.preventDefault();
-                console.log(act)
                 axios.post('http://localhost:8000/api/session/create?action='+act, {
                     firstname: nameInput,
                     lastname: fullNameInput,
@@ -77,6 +76,7 @@ const RegLogM = ({action, close, updateUser})=>
                     console.log(response.data);
                     close()
                     updateUser()
+                    sendLSBasketToServ()
                     showNotification("Добро пожаловать", 'green')
                 })
                 .catch(error => {
