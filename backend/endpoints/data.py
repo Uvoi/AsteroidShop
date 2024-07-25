@@ -1,5 +1,6 @@
+from uuid import UUID
 from fastapi import APIRouter, HTTPException, Depends
-from data_base import getAllProducts, addNewProduct, addNewCustomer, addNewComment, getProductByID, getCompositionByID, getCommentsByProdID, add_products_to_basket, getCustomerByEmail,get_products_from_basket, delete_product_from_basket, delete_basket, change_user_name, change_user_address
+from data_base import getAllProducts, addNewProduct, addNewComment, getProductByID, getCompositionByID, getCommentsByProdID, add_products_to_basket, getCustomerByEmail,get_products_from_basket, delete_product_from_basket, delete_basket, change_user_name, change_user_address
 from pydantic import BaseModel
 from typing import List
 from auth import auth
@@ -108,23 +109,28 @@ async def deleteProductFromBasket(session_data: auth.SessionData = Depends(auth.
     return "basket deleted"
 
 @router.patch("/api/user/name", dependencies=[Depends(auth.cookie)])
-async def changeUserName(newName: UserName, session_data: auth.SessionData = Depends(auth.verifier)):
+async def changeUserName(newName: UserName, session_data: auth.SessionData = Depends(auth.verifier), session_id: UUID = Depends(auth.cookie)):
     User = await getCustomerByEmail(session_data.email)
     if not User:
         raise HTTPException(status_code=404, detail="User not found")
     UserID = User['id']
     change_user_name(UserID, newName)
+
+    session_data.firstname = newName.firstName
+    session_data.lastname = newName.lastName
+    await auth.backend.update(session_id, session_data)
+
     return "UserName changed"
 
-#TODO сделать обновление сессии в соотвествии с новым именем
-
 @router.patch("/api/user/address", dependencies=[Depends(auth.cookie)])
-async def changeUserAddress(newAddress: UserAddress, session_data: auth.SessionData = Depends(auth.verifier)):
+async def changeUserAddress(newAddress: UserAddress, session_data: auth.SessionData = Depends(auth.verifier), session_id: UUID = Depends(auth.cookie)):
     User = await getCustomerByEmail(session_data.email)
     if not User:
         raise HTTPException(status_code=404, detail="User not found")
     UserID = User['id']
     change_user_address(UserID, newAddress)
-    return "User address changed"
 
-#TODO сделать обновление сессии в соотвествии с новым адресом
+    session_data.address = newAddress.address
+    await auth.backend.update(session_id, session_data)
+    
+    return "User address changed"
