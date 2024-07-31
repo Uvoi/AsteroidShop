@@ -1,0 +1,59 @@
+.OrderItem
+{
+    border-radius: 15px;
+    padding: 1vh 0;
+}
+
+.orderItemHeader>div
+{
+    width: 100%;
+    display: flex;
+    justify-content:space-between;
+}
+
+.orderItemHeader h3
+{
+    font-size: 18px;
+    font-weight: normal;
+}
+
+.orderItemHeader h4
+{
+    font-size: 18px;
+    font-weight: normal;
+}
+
+.orderItemHeader>div>div
+{
+    display: flex;
+    gap: 10px;
+}
+
+.orderItemHeader>div>div h4
+{
+    text-align: right;
+    width: 100px;
+}
+
+.orderItemData
+{
+    margin: 0 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    gap: 20px;
+}
+
+.orderItemDeliveryData
+{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.orderItemDeliveryData h4
+{
+    font-size: 18px;
+    font-weight: normal;
+}
