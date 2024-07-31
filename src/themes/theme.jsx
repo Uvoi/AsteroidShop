@@ -5,8 +5,9 @@ const darkTheme = createTheme({
   palette: {
     mode: 'dark',
     background: {
-      default: '#1a0121', // Dark background color
-      paper: '#1C0F24', // Paper background color
+      default: '#1a0121',
+      paper: '#1C0F24', 
+      paper2: '#261430', 
     },
     header: {
       primary: '#0c000f'
@@ -23,6 +24,9 @@ const darkTheme = createTheme({
       secondary: '#B0B0B0',
     },
     divider: '#3D2A40',
+    success:{
+      main: '#4BB543',
+    },
     error: {
       main: '#FF6666',
     },
@@ -36,8 +40,9 @@ const lightTheme = createTheme({
   palette: {
     mode: 'light',
     background: {
-      default: '#FAF3E0', // Light background color
-      paper: '#f7e9c1', // Paper background color
+      default: '#FAF3E0', 
+      paper: '#f7e9c1',
+      paper2: '#ebdfbe', 
     },
     header: {
       primary: '#743882',
@@ -54,6 +59,9 @@ const lightTheme = createTheme({
       secondary: '#666666',
     },
     divider: '#D9D0B8',
+    success:{
+      main: '#4BB543',
+    },
     error: {
       main: '#FF6666',
     },
