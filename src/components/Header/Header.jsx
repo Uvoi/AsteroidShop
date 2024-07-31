@@ -12,27 +12,14 @@ import { themeContext, userContext } from '../../App';
 
 
 
-const Header = ({onToggleTheme, updateUser})=>
+const Header = ({onToggleTheme, updateUser, openRegLogModal, setOpenRegLogModal})=>
 {
     const theme = useContext(themeContext)
     const user = useContext(userContext)
     const [regOrLog, setRegOrLog] = useState(true);
 
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-
-    const deleteSess = () =>
-        {
-            axios.post('http://localhost:8000/api/session/delete', {
-            }, { withCredentials: true })
-            .then(response => {
-                console.log(response.data);
-            })
-            .catch(error => {
-                console.error('There was an error!', error);
-            });
-        }
+    const handleOpen = () => setOpenRegLogModal(true);
+    const handleClose = () => setOpenRegLogModal(false);
 
     return(
         <div id='Header' style={{background: theme.palette.header.primary}}>
@@ -53,7 +40,6 @@ const Header = ({onToggleTheme, updateUser})=>
                     <div id="UserDataH">
                         <a href='/profile' className='bot_line'>{user.firstname}</a>
                         <a href="/profile"><img src={userLogo} alt="" /></a>
-                        <button onClick={deleteSess}>del</button>
                     </div>
                     : 
                     <div id="UserLogReg">
@@ -64,7 +50,7 @@ const Header = ({onToggleTheme, updateUser})=>
                     }
 
                     <Modal
-                    open={open}
+                    open={openRegLogModal}
                     onClose={handleClose}
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
