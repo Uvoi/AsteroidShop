@@ -122,7 +122,7 @@ const Asteroid = ()=>
                         </div>
                         <div id="asteroidPriceAndBuy">
                             <h2>{asteroidData.price}.000 <sub>₽</sub></h2>
-                            <Button variant='contained' onClick={()=>{addToBasket(idFromUrl)}}>
+                            <Button variant='contained' onClick={()=>{addToBasket([idFromUrl])}}>
                                 В корзину 
                                 <img src={basket} alt="" />
                             </Button>
