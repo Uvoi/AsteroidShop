@@ -152,7 +152,7 @@ const Asteroid = ()=>
                 <h3 style={{color: theme.palette.text.primary}}>Комментарии</h3>
                         
                 <CommentsContainer>
-                    {Object.keys(commentsData).slice(-3).map(key => (
+                    {Object.keys(commentsData).slice(-3).reverse().map(key => (
                         <Comment
                             key={key}
                             user={commentsData[key].customerName}
@@ -163,7 +163,7 @@ const Asteroid = ()=>
                     ))}
 
                     {Object.keys(commentsData).length > 3 && (
-                        <Accordion>
+                        <Accordion slotProps={{ transition: { unmountOnExit: true } }}>
                             <AccordionSummary
                                 aria-controls="panel1a-content"
                                 id="panel1a-header"
