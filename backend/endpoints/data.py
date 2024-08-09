@@ -1,6 +1,6 @@
 from uuid import UUID
 from fastapi import APIRouter, HTTPException, Depends
-from data_base import getAllProducts, addNewProduct, addNewComment, getProductByID, getCompositionByID, getCommentsByProdID, add_products_to_basket, getCustomerByEmail,get_products_from_basket, delete_product_from_basket, delete_basket, change_user_name, change_user_address
+from data_base import getAllProducts, addNewProduct, addNewComment, getProductByID, getCompositionByID, getCommentsByProdID, add_products_to_basket, getCustomerByEmail,get_products_from_basket, delete_products_from_basket, delete_basket, change_user_name, change_user_address
 from pydantic import BaseModel
 from typing import List
 from auth import auth
@@ -22,9 +22,6 @@ class addNewCommentC(BaseModel):
     ProdID: int
     UserID: int
     Text: str
-
-class Product(BaseModel):
-    ProdID: int
 
 class ProductList(BaseModel):
     ProdIDs: List[int]
@@ -90,14 +87,14 @@ async def getProductsFromBasket(session_data: auth.SessionData = Depends(auth.ve
     return {"product_ids": products}
 
 @router.patch("/api/basket/", dependencies=[Depends(auth.cookie)])
-async def deleteProductFromBasket(deleteProd: Product, session_data: auth.SessionData = Depends(auth.verifier)):
+async def deleteProductFromBasket(deleteProds: ProductList, session_data: auth.SessionData = Depends(auth.verifier)):
     User = await getCustomerByEmail(session_data.email)
     if not User:
         raise HTTPException(status_code=404, detail="User not found")
     
     UserID = User['id']
-    delete_product_from_basket(UserID, deleteProd.ProdID)
-    return "product deleted"
+    delete_products_from_basket(UserID, deleteProds.ProdIDs)
+    return "products deleted"
 
 @router.delete("/api/basket/", dependencies=[Depends(auth.cookie)])
 async def deleteProductFromBasket(session_data: auth.SessionData = Depends(auth.verifier)):
