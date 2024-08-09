@@ -5,7 +5,7 @@ import axios from 'axios';
 
 import { useNotification } from '../../components/Notification/Notification';
 import BasketProduct from '../../components/BasketProduct/BasketProduct';
-import { getBasket, delProdFromBasket, clearBasket} from '../../functions/basket';
+import { getBasket, delProdFromBasket, clearBasket, getSelectedProds} from '../../functions/basket';
 import { checkSession } from '../../functions/user';
 import { motion, AnimatePresence} from 'framer-motion';
 import { themeContext } from '../../App';
@@ -89,7 +89,7 @@ const Basket = () => {
     const itemToDelete = prodData.find(product => product.uniqueKey === uniqueKey);
     if (itemToDelete.checked)
       localStorage.setItem('countOfProd'+itemToDelete.id, Number(localStorage.getItem('countOfProd'+itemToDelete.id))-1)
-    await delProdFromBasket(itemToDelete.id);
+    await delProdFromBasket([itemToDelete.id]);
     setProdData(prevData => {
       const newData = prevData.filter(product => product.uniqueKey !== uniqueKey);
       if (newData.length === 0 && !initialLoad.current) {
@@ -210,7 +210,7 @@ const Basket = () => {
               <Button variant='contained' color='secondary' onClick={resetBasket}>Очистить корзину</Button>
               <div>
                 <h2 style={{ color: theme.palette.text.primary }}>{summOfChecked}.000 <sub>₽</sub></h2>
-                <Button href='/basket/order' variant='contained'>Заказать</Button>
+                <Button href='/basket/order' variant='contained' disabled={!(getSelectedProds().length)}>Заказать</Button>
               </div>
             </motion.div>
           )}
