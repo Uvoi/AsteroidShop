@@ -6,10 +6,12 @@ import { ArrowDropDown } from '@mui/icons-material';
 import { themeContext, userContext } from '../../App';
 import { useNotification } from '../../components/Notification/Notification';
 import axios from 'axios';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import SelectAddress from '../../components/SelectAddress/SelectAddress';
-
-
+import OrderProductsContainer from '../../components/OrderProduct/OrderProductsContainer/OrderProductsContainer';
+import { delProdFromBasket, getSelectedProds } from '../../functions/basket';
+import { changeAddress } from '../../functions/user';
+import OrderCompleteM from '../../components/OrderCompleteM/OrderCompleteM';
 
 
 
@@ -24,6 +26,7 @@ const Order = () =>
     const [searchParams, setSearchParams] = useSearchParams();
     const [address, setAddress] = useState();
     const [saveAddress, setSaveAddress] = useState(false);
+    const [completeOrder, setCompleteOrder] = useState(false);
 
 
     const parseIdFromUrl = (urlParams) => {
@@ -34,25 +37,9 @@ const Order = () =>
     }    
 
     const [onlyOneId, setOnlyOneId] = useState(parseIdFromUrl(searchParams));
-    
 
+    const navigate = useNavigate();
 
-    const getSelectedProds = () => {
-        const resultArray = [];
-      
-        for (let i = 0; i < localStorage.length; i++) {
-          const key = localStorage.key(i);
-          if (key.startsWith('countOfProd')) {
-            const id = key.replace('countOfProd', '');
-            const count = parseInt(localStorage.getItem(key), 10);
-            
-            for (let j = 0; j < count; j++) {
-              resultArray.push(parseInt(id, 10));
-            }
-          }
-        }
-        return resultArray;
-    };
 
     useEffect(() => {
         const getProdsFormSer = () => {
@@ -97,10 +84,23 @@ const Order = () =>
       SetSummOfChecked(str.replace(/(\d)(?=(\d{3})+(\D|$))/g, '$1.'))
     }, [prodData]);
 
+    const handleOrderClick = () => 
+      {
+        const deleteProds = prodData.map(product => product.id)
+        delProdFromBasket(deleteProds, true)
+        setCompleteOrder(true)
+        if (user.address !== address && address !== undefined && saveAddress)
+          {
+            if (changeAddress(address))
+                {
+                    console.log('Адрес обновлен успешно');
+                }
+          }
+      }
 
     return(
         <div id='Order'>
-            <Button id="orderBack" variant='contained'>🠈 Назад</Button>
+            <Button id="orderBack" variant='contained' onClick={() => navigate(-1)}>🠈 Назад</Button>
             <div id="order">
 
                 <h1 style={{ color: theme.palette.text.primary}}>Оформление заказа</h1>
@@ -130,23 +130,12 @@ const Order = () =>
                         }
                     </Accordion>
 
-                    <Accordion>
-                        <AccordionSummary
-                            aria-controls="panel1a-content"
-                            id="panel1a-header"
-                            expandIcon={<ArrowDropDown/>}
-                            style={{color: theme.palette.primary.main}}
-                        >
-                            <Typography color={theme.palette.text.primary}>{user.firstname+" "+user.lastname+" "+user.email}</Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                        </AccordionDetails>
-                    </Accordion>
-                </div>
+                    <Divider/>
+                    <Typography color={theme.palette.text.primary}>{user.firstname+" "+user.lastname+" "+user.email}</Typography>                </div>
 
                 <div id="orderProducts" style={{ background: theme.palette.background.paper}}>
                     <h2 style={{ color: theme.palette.text.primary}}>Ожадаемая дата доставки 13 декабря</h2>
-                    <div id="orderProductsWrapper">
+                    <OrderProductsContainer>
                         {prodData.map(product => (
                             <OrderProduct
                                 key={product.uniqueKey}
@@ -155,7 +144,7 @@ const Order = () =>
                                 imgLink={product.imgLink}
                             />
                         ))}
-                    </div>
+                    </OrderProductsContainer>
                 </div>
 
                 <div id="orderData" style={{ color: theme.palette.text.primary, background: theme.palette.background.paper }}>
@@ -177,7 +166,24 @@ const Order = () =>
                         <h2>Итого</h2>
                         <h2>{summOfChecked}.000 <sub>₽</sub></h2>
                     </div>
-                    <Button variant='contained'>Заказать</Button>
+                    <Button variant='contained' onClick={handleOrderClick}>Заказать</Button>
+                    <Modal
+                    open={completeOrder}
+                    onClose={()=>{setCompleteOrder(false); 
+                      navigate('/basket')
+                    }}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                    closeAfterTransition
+                    slots={{ backdrop: Backdrop }}
+                    slotProps={{
+                      backdrop: {
+                        timeout: 1000,
+                      },
+                    }}
+                    >  
+                        <OrderCompleteM/>    
+                    </Modal>
                 </div>
             </div>
         </div>
