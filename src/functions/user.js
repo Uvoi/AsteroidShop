@@ -3,38 +3,43 @@ import axios from "axios";
 
 export async function checkSession() {
     try {
-        const response = await axios.get(`http://localhost:8000/api/session/whoami`, { withCredentials: true });
+        await axios.get(`http://localhost:8000/api/session/whoami`, { withCredentials: true });
         return true;
     } catch (error) {
         return false;
     }
 }
 
-export function changeFullName(firstName, lastName)
-{
+
+export async function changeFullName(first_name, last_name) {
     const newName = {
-        'firstName': firstName,
-        'lastname': lastName
-    }
-    axios.patch(`http://localhost:8000/api/user/name`, {newName}, { withCredentials: true })
-    .then(response => {
+        firstName: first_name,
+        lastName: last_name,
+    };
+
+    try {
+        await axios.patch(`http://localhost:8000/api/user/name`, newName, { withCredentials: true });
         console.log("Name changed");
-    })
-    .catch(error => {
+        return true;
+    } catch (error) {
         console.log('Error change name: ', error);
-    });
+        return false;
+    }
 }
 
-export function changeAddress(address)
+
+export async function changeAddress(address)
 {
     const newAddress = {
         'address': address
-    }
-    axios.patch(`http://localhost:8000/api/user/address`, {newAddress}, { withCredentials: true })
-    .then(response => {
+    };
+
+    try{ 
+        await axios.patch(`http://localhost:8000/api/user/address`, newAddress, { withCredentials: true })
         console.log("Address changed");
-    })
-    .catch(error => {
+        return true;
+    } catch (error) {
         console.log('Error change address: ', error);
-    });
+        return false
+    };
 }
