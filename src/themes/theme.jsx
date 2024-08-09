@@ -26,9 +26,11 @@ const darkTheme = createTheme({
     divider: '#3D2A40',
     success:{
       main: '#4BB543',
+      ultra: '#22b317',
     },
     error: {
       main: '#FF6666',
+      ultra: '#ff2424',
     },
     warning: {
       main: '#FFCC66',
@@ -45,7 +47,7 @@ const lightTheme = createTheme({
       paper2: '#ebdfbe', 
     },
     header: {
-      primary: '#743882',
+      primary: '#a479b8',
     },
     primary: {
       main: '#5C33FF',
@@ -56,14 +58,16 @@ const lightTheme = createTheme({
     text: {
       ultra:"#000",
       primary: '#333333',
-      secondary: '#666666',
+      secondary: '#4f4f4f',
     },
     divider: '#D9D0B8',
     success:{
       main: '#4BB543',
+      ultra: '#22b317',
     },
     error: {
       main: '#FF6666',
+      ultra: '#ff2424',
     },
     warning: {
       main: '#FFCC66',
