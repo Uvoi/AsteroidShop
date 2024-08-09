@@ -3,7 +3,6 @@ import './styles.css';
 import { motion, useAnimation } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 
-import pass from '../../images/pass.jpg';
 import { Button, Checkbox } from '@mui/material';
 import { darkTheme } from '../../themes/theme';
 import { themeContext } from '../../App';
@@ -62,7 +61,7 @@ const BasketProduct = ({prdtTitle, prdtDescription, prdtDiameter, prdtWeight, pr
     >
       <div style={{border: "1px solid" + theme.palette.primary.main}} className='basketProduct'>
         <div className="imgDataBP">
-          <img src={imgLink?imgLink:pass} onClick={()=>{navigate('/asteroid?id='+id)}} alt="" />
+          <img src={imgLink} onClick={()=>{navigate('/asteroid?id='+id)}} alt="asteroid img" />
           <span style={prdtCategory === "Железный" ? {color: "#A0A0A0"} : (prdtCategory === "Каменный" ? {color: "#8f633f"} : {color:"#a18874"})}>{prdtCategory}</span>
         </div>
         <div className="prdtDataBP">
@@ -78,10 +77,10 @@ const BasketProduct = ({prdtTitle, prdtDescription, prdtDiameter, prdtWeight, pr
               <h2>{prdtPrice}.000 <sub>₽</sub></h2>
               <Checkbox className='checkBBP' 
               checked={checked}
-              onChange={(e)=>{checkFunc(uniqueKey); setChecked(e.target.checked); console.log(checked)}}
+              onChange={(e)=>{checkFunc(uniqueKey); setChecked(e.target.checked);}}
               inputProps={{ 'aria-label': 'controlled' }}
               />
-              <Button variant='contained' className='buyNowBP' href={'/basket/order/?id='+id}>
+              <Button variant='contained' className='buyNowBP' onClick={()=>{!checked && checkFunc(uniqueKey); setChecked(true);}} href={'/basket/order/?id='+id}>
                 Купить
               </Button>
             </div>
