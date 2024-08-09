@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { forwardRef, useContext, useState } from 'react';
 import './styles.css'
 import { motion, useAnimation } from 'framer-motion';
 import { Button, Switch, TextField, } from '@mui/material';
@@ -8,7 +8,7 @@ import { themeContext } from '../../App';
 import { sendLSBasketToServ } from '../../functions/basket';
 
 
-const RegLogM = ({action, close, updateUser})=>
+const RegLogM = forwardRef(({action, close, updateUser}, ref)=>
 {
     const theme = useContext(themeContext)
     const [regOrLog, setRegOrLog] = useState(action);
@@ -102,7 +102,7 @@ const RegLogM = ({action, close, updateUser})=>
             }
         
     return(
-        <div id='RegLogM' style={{background: theme.palette.background.paper, border: '2px solid'+theme.palette.primary.main}}>
+        <div ref={ref} id='RegLogM' style={{background: theme.palette.background.paper, border: '2px solid'+theme.palette.primary.main}}>
             <div id="switchRegLogM">
                 <h2 style={{ color: theme.palette.text.primary }}>Вход</h2>
                 <Switch
@@ -144,8 +144,8 @@ const RegLogM = ({action, close, updateUser})=>
                     id='rInputsM' 
                     className='InputsM'
                     style={{ color:theme.palette.text.ultra}}>
-                        <TextField type='name' label="Name" variant="standard" value={nameInput} onChange={(e)=>setNameInput(e.target.value)}/>
-                        <TextField type='name' label="Full name" variant="standard" value={fullNameInput} onChange={(e)=>setFullNameInput(e.target.value)}/>
+                        <TextField type='name' label="First name" variant="standard" value={nameInput} onChange={(e)=>setNameInput(e.target.value)}/>
+                        <TextField type='name' label="Last name" variant="standard" value={fullNameInput} onChange={(e)=>setFullNameInput(e.target.value)}/>
                         <TextField error={regErr} type='email' label="Email" variant="standard" value={emailInput} onChange={(e)=>setEmailInput(e.target.value)}/>
                         <TextField type='password' label="Password" variant="standard" value={passwordInput} onChange={(e)=>setPasswordInput(e.target.value)}/>
                     </form>
@@ -154,6 +154,6 @@ const RegLogM = ({action, close, updateUser})=>
             </div>            
         </div>
     );
-};
+});
 
 export default RegLogM;
