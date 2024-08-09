@@ -3,6 +3,7 @@ import './styles.css';
 import { Button } from '@mui/material';
 import axios from 'axios';
 import { themeContext } from '../../App';
+import { addNewComment } from '../../functions/comments';
 
 const CommentInput = ({ prodID, userID, updateComments=null }) => {
     const theme = useContext(themeContext)
@@ -22,24 +23,13 @@ const CommentInput = ({ prodID, userID, updateComments=null }) => {
         };
     }, []);
 
-    const setCommToServ = () => {
-        const sendCommData = {
-            ProdID: prodID,
-            UserID: userID,
-            Text: commentText
-        };
-        axios.post(`http://localhost:8000/api/comments/add`, sendCommData, { withCredentials: true })
-            .then(response => {
-                console.log("Success");
-            })
-            .catch(error => {
-                console.log('Error: ', error);
-            });
+    const setCommToServ = async () => {
+        await addNewComment(prodID, userID, commentText)
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        setCommToServ();
+        await setCommToServ();
         updateComments();
         setCommentText("");
     };
