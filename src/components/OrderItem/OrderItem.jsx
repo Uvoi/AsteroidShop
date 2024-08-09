@@ -14,7 +14,7 @@ const OrderItem = ({productIds, totalPrice, orderDate, DeliveryAddress, delivery
 
     return(
         <div className='OrderItem' style={{background: theme.palette.background.paper2}}>
-            <Accordion>
+            <Accordion slotProps={{ transition: { unmountOnExit: true } }}>
                 <AccordionSummary
                     className='orderItemHeader'
                     aria-controls="panel1a-content"
@@ -29,9 +29,8 @@ const OrderItem = ({productIds, totalPrice, orderDate, DeliveryAddress, delivery
                 <AccordionDetails className='orderItemData'>
                     <OrderProductsContainer>
                         {productIds.map((product, index) => (
-                            console.log(product),
                             <OrderProduct
-                                key= {`${product}-${index}`}
+                                key={`${product}-${index}`}
                                 nonPrice
                                 id={product}
                             />
