@@ -35,24 +35,25 @@ export async function addToBasket(prodId) {
     localStorage.setItem(countKey, currentCount + 1);
 }
 
-
-function delProdFromBasketLS(prodId)
+function delProdFromBasketLS(prodIds)
 {
-    for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        if (key.startsWith('prod')) {
-            const value = localStorage.getItem(key);
-            if (parseInt(value) === prodId) {
-                localStorage.removeItem(key);
-                break; 
+    prodIds.forEach(prod => {        
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key.startsWith('prod')) {
+                const value = localStorage.getItem(key);
+                if (parseInt(value) === prod) {
+                    localStorage.removeItem(key);
+                    break; 
+                }
             }
         }
-    }
+    });
 }
 
-async function delProdFromBasketServ(prodId)
+async function delProdFromBasketServ(prodIds)
 {
-    axios.patch(`http://localhost:8000/api/basket/`, {ProdID:prodId}, { withCredentials: true })
+    axios.patch(`http://localhost:8000/api/basket/`, {ProdIDs:prodIds}, { withCredentials: true })
     .then(response => {
         console.log("Product deleted");
     })
@@ -61,16 +62,22 @@ async function delProdFromBasketServ(prodId)
     });
 }
 
-export async function delProdFromBasket(prodId)
+export async function delProdFromBasket(prodIds, force=false)
 {
     if (await checkSession())
         {
-            delProdFromBasketServ(prodId)
+            delProdFromBasketServ(prodIds)
         }
     else
         {
-            delProdFromBasketLS(prodId)
+            delProdFromBasketLS(prodIds)
         }
+        if (force)
+            {
+                prodIds.forEach(element => {
+                    localStorage.setItem('countOfProd'+element, Number(localStorage.getItem('countOfProd'+element))-1)
+                });
+            }
 }
 
 
@@ -145,3 +152,21 @@ export function sendLSBasketToServ()
         clearBasketLS()
     
 }
+
+export function getSelectedProds() 
+{
+    const resultArray = [];
+  
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key.startsWith('countOfProd')) {
+        const id = key.replace('countOfProd', '');
+        const count = parseInt(localStorage.getItem(key), 10);
+        
+        for (let j = 0; j < count; j++) {
+          resultArray.push(parseInt(id, 10));
+        }
+      }
+    }
+    return resultArray;
+};
