@@ -1,0 +1,56 @@
+#OrderCompleteM
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 45vw;
+    height: 80vh;
+    box-shadow: 24;
+    border-radius: 20px;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    filter: alpha(opacity=40);
+    display: flex;
+    flex-direction: column;
+}
+
+#OrderCompleteM img
+{
+    width: 100%;
+    object-fit: fill;
+}
+
+#OrderCompleteM>div
+{
+    margin: 2% 2% 4% 2%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 96%;
+    flex-grow: 1;
+}
+
+#OrderCompleteM>div>div
+{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#OrderCompleteM h1
+{
+    text-align: center;
+}
+
+
+#OrderCompleteM span
+{
+    text-align:center;
+}
+
+#OrderCompleteM a
+{
+    width: fit-content;
+}
