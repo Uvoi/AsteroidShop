@@ -1,70 +1,80 @@
-# Getting Started with Create React App
+# AsteroidShop
+Статус: <span style="background:green; padding: 2px; border-radius:5px">В разработке</span>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Добро пожаловать в **AsteroidShop** — учебный проект, созданный в рамках курсовой работы. Этот веб-приложение представляет собой интернет-магазин астероидов, демонстрирующий мои навыки в области веб-разработки.
 
-## Available Scripts
+## Описание проекта
 
-In the project directory, you can run:
+Проект включает полный цикл разработки интернет-магазина, от серверной части до пользовательского интерфейса, с применением следующих технологий:
 
-### `npm start`
+- **Frontend**: React с использованием библиотеки компонентов MUI и анимаций Framer Motion для создания плавных и интерактивных интерфейсов.
+- **Backend**: FastAPI на Python, обеспечивающий быструю и эффективную обработку запросов и SQLAlchemy для работы с базой данных.
+- **База данных**: PostgreSQL для надежного хранения информации о товарах, пользователях и заказах.
+- **Стилизация**: Адаптивный дизайн на CSS для поддержки различных устройств (*в разработке*).
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Установка и запуск
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Шаги установки
 
-### `npm test`
+1. **Клонирование репозитория**:
+```shell
+git clone https://github.com/Uvoi/AsteroidShop.git
+```
+2. **Настройка Backend**:
+- Установка зависимостей:
+```shell
+cd backend
+pip install -r requirements.txt
+```
+- Запуск сервера:
+```shell
+uvicorn main:app --reload
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+3. **Настройка Frontend**
+- Установка зависимостей
+```shell
+npm i
+```
+- Запуск фронтенд-сервера
+```shell
+npm start
+```
 
-### `npm run build`
+## Использование
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+После запуска приложения, перейдите на `http://localhost:3000`, чтобы получить доступ к интернет-магазину.
+### Основные функции
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- **Каталог астероидов**: Возможность фильтрации по различным параметрам.
+- **Корзина**: Добавление астероидов в корзину и оформление заказа.
+- **Профиль**: Возможность отслеживания статуса доставки и отмены заказа (*в разработке*).
+- **Административная панель**: Управление товарами, пользователями и заказами.(*В разработке*)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Скриншоты и демонстрации
 
-### `npm run eject`
+**Главная**
+![Главная](./screenshots/home.png)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+**Каталог**
+![Каталог](./screenshots/Catalog.png)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+**Корзина**
+![Корзина](./screenshots/Basket.png)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+**Заказ**
+![Заказ](./screenshots/Order.png)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+**Профиль**
+![Профиль](./screenshots/Profile.png)
+## Цель курсовой работы
 
-## Learn More
+Основной целью проекта является демонстрация навыков создания полнофункционального веб-приложения с использованием современных технологий. Проект охватывает разработку и интеграцию серверной и клиентской частей, работу с базами данных, а также создание удобного и анимированного пользовательского интерфейса.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Контакты
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Если у вас возникли вопросы или предложения, вы можете связаться со мной по электронной почте.
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+**Контакт**: iovu_dmtr@yahoo.com
