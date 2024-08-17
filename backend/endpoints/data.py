@@ -1,7 +1,9 @@
 from uuid import UUID
 from fastapi import APIRouter, HTTPException, Depends
-from data_base import getAllProducts, addNewProduct, addNewComment, getProductByID, getCompositionByID, getCommentsByProdID, add_products_to_basket, getCustomerByEmail,get_products_from_basket, delete_products_from_basket, delete_basket, change_user_name, change_user_address
+from data_base import getAllProducts, addNewProduct, addNewComment, getProductByID, getCompositionByID, getCommentsByProdID, add_products_to_basket, getCustomerByEmail,get_products_from_basket, delete_products_from_basket, delete_basket, change_user_name, change_user_address, get_user_orders, add_order
 from pydantic import BaseModel
+from datetime import datetime, timedelta
+import random
 from typing import List
 from auth import auth
 
@@ -32,6 +34,10 @@ class UserName(BaseModel):
 
 class UserAddress(BaseModel):
     address: str
+
+class OrderCreateRequest(BaseModel):
+    productids: list[int]
+    deliveryaddress: str
 
 
 @router.get("/api/catalog/all")
@@ -131,3 +137,30 @@ async def changeUserAddress(newAddress: UserAddress, session_data: auth.SessionD
     await auth.backend.update(session_id, session_data)
     
     return "User address changed"
+
+
+@router.get("/api/order/", dependencies=[Depends(auth.cookie)])
+async def getUserOrders(session_data: auth.SessionData = Depends(auth.verifier)):
+    User = await getCustomerByEmail(session_data.email)
+    if not User:
+        raise HTTPException(status_code=404, detail="User not found")
+    UserID = User['id']
+    orders = get_user_orders(UserID)
+    return {"orders": orders}
+
+@router.post("/api/order/add", dependencies=[Depends(auth.cookie)])
+async def addOrder(toOrder: OrderCreateRequest, session_data: auth.SessionData = Depends(auth.verifier)):
+    User = await getCustomerByEmail(session_data.email)
+    if not User:
+        raise HTTPException(status_code=404, detail="User not found")
+    UserID = User['id']
+    add_order(
+            customerid=UserID,
+            productids=toOrder.productids,
+            deliveryaddress=toOrder.deliveryaddress,
+            orderdate = datetime.now(),
+            deliverydate = datetime.now() + timedelta(days=random.randint(3, 5)),
+            orderstatus = 'In Transit'
+        )
+    
+    return "Order created successfully"
