@@ -12,6 +12,7 @@ import OrderProductsContainer from '../../components/OrderProduct/OrderProductsC
 import { delProdFromBasket, getSelectedProds } from '../../functions/basket';
 import { changeAddress } from '../../functions/user';
 import OrderCompleteM from '../../components/OrderCompleteM/OrderCompleteM';
+import { addOrder } from '../../functions/order';
 
 
 
@@ -86,6 +87,7 @@ const Order = () =>
 
     const handleOrderClick = () => 
       {
+        addOrder(prodData.map(product => product.id), address)
         const deleteProds = prodData.map(product => product.id)
         delProdFromBasket(deleteProds, true)
         setCompleteOrder(true)
