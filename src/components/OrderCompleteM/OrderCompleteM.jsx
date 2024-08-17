@@ -15,7 +15,10 @@ const OrderCompleteM = forwardRef(({deliveryDate=""}, ref)=>
                     <h1 style={{color: theme.palette.success.ultra}}>Заказ завершен успешно</h1> 
                     <span style={{color: theme.palette.text.secondary}}>Ваши товары будут доставлены {deliveryDate}. Детали заказа можно увидеть в профиле.</span>
                 </div>
-                <Button href='/profile/#ordersProf' variant='contained'>В профиль</Button>
+                <div id="OrderCompleteButtons">
+                    <Button href='/' variant='contained'>На главную</Button>
+                    <Button href='/profile/#ordersProf' variant='contained'>В профиль</Button>
+                </div>
             </div>
         </div>
     );

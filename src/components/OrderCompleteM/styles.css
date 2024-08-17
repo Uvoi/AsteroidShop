@@ -54,3 +54,11 @@
 {
     width: fit-content;
 }
+
+#OrderCompleteButtons
+{
+    display: flex;
+    flex-direction: row !important;
+    width: 100%;
+    justify-content: center;
+}
