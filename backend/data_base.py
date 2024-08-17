@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Float, DateTime, func, CheckConstraint, text, SmallInteger, Date, ARRAY
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Float, DateTime, func, CheckConstraint, text, SmallInteger, Date, ARRAY, Numeric
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker, joinedload
 from datetime import datetime
@@ -54,7 +54,17 @@ class Basket(Base):
     productids = Column(ARRAY(Integer), nullable=False)
     customer = relationship("Customer", back_populates="baskets")
 
-
+class Orders(Base):
+    __tablename__ = 'orders'
+    
+    orderid = Column(Integer, primary_key=True, index=True)
+    customerid = Column(Integer, index=True)
+    productids = Column(ARRAY(Integer), nullable=False)
+    totalprice = Column(Numeric(10, 2), nullable=False)
+    orderdate = Column(Date, nullable=False)
+    deliveryaddress = Column(String, nullable=False)
+    deliverydate = Column(Date, nullable=False)
+    orderstatus = Column(String, nullable=False)
 
 SQLALCHEMY_DATABASE_URL = "postgresql://postgres:0@localhost/asteroid_shop"
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
@@ -267,18 +277,24 @@ def get_products_from_basket(customer_id):
         else:
             return []
 
-
-def delete_product_from_basket(customer_id: int, product_id: int):
+def delete_products_from_basket(customer_id: int, product_ids: list[int]):
     with SessionLocal() as session:
         basket = session.query(Basket).filter(Basket.customerid == customer_id).first()
         if basket:
             try:
-                updated_productids = [pid for pid in basket.productids if pid != product_id]
+                product_ids_to_remove = product_ids.copy()
+                updated_productids = []
+                
+                for pid in basket.productids:
+                    if pid in product_ids_to_remove:
+                        product_ids_to_remove.remove(pid)
+                    else:
+                        updated_productids.append(pid)
                 basket.productids = updated_productids
                 session.commit()
             except Exception as e:
                 session.rollback()
-                print(f"Error deleting product from basket: {e}")
+                print(f"Error deleting products from basket: {e}")
                 raise
         else:
             raise ValueError("Basket not found for the given customer_id")
@@ -326,3 +342,49 @@ def change_user_address(customer_id: int, new_address: dict):
                 raise
         else:
             raise ValueError("Customer not found for the given customer_id")
+
+def get_user_orders(customer_id: int):
+    with SessionLocal() as session:
+        orders = session.query(
+            Orders.orderid,
+            Orders.productids,
+            Orders.totalprice,
+            Orders.orderdate,
+            Orders.deliveryaddress,
+            Orders.deliverydate,
+            Orders.orderstatus
+        ).filter(Orders.customerid == customer_id).all()
+
+        orders_list = []
+        for order in orders:
+            orders_list.append({
+                'orderid': order.orderid,
+                'productids': order.productids,
+                'totalprice': order.totalprice,
+                'orderdate': datetime.fromisoformat((str(order.orderdate))).strftime('%d.%m.%Y'),
+                'deliveryaddress': order.deliveryaddress,
+                'deliverydate': datetime.fromisoformat((str(order.deliverydate))).strftime('%d.%m.%Y'),
+                'orderstatus': order.orderstatus
+            })
+
+        return orders_list
+
+
+
+def add_order(customerid: int, productids: list[int], deliveryaddress: str, orderdate: datetime, deliverydate: datetime, orderstatus: str):
+    with SessionLocal() as db:
+        new_order = Orders(
+            customerid=customerid,
+            productids=productids,
+            totalprice=0,
+            orderdate=orderdate,
+            deliveryaddress=deliveryaddress,
+            deliverydate=deliverydate,
+            orderstatus=orderstatus
+        )
+        
+        db.add(new_order)
+        db.commit()
+        db.refresh(new_order)
+        
+        return new_order
