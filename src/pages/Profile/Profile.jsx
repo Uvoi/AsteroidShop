@@ -9,6 +9,7 @@ import OrdersList from '../../components/OrdersList/OrdersList';
 import OrderItem from '../../components/OrderItem/OrderItem';
 import {changeAddress, changeFullName} from '../../functions/user';
 import SelectAddress from '../../components/SelectAddress/SelectAddress';
+import { getOrders } from '../../functions/order';
 
 const Profile = ({updateUser})=>
 {
@@ -20,6 +21,16 @@ const Profile = ({updateUser})=>
     const [userFirstName, setUserFirstName] = useState('');
     const [userLastName, setUserLastName] = useState('');
     const [userAddress, setUserAddress] = useState('');
+    const [orders, setOrders] = useState([]);
+
+    useEffect(() => {
+        async function fetchOrders() {
+            const fetchedOrders = await getOrders();
+            setOrders(fetchedOrders);
+        }
+        
+        fetchOrders();
+    }, []);
 
     useEffect(() => {
         setUserFirstName(user.firstname);
@@ -69,6 +80,20 @@ const Profile = ({updateUser})=>
         navigate('/');
     }
 
+    const translateStatus = (status) =>
+    {
+        switch (status) {
+            case 'Completed':
+                return 'Завершен';
+            case 'In Transit':
+                return 'В доставке';
+            case 'Cancelled':
+                return 'Отменен';
+            default:
+                return 'Ошибка';
+        }
+    }
+
     return (
         <div id='Profile_wrapper'>
             <div id="Profile" className='profilePaper' style={{ background: theme.palette.background.paper}}>
@@ -109,11 +134,18 @@ const Profile = ({updateUser})=>
                 <h2 style={{color: theme.palette.text.ultra}}>Мои заказы</h2>
                 <div id="ordersContainerProf">
                     <OrdersList>
-                        <OrderItem productIds={[37,2,35]} totalPrice='2.100' orderDate='12.09.2024' DeliveryAddress='Калуга' deliveryDate='15.09.2024' orderStatus='В доставке' />
-                        <OrderItem productIds={[37,2,35,5,16,2,2,2,2,2]} totalPrice='3.250' orderDate='12.09.2024' DeliveryAddress='Калуга' deliveryDate='15.09.2024' orderStatus='Отменен' />
-                        <OrderItem productIds={[1,2]} totalPrice='1.500' orderDate='12.09.2024' DeliveryAddress='Калуга' deliveryDate='15.09.2024' orderStatus='Завершен' />
-                        <OrderItem productIds={[37]} totalPrice='400' orderDate='12.09.2024' DeliveryAddress='Калуга' deliveryDate='15.09.2024' orderStatus='Завершен' />
-                    </OrdersList>
+            {orders.map((order, index) => (
+                <OrderItem
+                    key={index}
+                    productIds={order.productids}
+                    totalPrice={order.totalprice}
+                    orderDate={order.orderdate}
+                    DeliveryAddress={order.deliveryaddress}
+                    deliveryDate={order.deliverydate}
+                    orderStatus={translateStatus(order.orderstatus)}
+                />
+            ))}
+        </OrdersList>
                 </div>
             </div>
         </div>
