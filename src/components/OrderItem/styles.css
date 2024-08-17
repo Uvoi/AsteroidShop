@@ -52,6 +52,16 @@
     justify-content: space-between;
 }
 
+.delAddressOI
+{
+    text-align: left;
+}
+
+.delDateOI
+{
+    text-align: right;
+}
+
 .orderItemDeliveryData h4
 {
     font-size: 18px;

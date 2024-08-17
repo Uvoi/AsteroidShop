@@ -37,8 +37,8 @@ const OrderItem = ({productIds, totalPrice, orderDate, DeliveryAddress, delivery
                         ))}
                     </OrderProductsContainer>
                     <div className="orderItemDeliveryData">
-                        <h4>{DeliveryAddress}</h4>
-                        <h4>Дата доставки: {deliveryDate}</h4>
+                        <h4 className='delAddressOI'>{DeliveryAddress}</h4>
+                        <h4 className='delDateOI'>Дата доставки: {deliveryDate}</h4>
                     </div>
                 </AccordionDetails>
             </Accordion>
