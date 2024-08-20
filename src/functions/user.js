@@ -43,3 +43,19 @@ export async function changeAddress(address)
         return false
     };
 }
+
+export async function changePhoto(photoLink)
+{
+    const newPhoto = {
+        'photo': photoLink
+    };
+
+    try{ 
+        await axios.patch(`http://localhost:8000/api/user/photo`, newPhoto, { withCredentials: true })
+        console.log("Photo changed");
+        return true;
+    } catch (error) {
+        console.log('Error change photo: ', error);
+        return false
+    };
+}
