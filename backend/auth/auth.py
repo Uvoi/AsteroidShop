@@ -14,6 +14,7 @@ class SessionData(BaseModel):
     email: str
     address: Optional[str] = ''
     password: str
+    photo: Optional[str] = ''
 
 
 class SessionDataOut(BaseModel):
@@ -21,6 +22,7 @@ class SessionDataOut(BaseModel):
     lastname: str
     email: str
     address: str = ''
+    photo: str= ''
 
 cookie_params = CookieParameters(path="/")
 

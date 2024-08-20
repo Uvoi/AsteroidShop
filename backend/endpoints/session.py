@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from fastapi import APIRouter, HTTPException, Response, Depends
 from uuid import UUID, uuid4
-from data_base import addNewCustomer, getCustomerByEmail
+from data_base import addNewCustomer, getCustomerByEmail, get_user_photo
 
 from auth import auth
 
@@ -55,6 +55,13 @@ async def create_session(session_d : auth.SessionData, action, response : Respon
 
 @router.get("/whoami", dependencies=[Depends(auth.cookie)], response_model = auth.SessionDataOut)
 async def whoami(session_data: auth.SessionData = Depends(auth.verifier)):
+    User = await getCustomerByEmail(session_data.email)
+    if not User:
+        raise HTTPException(status_code=404, detail="User not found")
+    UserID = User['id']
+    photo = get_user_photo(UserID)
+    if photo:
+        session_data.photo = photo
     return session_data
 
 

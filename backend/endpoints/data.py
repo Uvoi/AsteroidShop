@@ -1,6 +1,6 @@
 from uuid import UUID
 from fastapi import APIRouter, HTTPException, Depends
-from data_base import getAllProducts, addNewProduct, addNewComment, getProductByID, getCompositionByID, getCommentsByProdID, add_products_to_basket, getCustomerByEmail,get_products_from_basket, delete_products_from_basket, delete_basket, change_user_name, change_user_address, get_user_orders, add_order
+from data_base import getAllProducts, addNewProduct, addNewComment, getProductByID, getCompositionByID, getCommentsByProdID, add_products_to_basket, getCustomerByEmail,get_products_from_basket, delete_products_from_basket, delete_basket, change_user_name, change_user_address, get_user_orders, add_order, change_user_photo
 from pydantic import BaseModel
 from datetime import datetime, timedelta
 import random
@@ -34,6 +34,9 @@ class UserName(BaseModel):
 
 class UserAddress(BaseModel):
     address: str
+
+class UserPhoto(BaseModel):
+    photo: str
 
 class OrderCreateRequest(BaseModel):
     productids: list[int]
@@ -137,6 +140,19 @@ async def changeUserAddress(newAddress: UserAddress, session_data: auth.SessionD
     await auth.backend.update(session_id, session_data)
     
     return "User address changed"
+
+
+@router.patch("/api/user/photo", dependencies=[Depends(auth.cookie)])
+async def changeUserAddress(newPhoto: UserPhoto, session_data: auth.SessionData = Depends(auth.verifier), session_id: UUID = Depends(auth.cookie)):
+    User = await getCustomerByEmail(session_data.email)
+    if not User:
+        raise HTTPException(status_code=404, detail="User not found")
+    UserID = User['id']
+    change_user_photo(UserID, newPhoto)
+    session_data.photo = newPhoto.photo
+    await auth.backend.update(session_id, session_data)
+    
+    return "User photo changed"
 
 
 @router.get("/api/order/", dependencies=[Depends(auth.cookie)])

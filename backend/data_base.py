@@ -15,6 +15,7 @@ class Customer(Base):
     address = Column(String(255), nullable=True)
     password = Column(String(), nullable=False)
     baskets = relationship("Basket", back_populates="customer")
+    photo = Column(String(255), nullable=True)
 
 class Product(Base):
     __tablename__ = 'products'
@@ -342,6 +343,22 @@ def change_user_address(customer_id: int, new_address: dict):
                 raise
         else:
             raise ValueError("Customer not found for the given customer_id")
+        
+def change_user_photo(customer_id: int, new_photo: dict):
+    with SessionLocal() as session:
+        customer = session.query(Customer).filter(Customer.customerid == customer_id).first()
+        if customer:
+            try:
+                customer.photo = new_photo.photo
+                session.commit()
+            except Exception as e:
+                session.rollback()
+                print(f"Error changing user photo: {e}")
+                raise
+        else:
+            raise ValueError("Customer not found for the given customer_id")
+
+
 
 def get_user_orders(customer_id: int):
     with SessionLocal() as session:
@@ -388,3 +405,11 @@ def add_order(customerid: int, productids: list[int], deliveryaddress: str, orde
         db.refresh(new_order)
         
         return new_order
+    
+def get_user_photo(UserID):
+    with SessionLocal() as session:
+        customer = session.query(Customer).filter(Customer.customerid == UserID).first()
+        if customer:
+            return customer.photo
+        else:
+            return None
