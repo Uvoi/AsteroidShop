@@ -43,6 +43,7 @@
     top: 0;
     left: 0;
     border-radius: 2vh;
+    background-color: white;
     
 }
 
@@ -52,6 +53,7 @@
     transition: all 0.3s;
     filter: blur(4px);
     z-index: 0;
+    background-color: none;
 }
 
 #photoProf span
@@ -105,4 +107,39 @@
 #ordersContainerProf
 {
     margin-top: 40px;
+}
+
+#changeUserPhotoMP
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 40%;
+    height: fit-content;
+    box-shadow: 24;
+    padding: 2%;
+    border-radius: 20px;
+    overflow: hidden;
+    background-color: rgba(160, 48, 188, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5%;
+}
+
+#changeUserPhotoMP .MuiInputBase-root
+{
+    flex-shrink: 1;
+    height: fit-content;
+    padding-left: 5px;
+    width: 100%;
+    font-size: 18px;
+}
+
+#changeUserPhotoMP button
+{
+    width: fit-content;
+    height: fit-content;
+    flex-shrink: 0;
 }

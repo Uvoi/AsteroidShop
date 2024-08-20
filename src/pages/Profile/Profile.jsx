@@ -4,10 +4,10 @@ import axios from 'axios';
 import { useNotification } from '../../components/Notification/Notification';
 import { useNavigate } from 'react-router-dom';
 import { themeContext, userContext } from '../../App';
-import { Button, TextField } from '@mui/material';
+import { Backdrop, Button, Input, Modal, TextField } from '@mui/material';
 import OrdersList from '../../components/OrdersList/OrdersList';
 import OrderItem from '../../components/OrderItem/OrderItem';
-import {changeAddress, changeFullName} from '../../functions/user';
+import {changeAddress, changeFullName, changePhoto} from '../../functions/user';
 import SelectAddress from '../../components/SelectAddress/SelectAddress';
 import { getOrders } from '../../functions/order';
 
@@ -22,6 +22,8 @@ const Profile = ({updateUser})=>
     const [userLastName, setUserLastName] = useState('');
     const [userAddress, setUserAddress] = useState('');
     const [orders, setOrders] = useState([]);
+    const [isChangePhoto, setIsChangePhoto] = useState(false);
+    const [userPhoto, setUserPhoto] = useState('');
 
     useEffect(() => {
         async function fetchOrders() {
@@ -94,10 +96,20 @@ const Profile = ({updateUser})=>
         }
     }
 
+    const handleSavePhotoClick = () =>
+    {
+        if (changePhoto(userPhoto))
+        {
+            showNotification('Фото успешно обновлено', theme.palette.success.ultra);
+            setIsChangePhoto(false)
+            updateUser()
+        }
+    }
+
     return (
         <div id='Profile_wrapper'>
             <div id="Profile" className='profilePaper' style={{ background: theme.palette.background.paper}}>
-                <button id='photoProf'><img src={user.photo?user.photo:"https://masterpiecer-images.s3.yandex.net/5028da4f87c611ee809a3a7ca4cc1bdc:upscaled"} alt="🖼️" />
+                <button id='photoProf' onClick={()=>setIsChangePhoto(true)}><img src={user.photo?user.photo:"https://masterpiecer-images.s3.yandex.net/5028da4f87c611ee809a3a7ca4cc1bdc:upscaled"} alt="🖼️" />
                     <span style={{color: theme.palette.background.default}}>Изменить фото</span>
                 </button>
                 <div id="dataProf">
@@ -148,6 +160,30 @@ const Profile = ({updateUser})=>
         </OrdersList>
                 </div>
             </div>
+
+            <Modal
+                open={isChangePhoto}
+                onClose={()=>setIsChangePhoto(false)}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                closeAfterTransition
+                slots={{ backdrop: Backdrop }}
+                slotProps={{
+                    backdrop: {
+                    timeout: 1000,
+                    },
+                }}
+                >  
+                <div id="changeUserPhotoMP">
+                    <Input 
+                    type="text" 
+                    placeholder='Ссылка на ваше фото' 
+                    value={userPhoto}
+                    onChange={(e)=>setUserPhoto(e.target.value)}
+                    />
+                    <Button variant='contained' onClick={handleSavePhotoClick}>Сохранить</Button>
+                </div>
+            </Modal>
         </div>
     );
 };
