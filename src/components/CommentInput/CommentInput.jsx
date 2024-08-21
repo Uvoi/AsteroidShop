@@ -5,7 +5,7 @@ import axios from 'axios';
 import { themeContext } from '../../App';
 import { addNewComment } from '../../functions/comments';
 
-const CommentInput = ({ prodID, userID, updateComments=null }) => {
+const CommentInput = ({ prodID, userEmail, updateComments=null }) => {
     const theme = useContext(themeContext)
     const textareaRef = useRef(null);
     const [commentText, setCommentText] = useState('');
@@ -24,7 +24,7 @@ const CommentInput = ({ prodID, userID, updateComments=null }) => {
     }, []);
 
     const setCommToServ = async () => {
-        await addNewComment(prodID, userID, commentText)
+        await addNewComment(prodID, userEmail, commentText)
     };
 
     const handleSubmit = async (event) => {

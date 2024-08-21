@@ -1,10 +1,10 @@
 import axios from "axios";
 
-export async function addNewComment(ProdID, UserID, Text)
+export async function addNewComment(ProdID, userEmail, Text)
 {
     const sendCommData = {
         ProdID: ProdID,
-        UserID: UserID,
+        userEmail: userEmail,
         Text: Text
     };
     axios.post(`http://localhost:8000/api/comments/add`, sendCommData, { withCredentials: true })

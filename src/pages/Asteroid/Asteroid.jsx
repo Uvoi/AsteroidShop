@@ -10,13 +10,14 @@ import CommentsContainer from '../../components/CommentsContainer/CommentsContai
 import Comment from '../../components/Comment/Comment';
 import CommentInput from '../../components/CommentInput/CommentInput';
 import {addToBasket} from '../../functions/basket'
-import { themeContext } from '../../App';
+import { themeContext, userContext } from '../../App';
 
 const Asteroid = ()=>
 {
     const theme = useContext(themeContext)
     const [searchParams, setSearchParams] = useSearchParams();
     const [asteroidData, setAsteroidData] = useState({});
+    const user = useContext(userContext)
 
     let navigate = useNavigate();
 
@@ -85,8 +86,9 @@ const Asteroid = ()=>
             data.forEach(item => {
               newData[item.id] = {
                 customerName: item.customerName,
+                customerPhoto: item.customerPhoto,
                 text: item.text,
-                date: item.date
+                date: item.date,
               };
             });
             setCommentsData(newData); 
@@ -157,6 +159,7 @@ const Asteroid = ()=>
                             key={key}
                             user={commentsData[key].customerName}
                             dateTime={commentsData[key].date}
+                            photo={commentsData[key].customerPhoto}
                         >
                             {commentsData[key].text}
                         </Comment>
@@ -178,6 +181,7 @@ const Asteroid = ()=>
                                         key={key}
                                         user={commentsData[key].customerName}
                                         dateTime={commentsData[key].date}
+                                        photo={commentsData[key].customerPhoto}
                                     >
                                         {commentsData[key].text}
                                     </Comment>
@@ -186,7 +190,7 @@ const Asteroid = ()=>
                         </Accordion>
                     )}
 
-                    <CommentInput userID={1} prodID={idFromUrl} updateComments={getCommentsFromServ}/>
+                    <CommentInput userEmail={user?.email} prodID={idFromUrl} updateComments={getCommentsFromServ}/>
                 </CommentsContainer>
 
             </div>
