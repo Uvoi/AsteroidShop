@@ -87,17 +87,24 @@ const Order = () =>
 
     const handleOrderClick = () => 
       {
-        addOrder(prodData.map(product => product.id), address)
-        const deleteProds = prodData.map(product => product.id)
-        delProdFromBasket(deleteProds, true)
-        setCompleteOrder(true)
-        if (user.address !== address && address !== undefined && saveAddress)
-          {
-            if (changeAddress(address))
-                {
-                    console.log('Адрес обновлен успешно');
-                }
-          }
+        if (address)
+        {
+          addOrder(prodData.map(product => product.id), address)
+          const deleteProds = prodData.map(product => product.id)
+          delProdFromBasket(deleteProds, true)
+          setCompleteOrder(true)
+          if (user.address !== address && address !== undefined && saveAddress)
+            {
+              if (changeAddress(address))
+                  {
+                      console.log('Адрес обновлен успешно');
+                  }
+            }
+        }
+        else
+        {
+          showNotification("Добавьте адрес доставки", theme.palette.error.main)
+        }
       }
 
     return(
