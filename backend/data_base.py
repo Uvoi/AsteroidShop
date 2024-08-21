@@ -65,7 +65,7 @@ class Orders(Base):
     orderdate = Column(Date, nullable=False)
     deliveryaddress = Column(String, nullable=False)
     deliverydate = Column(Date, nullable=False)
-    orderstatus = Column(String, nullable=False)
+    status = Column(String, nullable=False)
 
 SQLALCHEMY_DATABASE_URL = "postgresql://postgres:0@localhost/asteroid_shop"
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
@@ -369,7 +369,7 @@ def get_user_orders(customer_id: int):
             Orders.orderdate,
             Orders.deliveryaddress,
             Orders.deliverydate,
-            Orders.orderstatus
+            Orders.status
         ).filter(Orders.customerid == customer_id).all()
 
         orders_list = []
@@ -381,14 +381,14 @@ def get_user_orders(customer_id: int):
                 'orderdate': datetime.fromisoformat((str(order.orderdate))).strftime('%d.%m.%Y'),
                 'deliveryaddress': order.deliveryaddress,
                 'deliverydate': datetime.fromisoformat((str(order.deliverydate))).strftime('%d.%m.%Y'),
-                'orderstatus': order.orderstatus
+                'status': order.status
             })
 
         return orders_list
 
 
 
-def add_order(customerid: int, productids: list[int], deliveryaddress: str, orderdate: datetime, deliverydate: datetime, orderstatus: str):
+def add_order(customerid: int, productids: list[int], deliveryaddress: str, orderdate: datetime, deliverydate: datetime, status: str):
     with SessionLocal() as db:
         new_order = Orders(
             customerid=customerid,
@@ -397,7 +397,7 @@ def add_order(customerid: int, productids: list[int], deliveryaddress: str, orde
             orderdate=orderdate,
             deliveryaddress=deliveryaddress,
             deliverydate=deliverydate,
-            orderstatus=orderstatus
+            status=status
         )
         
         db.add(new_order)
@@ -413,3 +413,17 @@ def get_user_photo(UserID):
             return customer.photo
         else:
             return None
+
+def cancel_order(orderID):
+    with SessionLocal() as session:
+        order = session.query(Orders).filter(Orders.orderid == orderID).first()
+        if order:
+            try:
+                order.status = 'Cancelled'
+                session.commit()
+            except Exception as e:
+                session.rollback()
+                print(f"Error canceling order: {e}")
+                raise
+        else:
+            raise ValueError("Order not found for the given orderid")

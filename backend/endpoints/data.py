@@ -1,6 +1,6 @@
 from uuid import UUID
 from fastapi import APIRouter, HTTPException, Depends
-from data_base import getAllProducts, addNewProduct, addNewComment, getProductByID, getCompositionByID, getCommentsByProdID, add_products_to_basket, getCustomerByEmail,get_products_from_basket, delete_products_from_basket, delete_basket, change_user_name, change_user_address, get_user_orders, add_order, change_user_photo
+from data_base import getAllProducts, addNewProduct, addNewComment, getProductByID, getCompositionByID, getCommentsByProdID, add_products_to_basket, getCustomerByEmail,get_products_from_basket, delete_products_from_basket, delete_basket, change_user_name, change_user_address, get_user_orders, add_order, change_user_photo, cancel_order
 from pydantic import BaseModel
 from datetime import datetime, timedelta
 import random
@@ -41,6 +41,9 @@ class UserPhoto(BaseModel):
 class OrderCreateRequest(BaseModel):
     productids: list[int]
     deliveryaddress: str
+
+class OrderId(BaseModel):
+    orderid: int
 
 
 @router.get("/api/catalog/all")
@@ -176,7 +179,13 @@ async def addOrder(toOrder: OrderCreateRequest, session_data: auth.SessionData =
             deliveryaddress=toOrder.deliveryaddress,
             orderdate = datetime.now(),
             deliverydate = datetime.now() + timedelta(days=random.randint(3, 5)),
-            orderstatus = 'In Transit'
+            status = 'In Transit'
         )
     
     return "Order created successfully"
+
+@router.patch("/api/order/cancel", dependencies=[Depends(auth.cookie)])
+async def cancelOrder(orderID: OrderId, session_data: auth.SessionData = Depends(auth.verifier)):
+    cancel_order(orderID.orderid)
+    
+    return "Order was canceled"
