@@ -243,10 +243,12 @@ def getCommentsByProdID(product_id):
         for comment in comments:
             if comment.customer:
                 customer_name = f"{comment.customer.firstname} {comment.customer.lastname}"
+                customer_photo = comment.customer.photo
                 comments_dict = {
                     "id": comment.commentsid,
                     "prodId": comment.productid,
                     "customerName": customer_name,
+                    "customerPhoto": customer_photo,
                     "text": comment.text,
                     "date": format_datetime(str(comment.date))
                 }

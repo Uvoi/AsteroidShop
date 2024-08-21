@@ -22,7 +22,7 @@ class addNewRowC(BaseModel):
 
 class addNewCommentC(BaseModel):
     ProdID: int
-    UserID: int
+    userEmail: str
     Text: str
 
 class ProductList(BaseModel):
@@ -69,7 +69,11 @@ async def catalog_add(addNewRowData: addNewRowC):
 
 @router.post("/api/comments/add")
 async def comments_add(addNewCommentData: addNewCommentC):
-    addNewComment(addNewCommentData.ProdID, addNewCommentData.UserID, addNewCommentData.Text)
+    User = await getCustomerByEmail(addNewCommentData.userEmail)
+    if not User:
+        raise HTTPException(status_code=404, detail="User not found")
+    UserID = User['id']
+    addNewComment(addNewCommentData.ProdID, UserID, addNewCommentData.Text)
     return addNewCommentData
 
 @router.post("/api/basket/getByMass")
