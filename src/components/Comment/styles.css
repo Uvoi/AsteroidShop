@@ -31,6 +31,8 @@
     border-radius: 50%;
     vertical-align: middle;
     margin-right: 2vmin;
+    object-fit: cover;
+    aspect-ratio: 1 / 1;
 }
 
 #textCom
