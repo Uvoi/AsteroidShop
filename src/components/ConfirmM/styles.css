@@ -1,0 +1,30 @@
+.ConfirmMContent
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30%;
+    height: fit-content;
+    box-shadow: 24;
+    padding: 2%;
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    flex-direction: column;
+}
+
+.ConfirmMContent p
+{
+    font-size: 18px;
+}
+
+.ConfirmMButtons
+{
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+}
