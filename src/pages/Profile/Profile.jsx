@@ -24,6 +24,7 @@ const Profile = ({updateUser})=>
     const [orders, setOrders] = useState([]);
     const [isChangePhoto, setIsChangePhoto] = useState(false);
     const [userPhoto, setUserPhoto] = useState('');
+    const [updateOrders, setUpdateOrders] = useState(false)
 
     useEffect(() => {
         async function fetchOrders() {
@@ -32,7 +33,7 @@ const Profile = ({updateUser})=>
         }
         
         fetchOrders();
-    }, []);
+    }, [updateOrders]);
 
     useEffect(() => {
         setUserFirstName(user.firstname);
@@ -148,13 +149,15 @@ const Profile = ({updateUser})=>
                     <OrdersList>
             {orders.map((order, index) => (
                 <OrderItem
-                    key={index}
+                    key={order.orderid}
+                    id = {order.orderid}
                     productIds={order.productids}
                     totalPrice={order.totalprice}
                     orderDate={order.orderdate}
                     DeliveryAddress={order.deliveryaddress}
                     deliveryDate={order.deliverydate}
-                    orderStatus={translateStatus(order.orderstatus)}
+                    orderStatus={translateStatus(order.status)}
+                    updateOrders={()=>setUpdateOrders(!updateOrders)}
                 />
             ))}
         </OrdersList>

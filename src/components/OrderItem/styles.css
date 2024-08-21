@@ -9,6 +9,7 @@
     width: 100%;
     display: flex;
     justify-content:space-between;
+    align-items: center;
 }
 
 .orderItemHeader h3
@@ -27,12 +28,18 @@
 {
     display: flex;
     gap: 10px;
+    align-items: center;
 }
 
 .orderItemHeader>div>div h4
 {
     text-align: right;
     width: 100px;
+}
+
+.orderItemHeader>div>div h4 button
+{
+    padding: 5px 9px;
 }
 
 .orderItemData
