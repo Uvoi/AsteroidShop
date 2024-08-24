@@ -40,7 +40,7 @@ const OrderItem = ({id, productIds, totalPrice, orderDate, DeliveryAddress, deli
                 >
                     <h3>Заказ от {orderDate} ({productIds.length})</h3>
                     <div>
-                        <h4>{String(totalPrice)}.000 ₽</h4>
+                        <h4>{String(totalPrice).replace(/(\d)(?=(\d{3})+(\D|$))/g, '$1.')}.000 ₽</h4>
                         <h4 style={{color: statusColor}}>{(orderStatus==="В доставке" && expanded)?<Button variant='contained' style={{background:theme.palette.error.main}} onClick={()=>setConfirmCancelModal(true)}>Отменить</Button>:orderStatus}</h4>
                     </div>
                 </AccordionSummary>
