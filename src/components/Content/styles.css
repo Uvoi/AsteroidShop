@@ -3,6 +3,8 @@
     padding: 20vh 5vw 10vh 5vw;
     display: flex;
     height: 100%;
+    min-height: 36.5vh;
     width: 90vw;
     flex-direction: column;
+    overflow: hidden;
 }

@@ -5,8 +5,9 @@ Footer
     flex-direction: column;
     text-align: right;
     width: 96%;
-    padding: 1% 2% 0 2%;
+    padding: 2vh 2% 0 2%;
     gap: 2vh;
+    height: 55vh;
 }
 
 #payingF
