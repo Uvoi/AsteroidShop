@@ -1,17 +1,27 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import './styles.css'
 import { useNavigate} from 'react-router-dom';
-
 import { Button } from '@mui/material';
-import basket from './../../images/basket.svg'
+import { ReactComponent as BasketSvg } from './../../images/basket.svg'
 import {addToBasket} from '../../functions/basket'
 import { themeContext } from '../../App';
+import { Check } from '@mui/icons-material';
 
 
 const ProductCard = ({cardId, prdtTitle, prdtDescription, prdtWeight, prdtCategory="", prdtPrice, imgLink=""})=>
 {
     let navigate = useNavigate();
     const theme = useContext(themeContext)
+    const [isAdding, setIsaAdding] = useState(false)
+
+    const handleAddToBasketClick = async () =>
+    {
+        setIsaAdding(true)
+        await addToBasket([cardId])
+        setTimeout(() => {
+            setIsaAdding(false)
+        }, 1000);
+    }
     return( 
         <div id={'ProductCard_'+cardId} className='ProductCard' style={{color: theme.palette.text.secondary}}>
             <div className="prdtImgData">
@@ -28,12 +38,13 @@ const ProductCard = ({cardId, prdtTitle, prdtDescription, prdtWeight, prdtCatego
                     </div>
                     <Button className='prdtBasketBtn' 
                     style={{
-                        backgroundColor: theme.palette.primary.main, 
+                        backgroundColor: 
+                        (isAdding?theme.palette.success.main:theme.palette.primary.main), 
                         color:theme.palette.text.primary,
                         }}
-                        onClick={async()=>{await addToBasket([cardId])}}
+                        onClick={handleAddToBasketClick}
                         >
-                        <img src={basket} alt="" style={{filter:`invert(100%)`}}/>
+                        {isAdding?<Check/>:<BasketSvg filter='invert(100%)'/>}
                     </Button>
                 </div>
             </div>

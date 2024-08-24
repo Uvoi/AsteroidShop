@@ -4,8 +4,8 @@ import axios from 'axios';
 import './styles.css';
 
 import { Accordion, AccordionDetails, AccordionSummary, Button, Divider, Typography } from '@mui/material';
-import { ArrowDropDown } from '@mui/icons-material';
-import basket from './../../images/basket.svg'
+import { ArrowDropDown, Check } from '@mui/icons-material';
+import { ReactComponent as BasketSvg } from './../../images/basket.svg'
 import CommentsContainer from '../../components/CommentsContainer/CommentsContainer';
 import Comment from '../../components/Comment/Comment';
 import CommentInput from '../../components/CommentInput/CommentInput';
@@ -109,6 +109,17 @@ const Asteroid = ()=>
       const elements = ['Fe', 'Ni', 'S', 'Mg', 'Si', 'Al', 'Ca', 'O'];
 
 
+      const [isAdding, setIsaAdding] = useState(false)
+      const handleAddToBasketClick = async () =>
+        {
+            setIsaAdding(true)
+            addToBasket([idFromUrl])
+            setTimeout(() => {
+                setIsaAdding(false)
+            }, 1000);
+        }
+
+
     return(
         <div id='Asteroid'>
             <div id="asteroid">
@@ -124,9 +135,9 @@ const Asteroid = ()=>
                         </div>
                         <div id="asteroidPriceAndBuy">
                             <h2>{asteroidData.price}.000 <sub>₽</sub></h2>
-                            <Button variant='contained' onClick={()=>{addToBasket([idFromUrl])}}>
-                                В корзину 
-                                <img src={basket} alt="" />
+                            <Button style={{background:(isAdding?theme.palette.success.main:theme.palette.primary.main)}} variant='contained' onClick={()=>{handleAddToBasketClick(idFromUrl)}}>
+                                {isAdding?<Check/>:<BasketSvg filter='invert(100%)'/>}
+                                <p>{isAdding?'Добавлено':'В  корзину'}</p>
                             </Button>
                         </div>
                     </div>

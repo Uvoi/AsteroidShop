@@ -94,16 +94,21 @@
     width: fit-content;
     white-space: nowrap;
     gap: 8px;
-    font-size: 2.5vmin;
+    width: 25vmin;
+    transition: all 0.3s;
 }
 
-#asteroidPriceAndBuy button img
+#asteroidPriceAndBuy button svg
 {
     height: 2.7vmin;
-    
-    filter: invert();
+    width: fit-content;
 }
 
+#asteroidPriceAndBuy button p
+{
+    font-size: 2.5vmin;
+    width: fit-content;
+}
 
 #asteroidDataBottomAs h3
 {
