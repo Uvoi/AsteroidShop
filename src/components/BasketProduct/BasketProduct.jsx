@@ -27,15 +27,17 @@ const BasketProduct = ({prdtTitle, prdtDescription, prdtDiameter, prdtWeight, pr
 
     if (Math.floor(Math.random() * 2) == 1)
       {await controls.start({
-        x: 1900,
+        x: 2900,
         height: 0,
+        opacity: 0,
         transition: { duration: 0.7 },
       });}
     else
     {
       {await controls.start({
-        x: -1900,
+        x: -2900,
         height: 0,
+        opacity: 0,
         transition: { duration: 0.7 },
       });}
     }
