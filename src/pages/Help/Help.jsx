@@ -1,8 +1,8 @@
 import React from 'react';
 import './styles.css';
 import Button from '@mui/material/Button';
-import telegramLogo from '../../images/telegram.png'
-import vkLogo from '../../images/vk.png'
+import telegramLogo from '../../images/telegram.webp'
+import vkLogo from '../../images/vk.webp'
 import githubLogo from '../../images/github.svg'
 import { useNotification } from '../../components/Notification/Notification';
 

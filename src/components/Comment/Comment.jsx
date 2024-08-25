@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import './styles.css'
 
-import userPic from './../../images/userImg.png'
+import userPic from './../../images/userImg.webp'
 import { themeContext } from '../../App';
 
 

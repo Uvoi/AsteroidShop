@@ -1,8 +1,7 @@
 import React, { useContext, useState } from 'react';
 import './styles.css'
-import logo from './../../images/logo.png'
-import userLogo from './../../images/userImg.png'
-import basket from './../../images/basket.svg'
+import logo from './../../images/logo.webp'
+import userLogo from './../../images/userImg.webp'
 import { ReactComponent as BasketSvg } from './../../images/basket.svg'
 import StarButton from '../StarButton/StarButton';
 import { Backdrop, Modal} from '@mui/material';

@@ -3,8 +3,8 @@ import { motion, AnimatePresence, useAnimation } from 'framer-motion';
 
 import './styles.css'
 import { useNotification } from '../../components/Notification/Notification';
-import homeMain from "../../images/home3.jpg"
-import homeMainWtBg from "../../images/home3wtbg1.png"
+import homeMain from "../../images/home.jpg"
+import homeMainWtBg from "../../images/home_wtbg.webp"
 import { useNavigate } from 'react-router-dom';
 
 const Home = (props)=>

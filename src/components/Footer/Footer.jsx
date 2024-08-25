@@ -1,15 +1,15 @@
 import React, { useContext } from 'react';
 import './styles.css'
-import visaLogo from '../../images/visa.png'
-import mastercardLogo from '../../images/mastercard.png'
-import bitcoinLogo from '../../images/bitcoin.png'
-import ethereumLogo from '../../images/ethereum.png'
-import qiwiLogo from '../../images/qiwi.png'
-import paypalLogo from '../../images/paypal.png'
-import telegramLogo from '../../images/telegram.png'
-import vkLogo from '../../images/vk.png'
+import visaLogo from '../../images/visa.webp'
+import mastercardLogo from '../../images/mastercard.webp'
+import bitcoinLogo from '../../images/bitcoin.webp'
+import ethereumLogo from '../../images/ethereum.webp'
+import qiwiLogo from '../../images/qiwi.webp'
+import paypalLogo from '../../images/paypal.webp'
+import telegramLogo from '../../images/telegram.webp'
+import vkLogo from '../../images/vk.webp'
 import githubLogo from '../../images/github.svg'
-import logof from '../../images/logof.png'
+import logof from '../../images/logof.webp'
 import { Button } from '@mui/material';
 import { themeContext } from '../../App';
 
