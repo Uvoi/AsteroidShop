@@ -143,7 +143,7 @@ const Asteroid = ()=>
                     onError={() => setLoading(false)}
                     style={{ display: loading ? 'none' : 'block' }}
                     id="asteroidImgAs" 
-                    src={asteroidData.imgLink?asteroidData.imgLink:"http://surl.li/uhydx"}/>
+                    src={asteroidData.imgLink}/>
                     <div id="asteroidDataRightAs" style={{color: theme.palette.text.primary}}>
                         <div id='asteroidDataRightTopAs'>
                             <h1 style={{color: theme.palette.text.ultra}}>{asteroidData.title}</h1>
