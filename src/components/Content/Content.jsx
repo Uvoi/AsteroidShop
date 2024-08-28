@@ -2,6 +2,8 @@ import React, { lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
 import './styles.css';
+import { getSelectedProds } from '../../functions/basket';
+import RequireAuth from './RequireAuth/RequireAuth';
 
 import Home from '../../pages/Home/Home';
 import Asteroid from '../../pages/Asteroid/Asteroid';
@@ -17,6 +19,14 @@ const Unlogined = lazy(() => import('../../pages/Unlogined/Unlogined'))
 
 const Content = ({ updateUser }) => {
 
+  const orderConditions = () => {
+    if (getSelectedProds().length > 0) {
+      return true;
+    } else {
+      return <Navigate to='/basket' />;
+    }
+};
+
 return (
     <div id='Main'>
         <Routes>
@@ -28,11 +38,16 @@ return (
             <Route exact path='/asteroid' element={<Asteroid />} />
             <Route exact path='/basket' element={<Basket />} />
             <Route exact path='/basket/order' element={(
+                <RequireAuth additionalCondition={orderConditions}>
                   <Order/>
+                </RequireAuth>
             )} />
             <Route exact path='/profile' element={
+                <RequireAuth>
                     <Profile updateUser={updateUser} />
+                </RequireAuth>
             } />
+            <Route exact path='/login' element={<Unlogined updateUser={updateUser} />} />
         </Routes>
     </div>
 );

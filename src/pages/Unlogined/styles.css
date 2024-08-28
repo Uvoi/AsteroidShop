@@ -1,0 +1,16 @@
+#Unlogined
+{
+    margin-top: -7vh;
+    display: flex;
+    justify-content: center;
+}
+
+#Unlogined #RegLogM
+{
+    background-color: initial !important;
+    top: 0;
+    left: 0;
+    position: relative !important;
+    transform: none !important;
+    border: none !important;
+}

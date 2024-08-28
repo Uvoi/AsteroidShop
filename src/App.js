@@ -1,4 +1,4 @@
-import React, {useState, useEffect, createContext} from 'react';
+import React, {useState, useEffect, createContext, Suspense} from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 
@@ -6,6 +6,7 @@ import { NotificationProvider } from './components/Notification/Notification';
 import Header from './components/Header/Header';
 import Content from './components/Content/Content';
 import Footer from './components/Footer/Footer';
+import Loading from './components/Loading/Loading'
 import { darkTheme, lightTheme } from './themes/theme';
 import './App.css';
 
@@ -37,27 +38,36 @@ function App() {
       .get(`http://localhost:8000/api/session/whoami`, axios.defaults.withCredentials = true)
       .then(response => {
         setUserData(response.data)
+        return true
       })
       .catch(error => {
             setUserData(null)
+            return false
       });
   };
 
   useEffect(() => {
-    whoAmI()
+    if (whoAmI())
+    {
+      
+    }
   }, [updateUser])
   
+  const [open, setOpen] = useState(false);
   
-
   return (
     <NotificationProvider>
       <ThemeProvider theme={theme}> 
         <div className="App" style={{ backgroundColor: theme.palette.background.default}}>
           <themeContext.Provider value={theme}>
           <userContext.Provider value={userData}>
-            <Header onToggleTheme={toggleTheme} updateUser={()=>setUpdateUser(!updateUser)}/>
+            <Header openRegLogModal={open} setOpenRegLogModal={setOpen} onToggleTheme={toggleTheme} updateUser={()=>setUpdateUser(!updateUser)}/>
+            <Suspense fallback={<Loading/>}>
             <Content updateUser={()=>setUpdateUser(!updateUser)}/>
+            </Suspense>
+            <Suspense fallback={<Loading/>}>
             <Footer/>
+            </Suspense>
           </userContext.Provider>
           </themeContext.Provider>
         </div>
