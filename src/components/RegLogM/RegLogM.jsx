@@ -1,106 +1,108 @@
 import React, { forwardRef, useContext, useState } from 'react';
-import './styles.css'
+import './styles.css';
 import { motion, useAnimation } from 'framer-motion';
-import { Button, Switch, TextField, } from '@mui/material';
+import { Button, Switch, TextField } from '@mui/material';
 import axios from 'axios';
 import { useNotification } from '../Notification/Notification';
 import { themeContext } from '../../App';
 import { sendLSBasketToServ } from '../../functions/basket';
+import { useNavigate } from 'react-router-dom';
 
-
-const RegLogM = forwardRef(({action, close, updateUser}, ref)=>
-{
-    const theme = useContext(themeContext)
+const RegLogM = forwardRef(({ action, close = null, updateUser, goto = null }, ref) => {
+    const theme = useContext(themeContext);
     const [regOrLog, setRegOrLog] = useState(action);
     const [switcher, setSwitcher] = useState(action);
     const [nameInput, setNameInput] = useState("");
     const [fullNameInput, setFullNameInput] = useState("");
     const [emailInput, setEmailInput] = useState("");
     const [passwordInput, setPasswordInput] = useState("");
-    const [logErr, setLogErr] = useState([false,false]);
+    const [logErr, setLogErr] = useState([false, false]);
     const [regErr, setRegErr] = useState(false);
     const showNotification = useNotification();
+    const navigate = useNavigate();
 
     const controlsLog = useAnimation();
     const controlsReg = useAnimation();
 
     const switchLtoR = async () => {
-        
         await controlsLog.start({
             x: '-30vw',
             transition: { duration: 0.15 },
         });
-        controlsLog.set({display:'none'})
-        setRegOrLog(!regOrLog)
-        
+        controlsLog.set({ display: 'none' });
+        setRegOrLog(!regOrLog);
+
         controlsReg.start({
-            x: ['30vw',0],
-            display:'flex',
+            x: ['30vw', 0],
+            display: 'flex',
             transition: { duration: 0.25 },
-            });
-        };
+        });
+    };
 
+    const switchRtoL = async () => {
+        await controlsReg.start({
+            x: '30vw',
+            transition: { duration: 0.15 },
+        });
+        controlsReg.set({ display: 'none' });
+        setRegOrLog(!regOrLog);
 
-        const switchRtoL = async () => {
-        
-            await controlsReg.start({
-                x: '30vw',
-                transition: { duration: 0.15 },
-            });
-            controlsReg.set({display:'none'})
-            setRegOrLog(!regOrLog)
-            
-            controlsLog.start({
-                x: ['-30vw',0],
-                display:'flex',
-                transition: { duration: 0.25 },
-                });
-            };
+        controlsLog.start({
+            x: ['-30vw', 0],
+            display: 'flex',
+            transition: { duration: 0.25 },
+        });
+    };
 
-    const handleChange = async () =>
-        {
-            switcher?switchRtoL():switchLtoR()
-            setSwitcher(!switcher)
-        }
+    const handleChange = async () => {
+        switcher ? switchRtoL() : switchLtoR();
+        setSwitcher(!switcher);
+    };
 
-        const sendToServ = (e,act) =>
-            {
-                e.preventDefault();
-                axios.post('http://localhost:8000/api/session/create?action='+act, {
-                    firstname: nameInput,
-                    lastname: fullNameInput,
-                    email: emailInput,
-                    password: passwordInput,
-                }, { withCredentials: true })
-                .then(response => {
-                    console.log(response.data);
-                    close()
-                    updateUser()
-                    sendLSBasketToServ()
-                    showNotification("Добро пожаловать", 'green')
-                })
-                .catch(error => {
-                    switch (error.response.status) {
-                        case 469:
-                            setLogErr([true,false]);
-                            showNotification("Неверный пароль", 'red', 3500)
-                            break;
-                        case 470:
-                            setLogErr([false, true])
-                            showNotification("Пользователя с такой почтой не существует", 'red', 3500)
-                            break;
-                        case 468:
-                            setRegErr(true)
-                            showNotification("Данная почта уже зарегистрированна", 'red', 3500)
-                            break;
-                        default:
-                            break;
-                    }
-                    console.log(error.response.data.detail)
-                });
-                
+    const sendToServ = (e, act) => {
+        e.preventDefault();
+        axios.post(`http://localhost:8000/api/session/create?action=${act}`, {
+            firstname: nameInput,
+            lastname: fullNameInput,
+            email: emailInput,
+            password: passwordInput,
+        }, { withCredentials: true })
+        .then(response => {
+            console.log(response.data);
+            close && close();
+            updateUser();
+            sendLSBasketToServ();
+            showNotification("Добро пожаловать", 'green');
+            navigate(goto, { replace: true });
+        })
+        .catch(error => {
+            if (error.response) {
+                switch (error.response.status) {
+                    case 469:
+                        setLogErr([true, false]);
+                        showNotification("Неверный пароль", 'red', 3500);
+                        break;
+                    case 470:
+                        setLogErr([false, true]);
+                        showNotification("Пользователя с такой почтой не существует", 'red', 3500);
+                        break;
+                    case 468:
+                        setRegErr(true);
+                        showNotification("Данная почта уже зарегистрированна", 'red', 3500);
+                        break;
+                    default:
+                        showNotification("Произошла ошибка", 'red', 3500);
+                        break;
+                }
+                console.log(error.response.data.detail);
+            } else {
+                showNotification("Ошибка соединения с сервером", 'red', 3500);
+                console.error("Ошибка:", error.message);
             }
-        
+        });
+    };
+
+    
     return(
         <div ref={ref} id='RegLogM' style={{background: theme.palette.background.paper, border: '2px solid'+theme.palette.primary.main}}>
             <div id="switchRegLogM">
