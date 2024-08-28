@@ -10,7 +10,8 @@ const SelectAddress = ({returnAddress, defaultAddress}) => {
   const theme = useContext(themeContext)
   const [value, setValue] = useState(defaultAddress);
   useEffect(() => {
-    returnAddress(value.value)
+    if (value!=undefined)
+      returnAddress(value.value)
   }, [value])
 
   useEffect(() => {
