@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
-import "./styles.css";
 import axios from 'axios';
-import { useNotification } from '../../components/Notification/Notification';
 import { useNavigate } from 'react-router-dom';
+import { Backdrop, Button, Input, Modal, Skeleton, TextField } from '@mui/material';
+
+import "./styles.css";
+import { useNotification } from '../../components/Notification/Notification';
 import { themeContext, userContext } from '../../App';
-import { Backdrop, Button, Input, Modal, TextField } from '@mui/material';
 import OrdersList from '../../components/OrdersList/OrdersList';
 import OrderItem from '../../components/OrderItem/OrderItem';
 import {changeAddress, changeFullName, changePhoto} from '../../functions/user';
@@ -25,6 +26,7 @@ const Profile = ({updateUser})=>
     const [isChangePhoto, setIsChangePhoto] = useState(false);
     const [userPhoto, setUserPhoto] = useState('');
     const [updateOrders, setUpdateOrders] = useState(false)
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         async function fetchOrders() {
@@ -107,10 +109,31 @@ const Profile = ({updateUser})=>
         }
     }
 
+    const handleImageLoad = () => {
+        setLoading(false);
+    };
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setLoading(false);
+        }, 3000);
+
+        return () => clearTimeout(timer);
+    }, []);
+
     return (
         <div id='Profile_wrapper'>
             <div id="Profile" className='profilePaper' style={{ background: theme.palette.background.paper}}>
-                <button id='photoProf' onClick={()=>setIsChangePhoto(true)}><img src={user.photo?user.photo:"https://masterpiecer-images.s3.yandex.net/5028da4f87c611ee809a3a7ca4cc1bdc:upscaled"} alt="🖼️" />
+                <button id='photoProf' onClick={()=>setIsChangePhoto(true)}>
+                    {loading && (
+                        <Skeleton variant="rectangular" width={'100%'} height={'100%'} />
+                    )}
+                    <img 
+                    onLoad={handleImageLoad}
+                    onError={() => setLoading(false)}
+                    style={{ display: loading ? 'none' : 'block' }}
+                    src={user.photo?user.photo:"https://masterpiecer-images.s3.yandex.net/5028da4f87c611ee809a3a7ca4cc1bdc:upscaled"} 
+                    alt="🖼️" />
                     <span style={{color: theme.palette.background.default}}>Изменить фото</span>
                 </button>
                 <div id="dataProf">

@@ -1,10 +1,10 @@
 import {React, useState, useEffect, useContext} from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
-import './styles.css';
-
-import { Accordion, AccordionDetails, AccordionSummary, Button, Divider, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Button, Divider, Skeleton, Typography } from '@mui/material';
 import { ArrowDropDown, Check } from '@mui/icons-material';
+
+import './styles.css';
 import { ReactComponent as BasketSvg } from './../../images/basket.svg'
 import CommentsContainer from '../../components/CommentsContainer/CommentsContainer';
 import Comment from '../../components/Comment/Comment';
@@ -20,7 +20,7 @@ const Asteroid = ()=>
     const user = useContext(userContext)
 
     let navigate = useNavigate();
-
+    const [loading, setLoading] = useState(true);
 
     const parseIdFromUrl = (urlParams) => {
         const asteroidID = urlParams.get('id');
@@ -106,25 +106,44 @@ const Asteroid = ()=>
           return 'Большой'
       };
 
-      const elements = ['Fe', 'Ni', 'S', 'Mg', 'Si', 'Al', 'Ca', 'O'];
+    const elements = ['Fe', 'Ni', 'S', 'Mg', 'Si', 'Al', 'Ca', 'O'];
 
 
-      const [isAdding, setIsaAdding] = useState(false)
-      const handleAddToBasketClick = async () =>
-        {
-            setIsaAdding(true)
-            addToBasket([idFromUrl])
-            setTimeout(() => {
-                setIsaAdding(false)
-            }, 1000);
-        }
+    const [isAdding, setIsaAdding] = useState(false)
+    const handleAddToBasketClick = async () =>
+    {
+        setIsaAdding(true)
+        addToBasket([idFromUrl])
+        setTimeout(() => {
+            setIsaAdding(false)
+        }, 1000);
+    }
 
+    const handleImageLoad = () => {
+        setLoading(false);
+    };
+    
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setLoading(false);
+        }, 3000);
+
+        return () => clearTimeout(timer);
+    }, []);
 
     return(
         <div id='Asteroid'>
             <div id="asteroid">
                 <div id="asteroidDataTopAs">
-                    <img id="asteroidImgAs" src={asteroidData.imgLink?asteroidData.imgLink:"http://surl.li/uhydx"}/>
+                    {loading && (
+                        <Skeleton variant="rectangular" width={'50%'} height={'100%'} />
+                    )}
+                    <img 
+                    onLoad={handleImageLoad}
+                    onError={() => setLoading(false)}
+                    style={{ display: loading ? 'none' : 'block' }}
+                    id="asteroidImgAs" 
+                    src={asteroidData.imgLink?asteroidData.imgLink:"http://surl.li/uhydx"}/>
                     <div id="asteroidDataRightAs" style={{color: theme.palette.text.primary}}>
                         <div id='asteroidDataRightTopAs'>
                             <h1 style={{color: theme.palette.text.ultra}}>{asteroidData.title}</h1>
