@@ -75,6 +75,11 @@ Footer
     width: 70%;
 }
 
+#contactsF a
+{
+    text-decoration: none;
+}
+
 #aboutUsF
 {
     display: flex;

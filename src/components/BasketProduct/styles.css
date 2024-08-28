@@ -116,6 +116,12 @@
     padding: 4px 8px !important;
 }
 
+.buyNowBP a
+{
+    text-decoration: none;
+}
+
+
 
 .prdtNumberData_Button {
     display: flex;

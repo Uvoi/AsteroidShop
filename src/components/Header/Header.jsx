@@ -7,6 +7,7 @@ import StarButton from '../StarButton/StarButton';
 import { Backdrop, Modal} from '@mui/material';
 import RegLogM from '../RegLogM/RegLogM';
 import { themeContext, userContext } from '../../App';
+import { Link } from 'react-router-dom';
 
 
 
@@ -33,20 +34,20 @@ const Header = ({onToggleTheme, updateUser, openRegLogModal, setOpenRegLogModal}
                 <div id="LogoH"><button onClick={handleLogoClick}><img className={rotate?'rotate':'unrotate'} src={logo} alt="" /></button></div>
                 <div id='MenuH' className='text_stroke'>
                     <ul>
-                        <li ><StarButton href="/">Главная</StarButton></li>
-                        <li ><StarButton href="/catalog">Каталог</StarButton></li>
-                        <li ><StarButton href="/about">О нас</StarButton></li>
-                        <li ><StarButton href="/help">Помощь</StarButton></li>
+                        <li ><StarButton to="/">Главная</StarButton></li>
+                        <li ><StarButton to="/catalog">Каталог</StarButton></li>
+                        <li ><StarButton to="/about">О нас</StarButton></li>
+                        <li ><StarButton to="/help">Помощь</StarButton></li>
                     </ul>
                 </div>
                 <div id="Basket_UserDataH">
-                    <a id='BasketH' href="/basket">
+                    <Link id='BasketH' to="/basket">
                         <BasketSvg/>
-                    </a>
+                    </Link>
                     {user!=null?
                     <div id="UserDataH">
-                        <a href='/profile' className='bot_line'>{user.firstname}</a>
-                        <a href="/profile"><img src={user.photo?user.photo:userLogo} alt="" /></a>
+                        <Link to='/profile' className='bot_line'>{user.firstname}</Link>
+                        <Link to="/profile"><img src={user.photo?user.photo:userLogo} alt="" /></Link>
                     </div>
                     : 
                     <div id="UserLogReg">

@@ -1,13 +1,14 @@
 import React, { useContext } from 'react';
 import './styles.css'
 import { themeContext } from '../../App';
+import { Link } from 'react-router-dom';
 
 
-const StarButton = ({href, children})=>
+const StarButton = ({to, children})=>
 {
     const theme = useContext(themeContext)
     return(
-        <a href={href} className="starButton">
+        <Link to={to} className="starButton">
         <button className='bot_line'> 
         {children}
                         
@@ -54,7 +55,7 @@ const StarButton = ({href, children})=>
         </svg>
     </div>
         </button>
-        </a>
+        </Link>
     );
 };
 

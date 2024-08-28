@@ -1,14 +1,15 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
-import './styles.css';
+import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import axios from 'axios';
-
+import { motion, AnimatePresence} from 'framer-motion';
+import { themeContext } from '../../App';
 import { useNotification } from '../../components/Notification/Notification';
+
+import './styles.css';
 import BasketProduct from '../../components/BasketProduct/BasketProduct';
 import { getBasket, delProdFromBasket, clearBasket, getSelectedProds} from '../../functions/basket';
 import { checkSession } from '../../functions/user';
-import { motion, AnimatePresence} from 'framer-motion';
-import { themeContext } from '../../App';
 
 
 const Basket = () => {
@@ -195,7 +196,7 @@ const Basket = () => {
             id='emptyBasket'
             >
             <h3 style={{ color: theme.palette.text.primary }}>Корзина пуста</h3>
-            <Button href="/catalog" variant='contained'>В каталог</Button>
+            <Button variant='contained'><Link to="/catalog">В каталог</Link></Button>
             </motion.div>
           )}
         </AnimatePresence>
@@ -210,7 +211,7 @@ const Basket = () => {
               <Button variant='contained' color='secondary' onClick={resetBasket}>Очистить корзину</Button>
               <div>
                 <h2 style={{ color: theme.palette.text.primary }}>{summOfChecked}.000 <sub>₽</sub></h2>
-                <Button href='/basket/order' variant='contained' disabled={!(getSelectedProds().length)}>Заказать</Button>
+                <Button variant='contained' disabled={!(getSelectedProds().length)}><Link to='/basket/order'>Заказать</Link></Button>
               </div>
             </motion.div>
           )}

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import './styles.css';
 import { motion, useAnimation } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { Button, Checkbox } from '@mui/material';
 import { darkTheme } from '../../themes/theme';
@@ -82,8 +82,8 @@ const BasketProduct = ({prdtTitle, prdtDescription, prdtDiameter, prdtWeight, pr
               onChange={(e)=>{checkFunc(uniqueKey); setChecked(e.target.checked);}}
               inputProps={{ 'aria-label': 'controlled' }}
               />
-              <Button variant='contained' className='buyNowBP' onClick={()=>{!checked && checkFunc(uniqueKey); setChecked(true);}} href={'/basket/order/?id='+id}>
-                Купить
+              <Button variant='contained' className='buyNowBP' onClick={()=>{!checked && checkFunc(uniqueKey); setChecked(true);}}>
+                <Link to={'/basket/order/?id='+id}>Купить</Link>
               </Button>
             </div>
           </div>

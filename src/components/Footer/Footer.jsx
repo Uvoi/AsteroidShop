@@ -1,4 +1,8 @@
 import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { Button } from '@mui/material';
+import { themeContext } from '../../App';
+
 import './styles.css'
 import visaLogo from '../../images/visa.webp'
 import mastercardLogo from '../../images/mastercard.webp'
@@ -10,8 +14,6 @@ import telegramLogo from '../../images/telegram.webp'
 import vkLogo from '../../images/vk.webp'
 import githubLogo from '../../images/github.svg'
 import logof from '../../images/logof.webp'
-import { Button } from '@mui/material';
-import { themeContext } from '../../App';
 
 const Footer = ()=>
 {
@@ -28,7 +30,7 @@ const Footer = ()=>
                     </div>
                     <p>+7 (330) 133-01-33</p>
                     <p>+7 (27) 922-41-469</p>
-                    <Button variant="contained" href='/help'>Задать вопрос</Button>
+                    <Button variant="contained"><Link to='/help'>Задать вопрос</Link></Button>
                 </div>
                 <div id="aboutUsF">
                     <ul id="payingF">

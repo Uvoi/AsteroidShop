@@ -1,7 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
-import './styles.css';
-import { themeContext } from '../../App';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { themeContext } from '../../App';
+
+import './styles.css';
 
 const OrderProduct = ({ id, imgLink, price, nonPrice=false}) => {
     const [gettedImgLink, setGettedImgLink] = useState()
@@ -24,12 +26,12 @@ const OrderProduct = ({ id, imgLink, price, nonPrice=false}) => {
 
 
     return (
-        <a style={{ color: theme.palette.text.primary }} className='OrderProduct' href={'/asteroid?id=' + id}>
+        <Link style={{ color: theme.palette.text.primary }} className='OrderProduct' to={'/asteroid?id=' + id}>
             <img src={imgLink?imgLink:gettedImgLink} alt="asteroid" />
             {!nonPrice &&
                 <p>{price}.000 <sub>₽</sub></p>
             }
-        </a>
+        </Link>
     );
 };
 
