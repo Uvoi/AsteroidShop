@@ -1,0 +1,31 @@
+#Empty
+{
+    padding: 0 5vw;
+    margin-top: -8vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    gap: 30px;
+}
+
+#Empty h1
+{
+    font-size: 5vmin;
+}
+
+#Empty img
+{
+    width: 65%;
+}
+
+#Empty button
+{
+    
+}
+
+#Empty a
+{
+    text-decoration: none;
+}

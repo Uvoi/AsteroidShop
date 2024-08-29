@@ -15,7 +15,7 @@ const Profile = lazy(() => import('../../pages/Profile/Profile'))
 const Order = lazy(() => import('../../pages/Order/Order'))
 const AboutUs = lazy(() => import('../../pages/AboutUs/AboutUs'))
 const Unlogined = lazy(() => import('../../pages/Unlogined/Unlogined'))
-
+const Empty = lazy(() => import('../../pages/Empty/Empty'))
 
 const Content = ({ updateUser }) => {
 
@@ -48,6 +48,7 @@ return (
                 </RequireAuth>
             } />
             <Route exact path='/login' element={<Unlogined updateUser={updateUser} />} />
+            <Route exact path='*' element={<Empty/>} />
         </Routes>
     </div>
 );
