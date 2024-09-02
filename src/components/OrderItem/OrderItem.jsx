@@ -60,7 +60,7 @@ const OrderItem = ({id, productIds, totalPrice, orderDate, DeliveryAddress, deli
                                 >
                                 Отменить
                                 </Button>
-                            ) : orderStatus === "Отменен" && expanded ? (
+                            ) : (orderStatus === "Отменен" || orderStatus == "Завершен") && expanded ? (
                                 <Button 
                                 variant='contained' 
                                 style={{background: theme.palette.error.main}} 
