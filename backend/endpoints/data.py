@@ -1,6 +1,6 @@
 from uuid import UUID
 from fastapi import APIRouter, HTTPException, Depends
-from data_base import getAllProducts, addNewProduct, addNewComment, getProductByID, getCompositionByID, getCommentsByProdID, add_products_to_basket, getCustomerByEmail,get_products_from_basket, delete_products_from_basket, delete_basket, change_user_name, change_user_address, get_user_orders, add_order, change_user_photo, cancel_order
+from data_base import getAllProducts, addNewProduct, addNewComment, getProductByID, getCompositionByID, getCommentsByProdID, add_products_to_basket, getCustomerByEmail,get_products_from_basket, delete_products_from_basket, delete_basket, change_user_name, change_user_address, get_user_orders, add_order, change_user_photo, set_status_order
 from pydantic import BaseModel
 from datetime import datetime, timedelta
 import random
@@ -190,6 +190,12 @@ async def addOrder(toOrder: OrderCreateRequest, session_data: auth.SessionData =
 
 @router.patch("/api/order/cancel", dependencies=[Depends(auth.cookie)])
 async def cancelOrder(orderID: OrderId, session_data: auth.SessionData = Depends(auth.verifier)):
-    cancel_order(orderID.orderid)
+    set_status_order(orderID.orderid, 'Cancelled')
     
     return "Order was canceled"
+
+@router.patch("/api/order/delete", dependencies=[Depends(auth.cookie)])
+async def deleteOrder(orderID: OrderId, session_data: auth.SessionData = Depends(auth.verifier)):
+    set_status_order(orderID.orderid, 'Deleted')
+    
+    return "Order was deleted"

@@ -362,9 +362,12 @@ def change_user_photo(customer_id: int, new_photo: dict):
 
 
 
-def get_user_orders(customer_id: int):
+from sqlalchemy.orm import Session
+from datetime import datetime
+
+def get_user_orders(customer_id: int, admin: bool = False):
     with SessionLocal() as session:
-        orders = session.query(
+        query = session.query(
             Orders.orderid,
             Orders.productids,
             Orders.totalprice,
@@ -372,7 +375,12 @@ def get_user_orders(customer_id: int):
             Orders.deliveryaddress,
             Orders.deliverydate,
             Orders.status
-        ).filter(Orders.customerid == customer_id).all()
+        ).filter(Orders.customerid == customer_id)
+        
+        if not admin:
+            query = query.filter(Orders.status.notin_(['Deleted', 'Error']))
+        
+        orders = query.all()
 
         orders_list = []
         for order in orders:
@@ -380,9 +388,9 @@ def get_user_orders(customer_id: int):
                 'orderid': order.orderid,
                 'productids': order.productids,
                 'totalprice': order.totalprice,
-                'orderdate': datetime.fromisoformat((str(order.orderdate))).strftime('%d.%m.%Y'),
+                'orderdate': datetime.fromisoformat(str(order.orderdate)).strftime('%d.%m.%Y'),
                 'deliveryaddress': order.deliveryaddress,
-                'deliverydate': datetime.fromisoformat((str(order.deliverydate))).strftime('%d.%m.%Y'),
+                'deliverydate': datetime.fromisoformat(str(order.deliverydate)).strftime('%d.%m.%Y'),
                 'status': order.status
             })
 
@@ -416,16 +424,16 @@ def get_user_photo(UserID):
         else:
             return None
 
-def cancel_order(orderID):
+def set_status_order(orderID:int, status:str):
     with SessionLocal() as session:
         order = session.query(Orders).filter(Orders.orderid == orderID).first()
         if order:
             try:
-                order.status = 'Cancelled'
+                order.status = status
                 session.commit()
             except Exception as e:
                 session.rollback()
-                print(f"Error canceling order: {e}")
+                print(f"Error {status} order: {e}")
                 raise
         else:
             raise ValueError("Order not found for the given orderid")
