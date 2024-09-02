@@ -24,7 +24,7 @@ export async function addOrder(productIds, deliveryAddress) {
     }
 }
 
-export async function canelOrder(orderid) {
+export async function cancelOrder(orderid) {
     try {
         const response = await axios.patch('http://localhost:8000/api/order/cancel', {
             orderid: orderid
@@ -33,6 +33,19 @@ export async function canelOrder(orderid) {
         return response.data;
     } catch (error) {
         console.error('Error canceling order: ', error);
+        throw error;
+    }
+}
+
+export async function deleteOrder(orderid) {
+    try {
+        const response = await axios.patch('http://localhost:8000/api/order/delete', {
+            orderid: orderid
+        }, { withCredentials: true });
+
+        return response.data;
+    } catch (error) {
+        console.error('Error deleting order: ', error);
         throw error;
     }
 }

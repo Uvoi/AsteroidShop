@@ -5,7 +5,7 @@ import { themeContext } from '../../App';
 import OrderProduct from '../OrderProduct/OrderProduct';
 import OrderProductsContainer from '../OrderProduct/OrderProductsContainer/OrderProductsContainer';
 import ConfirmM from '../ConfirmM/ConfirmM';
-import { canelOrder } from '../../functions/order';
+import { cancelOrder, deleteOrder } from '../../functions/order';
 
 
 const OrderItem = ({id, productIds, totalPrice, orderDate, DeliveryAddress, deliveryDate, orderStatus, updateOrders})=>
@@ -15,6 +15,9 @@ const OrderItem = ({id, productIds, totalPrice, orderDate, DeliveryAddress, deli
     const [expanded, setExpanded] = useState(false);
     const [confirmCancelModal, setConfirmCancelModal] = useState(false);
     const [confirmCancel, setConfirmCancel] = useState();
+    const [confirmDeleteModal, setConfirmDeleteModal] = useState(false);
+    const [confirmDelete, setConfirmDelete] = useState();
+    
 
     const handleChange = (event, isExpanded) => {
       setExpanded(isExpanded);
@@ -23,11 +26,18 @@ const OrderItem = ({id, productIds, totalPrice, orderDate, DeliveryAddress, deli
     useEffect(() => {
         if (confirmCancel)
         {
-            canelOrder(id)
+            cancelOrder(id)
             updateOrders()
         }
     }, [confirmCancel]);
 
+    useEffect(() => {
+        if (confirmDelete)
+        {
+            deleteOrder(id)
+            updateOrders()
+        }
+    }, [confirmDelete]);
 
 
     return(
@@ -41,7 +51,27 @@ const OrderItem = ({id, productIds, totalPrice, orderDate, DeliveryAddress, deli
                     <h3>Заказ от {orderDate} ({productIds.length})</h3>
                     <div>
                         <h4>{String(totalPrice).replace(/(\d)(?=(\d{3})+(\D|$))/g, '$1.')}.000 ₽</h4>
-                        <h4 style={{color: statusColor}}>{(orderStatus==="В доставке" && expanded)?<Button variant='contained' style={{background:theme.palette.error.main}} onClick={()=>setConfirmCancelModal(true)}>Отменить</Button>:orderStatus}</h4>
+                        <h4 style={{color: statusColor}}>
+                            {orderStatus === "В доставке" && expanded ? (
+                                <Button 
+                                variant='contained' 
+                                style={{background: theme.palette.error.main}} 
+                                onClick={() => setConfirmCancelModal(true)}
+                                >
+                                Отменить
+                                </Button>
+                            ) : orderStatus === "Отменен" && expanded ? (
+                                <Button 
+                                variant='contained' 
+                                style={{background: theme.palette.error.main}} 
+                                onClick={() => setConfirmDeleteModal(true)}
+                                >
+                                Удалить
+                                </Button>
+                            ) : (
+                                orderStatus
+                            )}
+                        </h4>
                     </div>
                 </AccordionSummary>
                 <AccordionDetails className='orderItemData'>
@@ -61,6 +91,7 @@ const OrderItem = ({id, productIds, totalPrice, orderDate, DeliveryAddress, deli
                 </AccordionDetails>
             </Accordion>
             <ConfirmM open={confirmCancelModal} close={()=>setConfirmCancelModal(false)} no='Нет' message={"Отменить доставку "+productIds.length+" товаров(а) на сумму "+totalPrice+".000 ₽ ?"} getResult={(res) => setConfirmCancel(res)}/>
+            <ConfirmM open={confirmDeleteModal} close={()=>setConfirmDeleteModal(false)} no='Нет' message={"Удалить заказ на сумму "+totalPrice+".000 ₽ ?"} getResult={(res) => setConfirmDelete(res)}/>
         </div>
     );
 };
