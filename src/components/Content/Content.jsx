@@ -7,6 +7,7 @@ import RequireAuth from './RequireAuth/RequireAuth';
 
 import Home from '../../pages/Home/Home';
 import Asteroid from '../../pages/Asteroid/Asteroid';
+import CheckAdmin from './CheckAdmin/CheckAdmin';
 const Catalog = lazy(() => import('../../pages/Catalog/Catalog'))
 const Help = lazy(() => import('../../pages/Help/Help'))
 const AddToDB = lazy(() => import('../../components/AddToDB/AddToDB'))
@@ -16,6 +17,7 @@ const Order = lazy(() => import('../../pages/Order/Order'))
 const AboutUs = lazy(() => import('../../pages/AboutUs/AboutUs'))
 const Unlogined = lazy(() => import('../../pages/Unlogined/Unlogined'))
 const Empty = lazy(() => import('../../pages/Empty/Empty'))
+const Admin = lazy(() => import('../../pages/Admin/Admin'))
 
 const Content = ({ updateUser }) => {
 
@@ -34,7 +36,6 @@ return (
             <Route exact path='/catalog' element={<Catalog />} />
             <Route exact path='/help' element={<Help />} />
             <Route exact path='/about' element={<AboutUs />} />
-            <Route exact path='/catalog/add' element={<AddToDB />} />
             <Route exact path='/asteroid' element={<Asteroid />} />
             <Route exact path='/basket' element={<Basket />} />
             <Route exact path='/basket/order' element={(
@@ -49,6 +50,12 @@ return (
             } />
             <Route exact path='/login' element={<Unlogined updateUser={updateUser} />} />
             <Route exact path='*' element={<Empty/>} />
+            
+            <Route exact path='/catalog/add' element={
+                <CheckAdmin>
+                  <AddToDB />
+                </CheckAdmin>
+            } />
         </Routes>
     </div>
 );

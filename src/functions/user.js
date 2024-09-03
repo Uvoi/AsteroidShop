@@ -59,3 +59,12 @@ export async function changePhoto(photoLink)
         return false
     };
 }
+
+export async function isUserAdmin() {
+    try {
+        const response = await axios.get('http://localhost:8000/api/admin', { withCredentials: true });
+        return response.data;
+    } catch (error) {
+        return false;
+    }
+}
