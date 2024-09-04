@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './styles.css';
 import Button from '@mui/material/Button';
 import telegramLogo from '../../images/telegram.webp'
 import vkLogo from '../../images/vk.webp'
 import githubLogo from '../../images/github.svg'
 import { useNotification } from '../../components/Notification/Notification';
+import { themeContext } from '../../App';
 
 const Contact = (props) => {
+  const theme = useContext(themeContext)
   const showNotification = useNotification();
 
   const sendContact = () => {
@@ -30,9 +32,9 @@ const Contact = (props) => {
   return (
     <div id='Help'>
       <div id='help'>
-        <input type='text' id='nameHelp' placeholder='Имя' />
-        <input type='email' id='emailHelp' placeholder='Эл. почта' />
-        <textarea type='text' id='messageHelp' placeholder='Текст обращения' />
+        <input style={{color:theme.palette.text.primary}} type='text' id='nameHelp' placeholder='Имя' />
+        <input style={{color:theme.palette.text.primary}} type='email' id='emailHelp' placeholder='Эл. почта' />
+        <textarea style={{color:theme.palette.text.primary}} type='text' id='messageHelp' placeholder='Текст обращения' />
         <div id='sendButtonHelp'>
           <Button variant="contained" onClick={sendContact} color="secondary">
             Отправить
