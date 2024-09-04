@@ -1,0 +1,13 @@
+#Admin
+{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.adminBox
+{
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+}

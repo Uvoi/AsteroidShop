@@ -68,3 +68,22 @@ export async function isUserAdmin() {
         return false;
     }
 }
+
+export async function getAllUsers(start, count) {
+    try {
+        const response = await axios.get('http://localhost:8000/api/admin/users', {
+            params: { 
+                start: start, 
+                count: count 
+            },
+            withCredentials: true 
+        });
+        return response.data;
+    } catch (error) {
+        return false;
+    }
+}
+
+
+
+

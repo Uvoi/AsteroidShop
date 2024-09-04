@@ -1,0 +1,52 @@
+.adminBlock
+{
+    color: #fff;
+    border: 1px solid rgb(110, 110, 110);
+    border-radius: 15px;
+    height: 40vh;
+    flex-grow: 1;
+    width: auto;
+    display: inline-flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 8px;
+}
+
+.adminBlock a
+{
+    text-decoration: none;
+}
+
+.adminBlock h2
+{
+    text-align: center;
+    font-size: 3vmin;
+    margin-bottom: 10px;
+}
+
+.adminBlock table {
+    width: 100%;
+    border-collapse:collapse;
+    font-size: 2.5vmin;
+}
+
+.adminBlock table th,
+.adminBlock table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.adminBlock table th {
+    background-color: #422478;
+    font-weight: bold;
+}
+
+.adminBlock table tr:nth-child(even) {
+    background-color: #6325cf;
+}
+
+
+.adminBlock table tr:nth-child(odd) {
+    background-color: #D1A3FF;
+}

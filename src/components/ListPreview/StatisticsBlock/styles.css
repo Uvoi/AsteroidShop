@@ -1,0 +1,23 @@
+.StatisticsBlock ul {
+    list-style-type: none;
+    font-size: 2.5vmin;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* это значение можно изменить, чтобы настроить расстояние */
+}
+
+.StatisticsBlock li {
+    padding: 20px;
+    margin-bottom: -20px; /* отрицательный margin для "слияния" фонов */
+    color: #fff;
+}
+
+
+.StatisticsBlock li:nth-child(even)
+{
+    background-color: #6325cf;
+}
+
+.StatisticsBlock li:nth-child(odd) {
+    background-color: #D1A3FF;
+}

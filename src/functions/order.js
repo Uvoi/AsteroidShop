@@ -49,3 +49,18 @@ export async function deleteOrder(orderid) {
         throw error;
     }
 }
+
+export async function getAllOrders(start, count) {
+    try {
+        const response = await axios.get('http://localhost:8000/api/admin/orders', {
+            params: { 
+                start: start, 
+                count: count 
+            },
+            withCredentials: true 
+        });
+        return response.data;
+    } catch (error) {
+        return false;
+    }
+}

@@ -50,10 +50,20 @@ return (
             } />
             <Route exact path='/login' element={<Unlogined updateUser={updateUser} />} />
             <Route exact path='*' element={<Empty/>} />
-            
-            <Route exact path='/catalog/add' element={
+
+            <Route exact path='/admin' element={
+                <CheckAdmin>
+                  <Admin/>
+                </CheckAdmin>
+            } />
+            <Route exact path='/admin/product/add' element={
                 <CheckAdmin>
                   <AddToDB />
+                </CheckAdmin>
+            } />
+            <Route exact path='/admin/users' element={
+                <CheckAdmin>
+                  
                 </CheckAdmin>
             } />
         </Routes>
