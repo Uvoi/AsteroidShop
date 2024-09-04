@@ -1,6 +1,6 @@
 from uuid import UUID
 from fastapi import APIRouter, HTTPException, Depends
-from data_base import getAllProducts, addNewProduct, addNewComment, getProductByID, getCompositionByID, getCommentsByProdID, add_products_to_basket, getCustomerByEmail,get_products_from_basket, delete_products_from_basket, delete_basket, change_user_name, change_user_address, get_user_orders, add_order, change_user_photo, set_status_order
+from data_base import getAllProducts, addNewProduct, addNewComment, getProductByID, getCompositionByID, getCommentsByProdID, add_products_to_basket, getCustomerByEmail,get_products_from_basket, delete_products_from_basket, delete_basket, change_user_name, change_user_address, get_user_orders, add_order, change_user_photo, set_status_order, is_user_admin, get_all_users, get_all_orders, get_stats
 from pydantic import BaseModel
 from datetime import datetime, timedelta
 import random
@@ -44,6 +44,10 @@ class OrderCreateRequest(BaseModel):
 
 class OrderId(BaseModel):
     orderid: int
+
+class getAll(BaseModel):
+    start: int
+    count: int = 10
 
 
 @router.get("/api/catalog/all")
@@ -199,3 +203,54 @@ async def deleteOrder(orderID: OrderId, session_data: auth.SessionData = Depends
     set_status_order(orderID.orderid, 'Deleted')
     
     return "Order was deleted"
+
+@router.get("/api/admin/", dependencies=[Depends(auth.cookie)])
+async def isAdmin(session_data: auth.SessionData = Depends(auth.verifier)):
+    User = await getCustomerByEmail(session_data.email)
+    if not User:
+        raise HTTPException(status_code=404, detail="User not found")
+    UserID = User['id']
+
+    return is_user_admin(UserID)
+
+
+@router.get("/api/admin/users", dependencies=[Depends(auth.cookie)])
+async def allUser(
+    query_params:  getAll = Depends(),
+    session_data: auth.SessionData = Depends(auth.verifier)
+):
+    User = await getCustomerByEmail(session_data.email)  
+    if not User:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    UserID = User['id']
+    if not is_user_admin(UserID):
+        raise HTTPException(status_code=403, detail="You do not have access to this resource")
+    return get_all_users(query_params.start, query_params.count)
+    
+
+@router.get("/api/admin/orders", dependencies=[Depends(auth.cookie)])
+async def allOrders(
+    query_params:  getAll= Depends(),
+    session_data: auth.SessionData = Depends(auth.verifier)
+):
+    User = await getCustomerByEmail(session_data.email)  
+    if not User:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    UserID = User['id']
+    if not is_user_admin(UserID):
+        raise HTTPException(status_code=403, detail="You do not have access to this resource")
+    return get_all_orders(query_params.start, query_params.count)
+
+
+@router.get("/api/admin/stats", dependencies=[Depends(auth.cookie)])
+async def getStats(session_data: auth.SessionData = Depends(auth.verifier)):
+    User = await getCustomerByEmail(session_data.email)  
+    if not User:
+        raise HTTPException(status_code=404, detail="User not found")
+    UserID = User['id']
+    if not is_user_admin(UserID):
+        raise HTTPException(status_code=403, detail="You do not have access to this resource")
+    return get_stats()
+

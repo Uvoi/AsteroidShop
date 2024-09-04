@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Float, DateTime, func, CheckConstraint, text, SmallInteger, Date, ARRAY, Numeric
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Float, DateTime, func, CheckConstraint, text, SmallInteger, Date, ARRAY, Numeric, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker, joinedload
 from datetime import datetime
@@ -14,8 +14,9 @@ class Customer(Base):
     email = Column(String(100))
     address = Column(String(255), nullable=True)
     password = Column(String(), nullable=False)
-    baskets = relationship("Basket", back_populates="customer")
     photo = Column(String(255), nullable=True)
+    admin = Column(Boolean)
+    baskets = relationship("Basket", back_populates="customer")
 
 class Product(Base):
     __tablename__ = 'products'
@@ -437,3 +438,73 @@ def set_status_order(orderID:int, status:str):
                 raise
         else:
             raise ValueError("Order not found for the given orderid")
+        
+def is_user_admin(customer_id: int):
+    with SessionLocal() as session:
+        user = session.query(Customer.admin).filter(Customer.customerid == customer_id).first()
+        if user:
+            return user.admin
+        else:
+            raise ValueError("Customer not found for the given customer_id")
+        
+def get_all_users(start: int, count: int):
+    with SessionLocal() as session:
+        users = session.query(Customer).offset(start).limit(count).all()
+        total_count = session.query(Customer).count()
+        
+        users_data = []
+        for user in users:
+            user_data = {
+                "customerid": user.customerid,
+                "firstname": user.firstname,
+                "lastname": user.lastname,
+                "email": user.email,
+                "photo": user.photo,
+                "is_admin": user.admin,
+            }
+            users_data.append(user_data)
+        
+        return {"users": users_data, "total_count": total_count}
+
+def get_all_orders(start: int, count: int):
+    with SessionLocal() as session:
+        orders = session.query(Orders).offset(start).limit(count).all()
+        total_count = session.query(Orders).count()
+        
+        orders_data = []
+        for order in orders:
+            order_data = {
+                'orderid': order.orderid,
+                'customerid': order.customerid,
+                'productids': order.productids,
+                'totalprice': order.totalprice,
+                'orderdate': datetime.fromisoformat(str(order.orderdate)).strftime('%d.%m.%Y'),
+                'deliveryaddress': order.deliveryaddress,
+                'deliverydate': datetime.fromisoformat(str(order.deliverydate)).strftime('%d.%m.%Y'),
+                'status': order.status
+            }
+            orders_data.append(order_data)
+        
+        return {"orders": orders_data, "total_count": total_count}
+    
+
+
+def get_stats():
+    with SessionLocal() as session:
+        total_earnings = session.query(func.sum(Orders.totalprice)).filter(Orders.status != 'Error').scalar()
+        products_in_transit = session.query(func.sum(func.array_length(Orders.productids, 1))) \
+                                     .filter(Orders.status == 'In Transit') \
+                                     .scalar()
+        delivered_products = session.query(func.sum(func.array_length(Orders.productids, 1))) \
+                                    .filter(Orders.status.in_(['Completed', 'Deleted'])) \
+                                    .scalar()
+        total_users = session.query(func.count(Customer.customerid)).scalar()
+
+        total_orders = session.query(func.count(Orders.orderid)).scalar()
+        return {
+            "total_earnings": total_earnings or 0,
+            "products_in_transit": products_in_transit or 0,
+            "delivered_products": delivered_products or 0,
+            "total_users": total_users or 0,
+            "total_orders": total_orders or 0,
+        }
