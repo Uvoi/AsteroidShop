@@ -1,8 +1,8 @@
 import {React, useState, useEffect, useContext} from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
-import { Accordion, AccordionDetails, AccordionSummary, Button, Divider, Skeleton, Typography } from '@mui/material';
-import { ArrowDropDown, Check } from '@mui/icons-material';
+import { Accordion, AccordionDetails, AccordionSummary, Button, Divider, IconButton, Skeleton, Typography } from '@mui/material';
+import { ArrowDropDown, Check, Delete } from '@mui/icons-material';
 
 import './styles.css';
 import { ReactComponent as BasketSvg } from './../../images/basket.svg'
@@ -11,6 +11,8 @@ import Comment from '../../components/Comment/Comment';
 import CommentInput from '../../components/CommentInput/CommentInput';
 import {addToBasket} from '../../functions/basket'
 import { themeContext, userContext } from '../../App';
+import { isUserAdmin } from '../../functions/user';
+import { deleteProduct } from '../../functions/product';
 
 const Asteroid = ()=>
 {
@@ -18,6 +20,7 @@ const Asteroid = ()=>
     const [searchParams, setSearchParams] = useSearchParams();
     const [asteroidData, setAsteroidData] = useState({});
     const user = useContext(userContext)
+    const [isAdmin, setIsAdmin] = useState(false);
 
     let navigate = useNavigate();
     const [loading, setLoading] = useState(true);
@@ -131,6 +134,22 @@ const Asteroid = ()=>
         return () => clearTimeout(timer);
     }, []);
 
+    useEffect(() => {
+        const checkAdmin = async () => {
+            const isAdminValue = await isUserAdmin();
+            setIsAdmin(isAdminValue);
+        }
+    
+        checkAdmin();
+    }, []);
+    
+
+    const handleDeleteAsteroidClick = async() =>
+    {
+        await deleteProduct(idFromUrl);
+        navigate('/catalog')
+    }
+
     return(
         <div id='Asteroid'>
             <div id="asteroid">
@@ -154,6 +173,7 @@ const Asteroid = ()=>
                         </div>
                         <div id="asteroidPriceAndBuy">
                             <h2>{asteroidData.price}.000 <sub>₽</sub></h2>
+                            {isAdmin&&<Button variant='contained' className='deleteProdBtnAdmin' onClick={handleDeleteAsteroidClick}><Delete/></Button>}
                             <Button style={{background:(isAdding?theme.palette.success.main:theme.palette.primary.main)}} variant='contained' onClick={()=>{handleAddToBasketClick(idFromUrl)}}>
                                 {isAdding?<Check/>:<BasketSvg filter='invert(100%)'/>}
                                 <p>{isAdding?'Добавлено':'В  корзину'}</p>

@@ -165,3 +165,20 @@
 {
     margin-bottom: 20px;
 }
+
+
+.deleteProdBtnAdmin
+{
+    width: fit-content !important;
+    padding: 0 !important;
+}
+
+.deleteProdBtnAdmin:hover svg
+{
+    fill: #FF6666;
+}
+
+.deleteProdBtnAdmin svg
+{
+    height: 65% !important;
+}
