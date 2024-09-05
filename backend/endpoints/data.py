@@ -1,6 +1,6 @@
 from uuid import UUID
-from fastapi import APIRouter, HTTPException, Depends
-from data_base import getAllProducts, addNewProduct, addNewComment, getProductByID, getCompositionByID, getCommentsByProdID, add_products_to_basket, getCustomerByEmail,get_products_from_basket, delete_products_from_basket, delete_basket, change_user_name, change_user_address, get_user_orders, add_order, change_user_photo, set_status_order, is_user_admin, get_all_users, get_all_orders, get_stats
+from fastapi import APIRouter, HTTPException, Depends, Query
+from data_base import getAllProducts, addNewProduct, addNewComment, getProductByID, getCompositionByID, getCommentsByProdID, add_products_to_basket, getCustomerByEmail,get_products_from_basket, delete_products_from_basket, delete_basket, change_user_name, change_user_address, get_user_orders, add_order, change_user_photo, set_status_order, is_user_admin, get_all_users, get_all_orders, get_stats, delete_product_by_id
 from pydantic import BaseModel
 from datetime import datetime, timedelta
 import random
@@ -45,10 +45,13 @@ class OrderCreateRequest(BaseModel):
 class OrderId(BaseModel):
     orderid: int
 
-class getAll(BaseModel):
+class GetAll(BaseModel):
     start: int
     count: int = 10
-
+    
+class Product(BaseModel):
+    id: int
+    
 
 @router.get("/api/catalog/all")
 async def catalog_all():
@@ -216,7 +219,7 @@ async def isAdmin(session_data: auth.SessionData = Depends(auth.verifier)):
 
 @router.get("/api/admin/users", dependencies=[Depends(auth.cookie)])
 async def allUser(
-    query_params:  getAll = Depends(),
+    query_params:  GetAll = Depends(),
     session_data: auth.SessionData = Depends(auth.verifier)
 ):
     User = await getCustomerByEmail(session_data.email)  
@@ -231,7 +234,7 @@ async def allUser(
 
 @router.get("/api/admin/orders", dependencies=[Depends(auth.cookie)])
 async def allOrders(
-    query_params:  getAll= Depends(),
+    query_params:  GetAll= Depends(),
     session_data: auth.SessionData = Depends(auth.verifier)
 ):
     User = await getCustomerByEmail(session_data.email)  
@@ -254,3 +257,16 @@ async def getStats(session_data: auth.SessionData = Depends(auth.verifier)):
         raise HTTPException(status_code=403, detail="You do not have access to this resource")
     return get_stats()
 
+
+@router.delete("/api/admin/product", dependencies=[Depends(auth.cookie)])
+async def delete_product(
+    id: int = Query(...),
+    session_data: auth.SessionData = Depends(auth.verifier)):
+    User = await getCustomerByEmail(session_data.email)
+    if not User:
+        raise HTTPException(status_code=404, detail="User not found")
+    UserID = User['id']
+    if not is_user_admin(UserID):
+        raise HTTPException(status_code=403, detail="You do not have access to this resource")
+    delete_product_by_id(id)
+    return {f"Product with ID {id} was successfully deleted"}

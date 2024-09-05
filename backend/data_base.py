@@ -508,3 +508,16 @@ def get_stats():
             "total_users": total_users or 0,
             "total_orders": total_orders or 0,
         }
+    
+def delete_product_by_id(product_id: int):
+    with SessionLocal() as session:
+        product = session.query(Product).filter(Product.productid == product_id).first()
+        if product:
+            try:
+                session.delete(product)
+                session.commit()
+            except Exception as e:
+                session.rollback()
+                raise
+        else:
+            raise ValueError(f"Продукт с ID {product_id} не найден.")
