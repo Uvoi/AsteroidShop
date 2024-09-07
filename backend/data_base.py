@@ -520,6 +520,21 @@ def delete_product_by_id(product_id: int):
         else:
             raise ValueError(f"Продукт с ID {product_id} не найден.")
 
+def update_order_status_on_login(customer_id: int):
+    with SessionLocal() as session:
+        current_date = datetime.now().date()
+        orders = session.query(Orders).filter(
+            and_(
+                Orders.customerid == customer_id,
+                Orders.deliverydate <= current_date,
+                Orders.status == 'In Transit'
+            )
+        ).all()
+        for order in orders:
+            order.status = 'Completed'
+        
+        session.commit()
+
 def get_customer_by_id(id, admin):
     with SessionLocal() as session:
         customer = session.query(Customer).filter(Customer.customerid == id).first()
