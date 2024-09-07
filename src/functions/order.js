@@ -1,8 +1,13 @@
 import axios from "axios";
 
-export async function getOrders() {
+export async function getOrders(id=-1) {
     try {
-        const response = await axios.get('http://localhost:8000/api/order/', { withCredentials: true });
+        const response = await axios.get('http://localhost:8000/api/order/', { 
+            withCredentials: true,
+            params: { 
+                id: id, 
+            },
+        });
         return response.data.orders || [];
     } catch (error) {
         console.log('Error fetching orders: ', error);
