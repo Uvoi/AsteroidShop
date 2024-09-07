@@ -3,11 +3,11 @@ import './styles.css';
 import { Link } from 'react-router-dom';
 import { themeContext } from '../../App';
 
-const ListPreview = ({ title, data, totalCount, col1, col2, col3, col4 }) => {
+const ListPreview = ({ title, data, totalCount, col1, col2, col3, col4, link }) => {
     const theme = useContext(themeContext)
     return (
         <div className='ListPreview adminBlock' style={{background: theme.palette.background.paper}}>
-            <Link to='/admin/users'>
+            <Link to={link}>
             <h2 style={{color: theme.palette.text.ultra}}>{title} ({totalCount})</h2>
             </Link>
             <table>

@@ -49,10 +49,10 @@ const Admin = () => {
         <div id='Admin'>
             <div className='adminBox'>
                 <StatisticsBlock data={stats} title={'Статистика'}/>
-                <ListPreview title={'Заказы'} data={orders} totalCount={totalCountOrders} col1={'orderid'} col2={'customerid'} col3={'orderdate'} col4={'status'}/>
+                <ListPreview title={'Заказы'} data={orders} totalCount={totalCountOrders} col1={'orderid'} col2={'customerid'} col3={'orderdate'} col4={'status'} link={'/admin/orders'}/>
             </div>
             <div className='adminBox'>
-                <ListPreview title={'Пользователи'} data={users} totalCount={totalCountUsers} col1={'customerid'} col2={'firstname'} col3={'lastname'} col4={'email'}/>
+                <ListPreview title={'Пользователи'} data={users} totalCount={totalCountUsers} col1={'customerid'} col2={'firstname'} col3={'lastname'} col4={'email'} link={'/admin/users'}/>
             </div>
         </div>
     );
