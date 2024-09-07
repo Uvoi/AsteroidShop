@@ -11,7 +11,7 @@ const IsAdmin = ({ children }) => {
         const checkAdminStatus = async () => {
             try {
                 const result = await isUserAdmin();
-                setIsAdmin(result);
+                setIsAdmin(result==null?false:result);
             } catch (error) {
                 console.error("Error checking admin status:", error);
                 setIsAdmin(false);
