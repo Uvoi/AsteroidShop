@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from fastapi import APIRouter, HTTPException, Response, Depends
 from uuid import UUID, uuid4
-from data_base import addNewCustomer, getCustomerByEmail, get_user_photo
+from data_base import addNewCustomer, getCustomerByEmail, get_user_photo, update_order_status_on_login
 
 from auth import auth
 
@@ -37,6 +37,7 @@ async def log_user(user: User):
     customer = await getCustomerByEmail(user.email)
     if customer:
         if customer["password"] == user.password:
+            update_order_status_on_login(customer["id"])
             return customer
         raise HTTPException(status_code=469, detail="Incorrect password")
     raise HTTPException(status_code=470, detail="User with this email doesn't exist")
