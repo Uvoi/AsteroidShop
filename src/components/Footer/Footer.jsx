@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
 import { themeContext } from '../../App';
@@ -14,15 +14,28 @@ import telegramLogo from '../../images/telegram.webp'
 import vkLogo from '../../images/vk.webp'
 import githubLogo from '../../images/github.svg'
 import logof from '../../images/logof.webp'
+import { isUserAdmin } from '../../functions/user';
 
 const Footer = ()=>
 {
     const theme = useContext(themeContext)
+    const [isAdmin, setIsAdmin] = useState(false);
+
+    useEffect(() => {
+        const checkAdmin = async () => {
+            const isAdminValue = await isUserAdmin();
+            setIsAdmin(isAdminValue);
+        }
+    
+        checkAdmin();
+    }, []);
     return(
         <footer id='Footer' style={{backgroundColor: theme.palette.header.primary}}>
             <div id="contact_aboutF">
                 <div id="contactsF">
-                    <img src={logof} alt="" id='logofF'/>
+                    <Link to={isAdmin?'/admin':'/'}>
+                        <img src={logof} alt="" id='logofF'/>
+                    </Link>
                     <div id='contactIconsF'>
                         <a href='https://vk.com/asteroid_shop_proj' target='_blank' rel='noopener noreferrer'><img src={vkLogo} alt="VK" /></a>
                         <a href='https://github.com/Uvoi/AsteroidShop' target='_blank' rel='noopener noreferrer'><img src={githubLogo} alt="GitHub" /></a>
