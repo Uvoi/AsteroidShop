@@ -18,6 +18,10 @@ const AboutUs = lazy(() => import('../../pages/AboutUs/AboutUs'))
 const Unlogined = lazy(() => import('../../pages/Unlogined/Unlogined'))
 const Empty = lazy(() => import('../../pages/Empty/Empty'))
 const Admin = lazy(() => import('../../pages/Admin/Admin'))
+const AllUserList = lazy(() => import('../../pages/AllUserList/AllUserList'))
+const AllOrdersList = lazy(() => import('../../pages/AllOrdersList/AllOrdersList'))
+const User = lazy(() => import('../../pages/User/User'))
+
 
 const Content = ({ updateUser }) => {
 
@@ -49,6 +53,7 @@ return (
                 </RequireAuth>
             } />
             <Route exact path='/login' element={<Unlogined updateUser={updateUser} />} />
+            <Route exact path='/user' element={<User updateUser={updateUser}/>} />
             <Route exact path='*' element={<Empty/>} />
 
             <Route exact path='/admin' element={
@@ -63,7 +68,12 @@ return (
             } />
             <Route exact path='/admin/users' element={
                 <CheckAdmin>
-                  
+                  <AllUserList/>
+                </CheckAdmin>
+            } />
+            <Route exact path='/admin/orders' element={
+                <CheckAdmin>
+                  <AllOrdersList/>
                 </CheckAdmin>
             } />
         </Routes>
