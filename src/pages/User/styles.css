@@ -1,0 +1,143 @@
+#Profile_wrapper
+{
+  display: flex;
+  justify-content: center;
+  flex-direction: column; 
+  gap: 5vh;
+}
+
+.profilePaper
+{
+    align-self: center;
+    width: 55vw;
+    padding: 3vw;
+    height: 100%;
+    border-radius: 2vh;
+    display: flex;
+}
+
+#Profile
+{
+    justify-content: center;
+    gap: 6vw;
+}
+
+#photoProf
+{
+    height: 50vh;
+    border-radius: 2vh;
+    width: 50vh;
+    overflow: hidden;
+    cursor: auto;
+    border: none;
+    position: relative;
+}
+
+#photoProf img
+{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    transition: all 0.3s;
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 2vh;
+    background-color: white;
+    
+}
+
+#photoProf:hover img
+{
+    opacity: 1;
+    filter: none;
+}
+
+#photoProf span
+{
+    z-index: 1;
+    font-size: 24px;
+    position: relative;
+}
+
+#dataProf
+{
+    width: 22vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#inputsProf
+{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 3vh;
+}
+
+#inputsProf input
+{
+    font-size: 20px;
+    padding-left: 5px;
+}
+
+#inputsProf .SelectAddress
+{
+    width: 100%;
+    font-size: 20px;
+}
+
+#save_exitProf
+{
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+#ordersProf
+{
+    justify-content: center;
+    flex-direction: column;
+}
+
+#ordersContainerProf
+{
+    margin-top: 40px;
+}
+
+#changeUserPhotoMP
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 40%;
+    height: fit-content;
+    box-shadow: 24;
+    padding: 2%;
+    border-radius: 20px;
+    overflow: hidden;
+    background-color: rgba(160, 48, 188, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5%;
+}
+
+#changeUserPhotoMP .MuiInputBase-root
+{
+    flex-shrink: 1;
+    height: fit-content;
+    padding-left: 5px;
+    width: 100%;
+    font-size: 18px;
+}
+
+#changeUserPhotoMP button
+{
+    width: fit-content;
+    height: fit-content;
+    flex-shrink: 0;
+}
