@@ -6,6 +6,7 @@ import { useNotification } from '../../components/Notification/Notification';
 import homeMain from "../../images/home.jpg"
 import homeMainWtBg from "../../images/home_wtbg.webp"
 import { useNavigate } from 'react-router-dom';
+import logoText from '../../images/logo_text.webp'
 
 const Home = (props)=>
 {
@@ -77,6 +78,21 @@ const Home = (props)=>
             },
         };
       };
+      const images = [logoText, logoText, logoText, logoText, logoText, logoText, logoText, logoText, logoText, logoText];
+
+      const scrollVariant = {
+          animate: {
+              x: ['-100%', '0%'],
+              transition: {
+                  x: {
+                      repeat: Infinity,
+                      repeatType: "loop",
+                      duration: 15,
+                      ease: "linear",
+                  },
+              },
+          },
+      };
       
       
 
@@ -119,7 +135,20 @@ const Home = (props)=>
                         </motion.button>
                     ))}
                 </motion.div>
-
+                <div className="scroll-container">
+                    <motion.div
+                        className="scroll-content"
+                        variants={scrollVariant}
+                        animate="animate"
+                    >
+                        {images.map((src, index) => (
+                            <img key={index} src={src} alt={`Logo ${index}`} />
+                        ))}
+                        {images.map((src, index) => (
+                            <img key={index + images.length} src={src} alt={`Logo ${index}`} />
+                        ))}
+                    </motion.div>
+                </div>
             </div>
         </div>
     );

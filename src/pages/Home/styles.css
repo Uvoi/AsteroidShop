@@ -94,3 +94,22 @@
     margin-top: 72vh;
     margin-left: 70%;
 }
+
+
+.scroll-container {
+    width: 100vw;
+    overflow: hidden;
+    display: flex;
+  }
+  
+  .scroll-content {
+    display: flex;
+    width: 200%;
+    gap: 20px;
+  }
+  
+  .scroll-content img {
+    width: 200px;
+    height: auto;
+  }
+  
