@@ -84,6 +84,22 @@ export async function getAllUsers(start, count) {
     }
 }
 
+export async function getUserData(id) {
+    try {
+        const response = await axios.get('http://localhost:8000/api/users', {
+            params: { 
+                id: id
+            },
+            withCredentials: true 
+        });
+        return response.data;
+    } catch (error) {
+        return false;
+    }
+}
+
+
+
 
 
 
