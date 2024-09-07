@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Float, DateTime, func, CheckConstraint, text, SmallInteger, Date, ARRAY, Numeric, Boolean
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Float, DateTime, func, SmallInteger, Date, ARRAY, Numeric, Boolean, and_
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker, joinedload
 from datetime import datetime
@@ -15,7 +15,7 @@ class Customer(Base):
     address = Column(String(255), nullable=True)
     password = Column(String(), nullable=False)
     photo = Column(String(255), nullable=True)
-    admin = Column(Boolean)
+    admin = Column(Boolean, default=False)
     baskets = relationship("Basket", back_populates="customer")
 
 class Product(Base):
@@ -363,8 +363,6 @@ def change_user_photo(customer_id: int, new_photo: dict):
 
 
 
-from sqlalchemy.orm import Session
-from datetime import datetime
 
 def get_user_orders(customer_id: int, admin: bool = False):
     with SessionLocal() as session:
@@ -521,3 +519,25 @@ def delete_product_by_id(product_id: int):
                 raise
         else:
             raise ValueError(f"Продукт с ID {product_id} не найден.")
+
+def get_customer_by_id(id, admin):
+    with SessionLocal() as session:
+        customer = session.query(Customer).filter(Customer.customerid == id).first()
+        if customer:
+            if admin:
+                customer_dict = {
+                    "firstname": customer.firstname,
+                    "lastname": customer.lastname,
+                    "email": customer.email,
+                    "address": customer.address,
+                    "photo": customer.photo,
+                }
+            else:
+                customer_dict = {
+                    "firstname": customer.firstname,
+                    "lastname": customer.lastname,
+                    "photo": customer.photo,
+                }
+            return customer_dict
+        else:
+            return None
