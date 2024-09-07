@@ -1,6 +1,6 @@
 from uuid import UUID
 from fastapi import APIRouter, HTTPException, Depends, Query
-from data_base import getAllProducts, addNewProduct, addNewComment, getProductByID, getCompositionByID, getCommentsByProdID, add_products_to_basket, getCustomerByEmail,get_products_from_basket, delete_products_from_basket, delete_basket, change_user_name, change_user_address, get_user_orders, add_order, change_user_photo, set_status_order, is_user_admin, get_all_users, get_all_orders, get_stats, delete_product_by_id
+from data_base import getAllProducts, addNewProduct, addNewComment, getProductByID, getCompositionByID, getCommentsByProdID, add_products_to_basket, getCustomerByEmail,get_products_from_basket, delete_products_from_basket, delete_basket, change_user_name, change_user_address, get_user_orders, add_order, change_user_photo, set_status_order, is_user_admin, get_all_users, get_all_orders, get_stats, delete_product_by_id, get_customer_by_id, update_order_status_on_login
 from pydantic import BaseModel
 from datetime import datetime, timedelta
 import random
@@ -51,6 +51,11 @@ class GetAll(BaseModel):
     
 class Product(BaseModel):
     id: int
+
+class GetUser(BaseModel):
+    id: int
+
+
     
 
 @router.get("/api/catalog/all")
@@ -170,11 +175,17 @@ async def changeUserAddress(newPhoto: UserPhoto, session_data: auth.SessionData 
 
 
 @router.get("/api/order/", dependencies=[Depends(auth.cookie)])
-async def getUserOrders(session_data: auth.SessionData = Depends(auth.verifier)):
-    User = await getCustomerByEmail(session_data.email)
-    if not User:
-        raise HTTPException(status_code=404, detail="User not found")
-    UserID = User['id']
+async def getUserOrders(
+    session_data: auth.SessionData = Depends(auth.verifier),
+    query_params:  GetUser = Depends(),):
+    if (query_params.id != -1):
+        UserID = query_params.id
+        update_order_status_on_login(query_params.id)
+    else:
+        User = await getCustomerByEmail(session_data.email)
+        if not User:
+            raise HTTPException(status_code=404, detail="User not found")
+        UserID = User['id']
     orders = get_user_orders(UserID)
     return {"orders": orders}
 
@@ -196,13 +207,13 @@ async def addOrder(toOrder: OrderCreateRequest, session_data: auth.SessionData =
     return "Order created successfully"
 
 @router.patch("/api/order/cancel", dependencies=[Depends(auth.cookie)])
-async def cancelOrder(orderID: OrderId, session_data: auth.SessionData = Depends(auth.verifier)):
+async def cancelOrder(orderID: OrderId):
     set_status_order(orderID.orderid, 'Cancelled')
     
     return "Order was canceled"
 
 @router.patch("/api/order/delete", dependencies=[Depends(auth.cookie)])
-async def deleteOrder(orderID: OrderId, session_data: auth.SessionData = Depends(auth.verifier)):
+async def deleteOrder(orderID: OrderId):
     set_status_order(orderID.orderid, 'Deleted')
     
     return "Order was deleted"
@@ -270,3 +281,17 @@ async def delete_product(
         raise HTTPException(status_code=403, detail="You do not have access to this resource")
     delete_product_by_id(id)
     return {f"Product with ID {id} was successfully deleted"}
+
+@router.get("/api/users", dependencies=[Depends(auth.cookie)])
+async def getUser(
+    query_params:  GetUser = Depends(),
+    session_data: auth.SessionData = Depends(auth.verifier)
+):
+    User = await getCustomerByEmail(session_data.email)  
+    if not User:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    UserID = User['id']
+    if not is_user_admin(UserID):
+        return get_customer_by_id(query_params.id, False)
+    return get_customer_by_id(query_params.id, True)
