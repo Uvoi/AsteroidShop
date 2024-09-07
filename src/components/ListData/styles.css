@@ -1,0 +1,84 @@
+.ListData
+{
+    border-collapse: collapse;
+}
+
+.ListData div
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.ListData tr, .ListData td
+{
+    height: 8vh;
+}
+
+.ListData img
+{
+    height: 100%;
+    object-fit: cover;
+}
+
+
+
+.ListData
+{
+    color:#fff ;
+}
+
+.ListData th {
+    background-color: #422478;
+    font-weight: bold;
+}
+
+
+.ListData tr:nth-child(even) {
+    background-color: #6325cf;
+}
+
+
+
+.ListData tr:nth-child(odd) {
+    background-color: #D1A3FF;
+}
+
+.ListData button
+{
+  width: 100%;
+}
+
+
+.admin-yes {
+    background-color: lightgreen;
+    color: #032a00;
+    font-weight: bold;
+  }
+  
+  .status-in-transit {
+    background-color: lightgreen;
+    color: green;
+  }
+  
+  .status-cancelled {
+    background-color: lightcoral;
+    color: darkred;
+  }
+  
+  .status-error {
+    background-color: red;
+    color: white;
+  }
+  
+  .status-deleted {
+    background-color: darkgray;
+    color: white;
+  }
+  
+  .status-completed {
+    background-color: lightgray;
+    color: black;
+  }
+  

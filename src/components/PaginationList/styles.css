@@ -1,0 +1,24 @@
+.PaginationList
+{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+}
+
+.pagination button.active {
+    font-weight: bold;
+    filter: grayscale(60%);
+    border: 1px solid #4BB543;
+}
+
+.pagination button {
+    margin: 0 5px !important;
+    padding: 5px 10px !important;
+    min-width: 10px;
+}
+
+.pagination button:disabled {
+    cursor: not-allowed;
+}
