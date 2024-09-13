@@ -25,6 +25,11 @@
     font-size: 3vmin;
 }
 
+#picAndUsernameCom a
+{
+    text-decoration: none;
+}
+
 #picAndUsernameCom img
 {
     height: 5.5vmin;
