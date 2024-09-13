@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import { themeContext } from '../../App';
 import { Skeleton } from '@mui/material';
 
 import './styles.css';
+import { getProduct } from '../../functions/product';
 
 const OrderProduct = ({ id, imgLink, price, nonPrice = false }) => {
     const [gettedImgLink, setGettedImgLink] = useState(imgLink);
@@ -13,18 +13,7 @@ const OrderProduct = ({ id, imgLink, price, nonPrice = false }) => {
 
     useEffect(() => {
         if (!imgLink) {
-            const getProdFormSer = () => {
-                axios
-                    .get(`http://localhost:8000/api/products/` + id, { withCredentials: true })
-                    .then(response => {
-                        setGettedImgLink(response.data.imgLink);
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    });
-            };
-
-            getProdFormSer();
+            setGettedImgLink((getProduct(id)).imgLink)
         }
     }, [imgLink, id]);
 

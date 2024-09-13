@@ -11,7 +11,7 @@ import Comment from '../../components/Comment/Comment';
 import CommentInput from '../../components/CommentInput/CommentInput';
 import {addToBasket} from '../../functions/basket'
 import { themeContext, userContext } from '../../App';
-import { deleteProduct } from '../../functions/product';
+import { deleteProduct, getProduct } from '../../functions/product';
 import AdminPanel from '../../components/AdminPanel/AdminPanel';
 
 const Asteroid = ()=>
@@ -55,18 +55,21 @@ const Asteroid = ()=>
       };
 
     useEffect(() => {
+        const getProductData = async () =>
+        {
+            const data = await getProduct(idFromUrl);
+            if (data) {
+              parseAsteroidData(data);
+            } else {
+              navigate('/catalog');
+            }            
+            getCommentsFromServ()
+        }
+
         if (!idFromUrl)
             navigate('/catalog')
-        else{
-            axios.get(`http://localhost:8000/api/products/${idFromUrl}`, axios.defaults.withCredentials = true)
-                .then(response => {
-                    parseAsteroidData(response.data)
-                })
-                .catch(error => {
-                    navigate('/catalog')
-                });
-                getCommentsFromServ()
-            }
+        else
+            getProductData()
 
     },[idFromUrl])
 

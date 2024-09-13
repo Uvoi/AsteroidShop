@@ -25,3 +25,14 @@ export async function addNewProduct(data) {
         return false
     }
 }
+
+export async function getProduct(id) {
+    try {
+      const response = await axios.get(`http://localhost:8000/api/products/` + id, { withCredentials: true });
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  }
+  
