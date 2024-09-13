@@ -1,0 +1,52 @@
+.AdminPanel
+{
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    top: 20%;
+    right: 2%;
+    width: 60px;
+    align-items: center;
+}
+
+.AdminPanel button
+{
+    padding: 13px 14px !important; 
+    min-width: 20px !important;
+}
+
+.AdminPanel svg
+{
+    font-size: 30px !important;
+}
+
+.AdminPanelMenu
+{
+    width: 100% !important;
+}
+
+.AdminPanelMenu ul
+{
+    display: flex;
+    flex-direction: column;
+}
+
+.AdminPanelMenu li, .AdminPanel button
+{
+    justify-content: center;
+    padding: 12px 15px; 
+    border-radius: 10px;
+    margin-top: -2px;
+}
+
+.AdminPanelMenu ul li div
+{
+    justify-content: center;
+    
+}
+
+.AdminPanelMenu li a
+{
+    text-decoration: none;
+    line-height: normal;
+}
