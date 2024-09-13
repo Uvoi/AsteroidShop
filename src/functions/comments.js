@@ -15,3 +15,16 @@ export async function addNewComment(ProdID, userEmail, Text)
         console.log('Error: ', error);
     });
 }
+
+export async function getComments(productId) {
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/api/comments/${productId}`,
+        { withCredentials: true }
+      );
+      return response.data;
+    } catch (error) {
+      console.error('Не удалось подгрузить комментарии', error);
+      throw error;
+    }
+  }

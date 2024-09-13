@@ -13,6 +13,7 @@ import {addToBasket} from '../../functions/basket'
 import { themeContext, userContext } from '../../App';
 import { deleteProduct, getProduct } from '../../functions/product';
 import AdminPanel from '../../components/AdminPanel/AdminPanel';
+import { getComments } from '../../functions/comments';
 
 const Asteroid = ()=>
 {
@@ -73,16 +74,14 @@ const Asteroid = ()=>
 
     },[idFromUrl])
 
-    const getCommentsFromServ = () => 
-        {
-            axios.get(`http://localhost:8000/api/comments/${idFromUrl}`, axios.defaults.withCredentials = true)
-                .then(response => {
-                    parseCommentsData(response.data)
-                })
-                .catch(error => {
-                    console.log("не удалось подгрузить комментарии")
-                });
+    const getCommentsFromServ = async () => {
+        try {
+          const data = await getComments(idFromUrl);
+          parseCommentsData(data);
+        } catch (error) {
+          console.log('Не удалось подгрузить комментарии');
         }
+      };
 
 
     const parseCommentsData = (data) => {    
