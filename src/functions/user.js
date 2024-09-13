@@ -10,6 +10,18 @@ export async function checkSession() {
     }
 }
 
+export async function createSession(action, userData) {
+    try {
+      const response = await axios.post(
+        `http://localhost:8000/api/session/create?action=${action}`,
+        userData,
+        { withCredentials: true }
+      );
+      return response.data;
+    } catch (error) {
+      throw error; // Пробрасываем ошибку для обработки в вызывающей функции
+    }
+  }
 
 export async function changeFullName(first_name, last_name) {
     const newName = {

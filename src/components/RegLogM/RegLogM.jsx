@@ -2,11 +2,11 @@ import React, { forwardRef, useContext, useState } from 'react';
 import './styles.css';
 import { motion, useAnimation } from 'framer-motion';
 import { Button, Switch, TextField } from '@mui/material';
-import axios from 'axios';
 import { useNotification } from '../Notification/Notification';
 import { themeContext } from '../../App';
 import { sendLSBasketToServ } from '../../functions/basket';
 import { useNavigate } from 'react-router-dom';
+import { createSession } from '../../functions/user';
 
 const RegLogM = forwardRef(({ action, close = null, updateUser, goto = null }, ref) => {
     const theme = useContext(themeContext);
@@ -59,48 +59,49 @@ const RegLogM = forwardRef(({ action, close = null, updateUser, goto = null }, r
         setSwitcher(!switcher);
     };
 
-    const sendToServ = (e, act) => {
+    const sendToServ = async (e, act) => {
         e.preventDefault();
-        axios.post(`http://localhost:8000/api/session/create?action=${act}`, {
-            firstname: nameInput,
-            lastname: fullNameInput,
-            email: emailInput,
-            password: passwordInput,
-        }, { withCredentials: true })
-        .then(response => {
-            console.log(response.data);
-            close && close();
-            updateUser();
-            sendLSBasketToServ();
-            showNotification("Добро пожаловать", 'green');
-            navigate(goto, { replace: true });
-        })
-        .catch(error => {
-            if (error.response) {
-                switch (error.response.status) {
-                    case 469:
-                        setLogErr([true, false]);
-                        showNotification("Неверный пароль", 'red', 3500);
-                        break;
-                    case 470:
-                        setLogErr([false, true]);
-                        showNotification("Пользователя с такой почтой не существует", 'red', 3500);
-                        break;
-                    case 468:
-                        setRegErr(true);
-                        showNotification("Данная почта уже зарегистрированна", 'red', 3500);
-                        break;
-                    default:
-                        showNotification("Произошла ошибка", 'red', 3500);
-                        break;
-                }
-                console.log(error.response.data.detail);
-            } else {
-                showNotification("Ошибка соединения с сервером", 'red', 3500);
-                console.error("Ошибка:", error.message);
+        const userData = {
+          firstname: nameInput,
+          lastname: fullNameInput,
+          email: emailInput,
+          password: passwordInput,
+        };
+    
+        try {
+          const data = await createSession(act, userData);
+          console.log(data);
+          if (close) close();
+          updateUser();
+          sendLSBasketToServ();
+          showNotification('Добро пожаловать', 'green');
+          navigate(goto, { replace: true });
+        } catch (error) {
+          if (error.response) {
+            switch (error.response.status) {
+              case 469:
+                setLogErr([true, false]);
+                showNotification('Неверный пароль', 'red', 3500);
+                break;
+              case 470:
+                setLogErr([false, true]);
+                showNotification('Пользователя с такой почтой не существует', 'red', 3500);
+                break;
+              case 468:
+                setRegErr(true);
+                showNotification('Данная почта уже зарегистрирована', 'red', 3500);
+                break;
+              default:
+                showNotification('Произошла ошибка', 'red', 3500);
+                break;
             }
-        });
-    };
+            console.log(error.response.data.detail);
+          } else {
+            showNotification('Ошибка соединения с сервером', 'red', 3500);
+            console.error('Ошибка:', error.message);
+          }
+        }
+      };
 
     
     return(
