@@ -16,7 +16,11 @@ class Customer(Base):
     password = Column(String(), nullable=False)
     photo = Column(String(255), nullable=True)
     admin = Column(Boolean, default=False)
-    baskets = relationship("Basket", back_populates="customer")
+    baskets = relationship(
+        "Basket",
+        back_populates="customer",
+        passive_deletes=True
+    )
 
 class Product(Base):
     __tablename__ = 'products'
@@ -52,7 +56,11 @@ class Comments(Base):
 
 class Basket(Base):
     __tablename__ = 'basket'
-    customerid = Column(Integer, ForeignKey('customers.customerid'), primary_key=True)
+    customerid = Column(
+        Integer,
+        ForeignKey('customers.customerid', ondelete='CASCADE'),
+        primary_key=True
+    )
     productids = Column(ARRAY(Integer), nullable=False)
     customer = relationship("Customer", back_populates="baskets")
 
@@ -556,3 +564,18 @@ def get_customer_by_id(id, admin):
             return customer_dict
         else:
             return None
+
+
+def delete_user_by_id(id: int):
+    with SessionLocal() as session:
+        user = session.query(Customer).filter(Customer.customerid == id).first()
+        if user:
+            try:
+                session.delete(user)
+                session.commit()
+                return 'user deleted'
+            except Exception as e:
+                session.rollback()
+                raise
+        else:
+            raise ValueError(f"Пользователь с ID {id} не найден.")
