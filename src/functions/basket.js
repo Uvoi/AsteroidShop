@@ -80,7 +80,6 @@ export async function delProdFromBasket(prodIds, force=false)
             }
 }
 
-
 function clearBasketLS()
 {
     for (let i = localStorage.length-1; i != -1 ; i--) {
@@ -111,7 +110,6 @@ export async function clearBasket()
             await clearBasketServ()
         }
 }
-
 
 function getBasketLS()
 {
@@ -170,3 +168,18 @@ export function getSelectedProds()
     }
     return resultArray;
 };
+
+
+export async function getBasketServByMass(prodIds) {
+  try {
+    const response = await axios.post(
+      `http://localhost:8000/api/basket/getByMass`,
+      prodIds,
+      { withCredentials: true }
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Ошибка при получении продуктов из сервера:', error);
+    throw error;
+  }
+}

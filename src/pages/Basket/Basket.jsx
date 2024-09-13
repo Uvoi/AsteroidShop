@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
-import axios from 'axios';
 import { motion, AnimatePresence} from 'framer-motion';
 import { themeContext } from '../../App';
 import { useNotification } from '../../components/Notification/Notification';
 
 import './styles.css';
 import BasketProduct from '../../components/BasketProduct/BasketProduct';
-import { getBasket, delProdFromBasket, clearBasket, getSelectedProds} from '../../functions/basket';
+import { getBasket, delProdFromBasket, clearBasket, getSelectedProds, getBasketServByMass} from '../../functions/basket';
 import { checkSession } from '../../functions/user';
 
 
@@ -23,13 +22,13 @@ const Basket = () => {
 
   useEffect(() => {
     const getProdsFromServer = async () => {
-        try {
-            const prodIds = await getBasket();
-            const response = await axios.post(`http://localhost:8000/api/basket/getByMass`, prodIds, { withCredentials: true });
-            parseProdsData(response.data);
-        } catch (error) {
-            console.error(error);
-        }
+      try {
+        const prodIds = await getBasket();
+        const data = await getBasketServByMass(prodIds); 
+        parseProdsData(data);
+      } catch (error) {
+        console.error('Ошибка при получении продуктов из сервера:', error);
+      }
     };
 
     getProdsFromServer();
