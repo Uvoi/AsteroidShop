@@ -6,7 +6,7 @@ import { themeContext } from '../../App';
 import OrdersList from '../../components/OrdersList/OrdersList';
 import OrderItem from '../../components/OrderItem/OrderItem';
 import {deleteUser, getUserData, isUserAdmin} from '../../functions/user';
-import { getOrders } from '../../functions/order';
+import { getOrders, translateStatus } from '../../functions/order';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import AdminPanel from '../../components/AdminPanel/AdminPanel';
 import Empty from '../Empty/Empty';
@@ -66,20 +66,6 @@ const User = ({props})=>
         }
         fetchOrders();
     }, [updateOrders]);
-
-    const translateStatus = (status) =>
-    {
-        switch (status) {
-            case 'Completed':
-                return 'Завершен';
-            case 'In Transit':
-                return 'В доставке';
-            case 'Cancelled':
-                return 'Отменен';
-            default:
-                return 'Ошибка';
-        }
-    }
 
     const handleImageLoad = () => {
         setLoading(false);

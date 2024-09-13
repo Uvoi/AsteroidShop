@@ -69,3 +69,19 @@ export async function getAllOrders(start, count) {
         return false;
     }
 }
+
+export const translateStatus = (status) =>
+    {
+        switch (status) {
+            case 'Completed':
+                return 'Завершен';
+            case 'In Transit':
+                return 'В доставке';
+            case 'Cancelled':
+                return 'Отменен';
+            case 'Deleted':
+                return 'Удален';
+            default:
+                return 'Ошибка';
+        }
+    }

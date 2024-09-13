@@ -10,7 +10,7 @@ import OrdersList from '../../components/OrdersList/OrdersList';
 import OrderItem from '../../components/OrderItem/OrderItem';
 import {changeAddress, changeFullName, changePhoto} from '../../functions/user';
 import SelectAddress from '../../components/SelectAddress/SelectAddress';
-import { getOrders } from '../../functions/order';
+import { getOrders, translateStatus } from '../../functions/order';
 
 const Profile = ({updateUser})=>
 {
@@ -83,20 +83,6 @@ const Profile = ({updateUser})=>
         });
         updateUser()
         navigate('/');
-    }
-
-    const translateStatus = (status) =>
-    {
-        switch (status) {
-            case 'Completed':
-                return 'Завершен';
-            case 'In Transit':
-                return 'В доставке';
-            case 'Cancelled':
-                return 'Отменен';
-            default:
-                return 'Ошибка';
-        }
     }
 
     const handleSavePhotoClick = () =>
