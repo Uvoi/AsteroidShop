@@ -12,10 +12,20 @@ const OrderProduct = ({ id, imgLink, price, nonPrice = false }) => {
     const theme = useContext(themeContext);
 
     useEffect(() => {
+        const getProd = async () => {
+            const prod = await getProduct(id);
+            if (prod) {
+                setGettedImgLink(prod.imgLink);
+            } else {
+                console.error('Товар не найден');
+            }
+        };
+    
         if (!imgLink) {
-            setGettedImgLink((getProduct(id)).imgLink)
+            getProd();
         }
     }, [imgLink, id]);
+    
 
     const handleImageLoad = () => {
         setLoading(false);
