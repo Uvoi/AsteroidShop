@@ -374,7 +374,7 @@ def change_user_photo(customer_id: int, new_photo: dict):
 
 
 
-def get_user_orders(customer_id: int, admin: bool = False):
+def get_user_orders(customer_id: int, admin:bool):
     with SessionLocal() as session:
         query = session.query(
             Orders.orderid,

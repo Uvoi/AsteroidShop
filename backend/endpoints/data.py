@@ -178,15 +178,22 @@ async def changeUserAddress(newPhoto: UserPhoto, session_data: auth.SessionData 
 async def getUserOrders(
     session_data: auth.SessionData = Depends(auth.verifier),
     query_params:  GetUser = Depends(),):
+    customerID = 0
+
+    User = await getCustomerByEmail(session_data.email)
+    if not User:
+        raise HTTPException(status_code=404, detail="User not found")
+    UserID = User['id']
+
     if (query_params.id != -1):
-        UserID = query_params.id
+        customerID = query_params.id
         update_order_status_on_login(query_params.id)
     else:
-        User = await getCustomerByEmail(session_data.email)
-        if not User:
-            raise HTTPException(status_code=404, detail="User not found")
-        UserID = User['id']
-    orders = get_user_orders(UserID)
+        customerID = UserID
+    if is_user_admin(UserID):
+        orders = get_user_orders(customerID, True)
+    else:
+        orders = get_user_orders(customerID, False)
     return {"orders": orders}
 
 @router.post("/api/order/add", dependencies=[Depends(auth.cookie)])
