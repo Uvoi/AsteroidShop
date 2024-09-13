@@ -1,7 +1,8 @@
 import React from 'react';
 import './styles.css';
+import { Link } from 'react-router-dom';
 
-const ListData = ({ data, width }) => {
+const ListData = ({ data, width, link }) => {
   if (!data || data.length === 0) {
     return <p>No data available</p>;
   }
@@ -36,13 +37,14 @@ const ListData = ({ data, width }) => {
   {
     if (isUsers)
     {
-      return item.customerid
+      return item.customerid;
     }
     else if (isOrders)
     {
-      return item.orderid
+      return item.customerid;
     }
-  }
+    return '';
+  };
 
   return (
     <table className='ListData' border="1" width={width + '%'}>
@@ -56,13 +58,15 @@ const ListData = ({ data, width }) => {
       <tbody>
         {data.map((item, index) => (
           <tr key={index}>
-            {columns.map((column) => (
-              <td key={`${index}-${column}`} onClick={()=>(console.log(getId(item)))}>
+            {columns.map((column) => {
+              const cellContent = (
                 <div
                   className={
-                    isUsers && column === 'is_admin' ? getUserAdminClass(item[column]) :
-                    isOrders && column === 'status' ? getOrderStatusClass(item[column]) :
-                    ''
+                    isUsers && column === 'is_admin'
+                      ? getUserAdminClass(item[column])
+                      : isOrders && column === 'status'
+                      ? getOrderStatusClass(item[column])
+                      : ''
                   }
                 >
                   {column === 'photo' && item[column] ? (
@@ -70,11 +74,25 @@ const ListData = ({ data, width }) => {
                   ) : typeof item[column] === 'boolean' ? (
                     item[column] ? 'Yes' : 'No'
                   ) : (
-                    item[column] !== null && item[column] !== undefined ? item[column] : 'N/A'
+                    item[column] !== null && item[column] !== undefined
+                      ? item[column]
+                      : 'N/A'
                   )}
                 </div>
-              </td>
-            ))}
+              );
+              
+              return (
+                <td key={`${index}-${column}`}>
+                  {link ? (
+                    <Link to={link + getId(item)}>
+                      {cellContent}
+                    </Link>
+                  ) : (
+                    cellContent
+                  )}
+                </td>
+              );
+            })}
           </tr>
         ))}
       </tbody>

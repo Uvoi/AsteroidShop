@@ -1,6 +1,12 @@
 .ListData
 {
     border-collapse: collapse;
+    color:#fff ;
+}
+
+.ListData a
+{
+  text-decoration: none;
 }
 
 .ListData div
@@ -22,12 +28,6 @@
     object-fit: cover;
 }
 
-
-
-.ListData
-{
-    color:#fff ;
-}
 
 .ListData th {
     background-color: #422478;

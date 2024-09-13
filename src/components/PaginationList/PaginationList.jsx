@@ -4,7 +4,7 @@ import ListData from '../ListData/ListData';
 import { Button } from '@mui/material';
 import { themeContext } from '../../App';
 
-const PaginationList = ({ dataFunc, title, width = 100 }) => {
+const PaginationList = ({ dataFunc, title, width = 100, link }) => {
     const theme = useContext(themeContext)
     const [data, setData] = useState([]);
     const [totalData, setTotalData] = useState(0);
@@ -48,7 +48,7 @@ const PaginationList = ({ dataFunc, title, width = 100 }) => {
             <h1 style={{color:theme.palette.text.ultra}}>{title}</h1>
             {data && data.length > 0 ? (
                 <>
-                    <ListData data={data} width={width} />
+                    <ListData data={data} width={width} link={link}/>
                     <div className="pagination">
                         <Button variant='contained' onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
                             Назад
