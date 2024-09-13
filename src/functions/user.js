@@ -98,8 +98,16 @@ export async function getUserData(id) {
     }
 }
 
-
-
-
-
-
+export async function deleteUser(id) {
+    try {
+        const response = await axios.delete('http://localhost:8000/api/admin/user', {
+            params: { 
+                id: id
+            },
+            withCredentials: true 
+        });
+        return response.data;
+    } catch (error) {
+        return false;
+    }
+}
