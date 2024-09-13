@@ -11,6 +11,7 @@ import ProductsContainer from '../../components/ProductsContainer/ProductsContai
 import ProductCard from '../../components/ProductCard/ProductCard';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { themeContext } from '../../App';
+import AdminPanel from '../../components/AdminPanel/AdminPanel';
 
 const Catalog = () => {
   const theme = useContext(themeContext)
@@ -192,6 +193,7 @@ const Catalog = () => {
           ))}
         </ProductsContainer>
       </div>
+      <AdminPanel add={'/admin/product/add'} addTitle={'Добавить продукт'}/>
     </div>
   );
 };
