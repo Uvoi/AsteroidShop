@@ -89,6 +89,7 @@ const Asteroid = ()=>
               newData[item.id] = {
                 customerName: item.customerName,
                 customerPhoto: item.customerPhoto,
+                customerId:item.customerid,
                 text: item.text,
                 date: item.date,
               };
@@ -196,6 +197,7 @@ const Asteroid = ()=>
                     {Object.keys(commentsData).slice(-3).reverse().map(key => (
                         <Comment
                             key={key}
+                            customerId={commentsData[key].customerId}
                             user={commentsData[key].customerName}
                             dateTime={commentsData[key].date}
                             photo={commentsData[key].customerPhoto}
@@ -218,6 +220,7 @@ const Asteroid = ()=>
                                 {Object.keys(commentsData).slice(0, -3).map(key => (
                                     <Comment
                                         key={key}
+                                        customerId={commentsData[key].customerId}
                                         user={commentsData[key].customerName}
                                         dateTime={commentsData[key].date}
                                         photo={commentsData[key].customerPhoto}
