@@ -1,6 +1,6 @@
 from uuid import UUID
 from fastapi import APIRouter, HTTPException, Depends, Query
-from data_base import getAllProducts, addNewProduct, addNewComment, getProductByID, getCompositionByID, getCommentsByProdID, add_products_to_basket, getCustomerByEmail,get_products_from_basket, delete_products_from_basket, delete_basket, change_user_name, change_user_address, get_user_orders, add_order, change_user_photo, set_status_order, is_user_admin, get_all_users, get_all_orders, get_stats, delete_product_by_id, get_customer_by_id, update_order_status_on_login
+from data_base import getAllProducts, addNewProduct, addNewComment, getProductByID, getCompositionByID, getCommentsByProdID, add_products_to_basket, getCustomerByEmail,get_products_from_basket, delete_products_from_basket, delete_basket, change_user_name, change_user_address, get_user_orders, add_order, change_user_photo, set_status_order, is_user_admin, get_all_users, get_all_orders, get_stats, delete_product_by_id, get_customer_by_id, update_order_status_on_login, delete_user_by_id
 from pydantic import BaseModel
 from datetime import datetime, timedelta
 import random
@@ -295,3 +295,14 @@ async def getUser(
     if not is_user_admin(UserID):
         return get_customer_by_id(query_params.id, False)
     return get_customer_by_id(query_params.id, True)
+
+@router.delete("/api/admin/user", dependencies=[Depends(auth.cookie)])
+async def deleteUser(
+    query_params:  GetUser = Depends(),
+    session_data: auth.SessionData = Depends(auth.verifier)
+):
+    User = await getCustomerByEmail(session_data.email)  
+    UserID = User['id']
+    if not is_user_admin(UserID):
+        raise HTTPException(status_code=404, detail="User isn't admin")
+    return delete_user_by_id(query_params.id)
