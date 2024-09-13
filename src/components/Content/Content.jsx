@@ -10,7 +10,7 @@ import Asteroid from '../../pages/Asteroid/Asteroid';
 import CheckAdmin from './CheckAdmin/CheckAdmin';
 const Catalog = lazy(() => import('../../pages/Catalog/Catalog'))
 const Help = lazy(() => import('../../pages/Help/Help'))
-const AddToDB = lazy(() => import('../../components/AddToDB/AddToDB'))
+const AddNewProduct = lazy(() => import('../../components/AddNewProduct/AddNewProduct'))
 const Basket = lazy(() => import('../../pages/Basket/Basket')) 
 const Profile = lazy(() => import('../../pages/Profile/Profile'))
 const Order = lazy(() => import('../../pages/Order/Order'))
@@ -63,7 +63,7 @@ return (
             } />
             <Route exact path='/admin/product/add' element={
                 <CheckAdmin>
-                  <AddToDB />
+                  <AddNewProduct />
                 </CheckAdmin>
             } />
             <Route exact path='/admin/users' element={

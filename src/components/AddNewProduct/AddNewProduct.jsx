@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import './styles.css'
 import { Input, Button } from '@mui/material';
 
 import { useNotification } from '../Notification/Notification';
+import { addNewProduct } from '../../functions/product';
 
-const AddToDBForm = () => {
+const AddNewProduct = () => {
     const showNotification = useNotification();
     const [formData, setFormData] = useState({
         id: '',
@@ -90,16 +90,9 @@ const AddToDBForm = () => {
       composition: Object.values(formData.composition).map(value => value || '0').join(',')
     };
 
-    try {
-      const response = await axios.post('http://127.0.0.1:8000/api/catalog/add', payload,axios.defaults.withCredentials = true, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      console.log(response.data);
+    if (addNewProduct(payload))
+    {
       showNotification("Продукт успешно добавлен", "green")
-    } catch (error) {
-      console.error('There was an error!', error);
     }
   };
 
@@ -183,4 +176,4 @@ const AddToDBForm = () => {
   );
 };
 
-export default AddToDBForm;
+export default AddNewProduct;
