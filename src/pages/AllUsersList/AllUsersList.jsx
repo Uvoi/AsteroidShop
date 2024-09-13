@@ -2,13 +2,13 @@ import React from 'react';
 import PaginationList from '../../components/PaginationList/PaginationList';
 import { getAllUsers } from '../../functions/user';
 
-const AllUserList = ({props})=>
+const AllUsersList = ({props})=>
 {
     return(
         <div id='AllUserList' >
-            <PaginationList dataFunc={getAllUsers} title={'Пользователи'} width={70}/>
+            <PaginationList dataFunc={getAllUsers} title={'Пользователи'} width={70} link='/user?id='/>
         </div>
     );
 };
 
-export default AllUserList;
+export default AllUsersList;

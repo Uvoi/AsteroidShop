@@ -18,7 +18,7 @@ const AboutUs = lazy(() => import('../../pages/AboutUs/AboutUs'))
 const Unlogined = lazy(() => import('../../pages/Unlogined/Unlogined'))
 const Empty = lazy(() => import('../../pages/Empty/Empty'))
 const Admin = lazy(() => import('../../pages/Admin/Admin'))
-const AllUserList = lazy(() => import('../../pages/AllUserList/AllUserList'))
+const AllUsersList = lazy(() => import('../../pages/AllUsersList/AllUsersList'))
 const AllOrdersList = lazy(() => import('../../pages/AllOrdersList/AllOrdersList'))
 const User = lazy(() => import('../../pages/User/User'))
 
@@ -68,7 +68,7 @@ return (
             } />
             <Route exact path='/admin/users' element={
                 <CheckAdmin>
-                  <AllUserList/>
+                  <AllUsersList/>
                 </CheckAdmin>
             } />
             <Route exact path='/admin/orders' element={

@@ -6,7 +6,7 @@ const AllOrdersList = ({props})=>
 {
     return(
         <div id='AllOrdersList' >
-            <PaginationList dataFunc={getAllOrders} title={'Заказы'} width={100}/>
+            <PaginationList dataFunc={getAllOrders} title={'Заказы'} width={100} link='/user?id='/>
         </div>
     );
 };
