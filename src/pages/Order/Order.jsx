@@ -5,11 +5,10 @@ import { Accordion, AccordionDetails, AccordionSummary, Backdrop, Button, Checkb
 import { ArrowDropDown } from '@mui/icons-material';
 import { themeContext, userContext } from '../../App';
 import { useNotification } from '../../components/Notification/Notification';
-import axios from 'axios';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import SelectAddress from '../../components/SelectAddress/SelectAddress';
 import OrderProductsContainer from '../../components/OrderProduct/OrderProductsContainer/OrderProductsContainer';
-import { delProdFromBasket, getSelectedProds } from '../../functions/basket';
+import { delProdFromBasket, getBasketServByMass, getSelectedProds } from '../../functions/basket';
 import { changeAddress } from '../../functions/user';
 import OrderCompleteM from '../../components/OrderCompleteM/OrderCompleteM';
 import { addOrder } from '../../functions/order';
@@ -42,20 +41,20 @@ const Order = () =>
     const navigate = useNavigate();
 
 
+
     useEffect(() => {
-        const getProdsFormSer = () => {
-          var prodIds = onlyOneId?[onlyOneId]:getSelectedProds();
-          axios
-            .post(`http://localhost:8000/api/basket/getByMass`, prodIds, axios.defaults.withCredentials = true)
-            .then(response => {
-              parseProdsData(response.data);
-            })
-            .catch(error => {
-              console.error(error);
-            });
-        };
-        getProdsFormSer();
-      }, []);
+      const fetchProds = async () => {
+        const prodIds = onlyOneId ? [onlyOneId] : getSelectedProds();
+        try {
+          const data = await getBasketServByMass(prodIds);
+          parseProdsData(data);
+        } catch (error) {
+          console.error('Ошибка при получении данных:', error);
+        }
+      };
+  
+      fetchProds();
+    }, []);
 
 
 
