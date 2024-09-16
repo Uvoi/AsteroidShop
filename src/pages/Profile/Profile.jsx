@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Backdrop, Button, Input, Modal, Skeleton, TextField } from '@mui/material';
 
@@ -8,7 +7,7 @@ import { useNotification } from '../../components/Notification/Notification';
 import { themeContext, userContext } from '../../App';
 import OrdersList from '../../components/OrdersList/OrdersList';
 import OrderItem from '../../components/OrderItem/OrderItem';
-import {changeAddress, changeFullName, changePhoto} from '../../functions/user';
+import {changeAddress, changeFullName, changePhoto, deleteSession} from '../../functions/user';
 import SelectAddress from '../../components/SelectAddress/SelectAddress';
 import { getOrders, translateStatus } from '../../functions/order';
 import { clearBasketLS, setBasketCount } from '../../functions/basket';
@@ -73,20 +72,13 @@ const Profile = ({updateUser})=>
         return /^[a-zA-Z0-9\s]{4,20}$/.test(name);
     };
 
-    const unlogin = () => {
-        axios.post('http://localhost:8000/api/session/delete', {
-        }, { withCredentials: true })
-        .then(response => {
-            console.log(response.data);
-        })
-        .catch(error => {
-            console.error('There was an error!', error);
-        });
-        updateUser()
-        clearBasketLS(true)
-        setBasketCount()
-        navigate('/');
-    }
+    const unlogin = async () => {
+          await deleteSession();
+          updateUser();
+          clearBasketLS(true);
+          setBasketCount();
+          navigate('/');
+      };
 
     const handleSavePhotoClick = () =>
     {

@@ -125,3 +125,19 @@ export async function deleteUser(id) {
         return false;
     }
 }
+
+
+export async function deleteSession() {
+    try {
+      const response = await axios.post(
+        'http://localhost:8000/api/session/delete',
+        {},
+        { withCredentials: true }
+      );
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error('There was an error!', error);
+      throw error;
+    }
+  };
