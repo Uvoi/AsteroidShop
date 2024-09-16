@@ -14,26 +14,15 @@ import telegramLogo from '../../images/telegram.webp'
 import vkLogo from '../../images/vk.webp'
 import githubLogo from '../../images/github.svg'
 import logof from '../../images/logof.webp'
-import { isUserAdmin } from '../../functions/user';
 
 const Footer = ()=>
 {
     const theme = useContext(themeContext)
-    const [isAdmin, setIsAdmin] = useState(false);
-
-    useEffect(() => {
-        const checkAdmin = async () => {
-            const isAdminValue = await isUserAdmin();
-            setIsAdmin(isAdminValue);
-        }
-    
-        checkAdmin();
-    }, []);
     return(
         <footer id='Footer' style={{backgroundColor: theme.palette.header.primary}}>
             <div id="contact_aboutF">
                 <div id="contactsF">
-                    <Link to={isAdmin?'/admin':'/'}>
+                    <Link to={'/'}>
                         <img src={logof} alt="" id='logofF'/>
                     </Link>
                     <div id='contactIconsF'>
