@@ -26,7 +26,7 @@
 }
 #LogoH button
 {
-    background-color: #ffffff00;
+    background-color: transparent;
     border: none;
     cursor: pointer;
     height: 100%;
@@ -98,6 +98,11 @@
 #BasketH
 {
     height: 100%;
+}
+
+#BasketH>span
+{
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: end;
@@ -109,6 +114,13 @@
     height: 70%;
     fill: white;
     transition: all 0.2s ease-in-out;
+}
+
+#BasketH span>span
+{
+    padding: 0 3px;
+    color: white;
+    font-size: 11px;
 }
 
 #BasketH:hover svg

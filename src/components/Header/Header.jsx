@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './styles.css'
 import logo from './../../images/logo.webp'
 import userLogo from './../../images/userImg.webp'
 import { ReactComponent as BasketSvg } from './../../images/basket.svg'
 import StarButton from '../StarButton/StarButton';
-import { Backdrop, Modal} from '@mui/material';
+import { Backdrop, Badge, Modal} from '@mui/material';
 import RegLogM from '../RegLogM/RegLogM';
 import { themeContext, userContext } from '../../App';
 import { Link } from 'react-router-dom';
@@ -18,6 +18,7 @@ const Header = ({onToggleTheme, updateUser, openRegLogModal, setOpenRegLogModal}
     const user = useContext(userContext)
     const [regOrLog, setRegOrLog] = useState(true);
     const [rotate, setRotate] = useState(false);
+    const [basketCount, setBasketCount] = useState(0);
 
     const handleOpen = () => setOpenRegLogModal(true);
     const handleClose = () => setOpenRegLogModal(false);
@@ -27,6 +28,26 @@ const Header = ({onToggleTheme, updateUser, openRegLogModal, setOpenRegLogModal}
             onToggleTheme()
             setRotate(!rotate)
         }
+    
+    useEffect(() => {
+        const handleChangeBasketCount = () =>
+        {
+            setBasketCount(Number(localStorage.getItem('basketCount'))||0)
+            console.log('basketCountUpdated')
+        }
+
+        window.addEventListener('basketCountUpdated',handleChangeBasketCount)
+
+        return () =>
+        {
+            window.removeEventListener('basketCountUpdated', handleChangeBasketCount)
+        }
+    },[])
+
+        
+    useEffect(() => {
+            setBasketCount(Number(localStorage.getItem('basketCount'))||0)
+    },[])
 
     return(
         <div id='Header' style={{background: theme.palette.header.primary}}>
@@ -42,7 +63,13 @@ const Header = ({onToggleTheme, updateUser, openRegLogModal, setOpenRegLogModal}
                 </div>
                 <div id="Basket_UserDataH">
                     <Link id='BasketH' to="/basket">
-                        <BasketSvg/>
+                        <Badge 
+                            badgeContent={basketCount} 
+                            max={99}
+                            color='primary'
+                        >
+                            <BasketSvg/> 
+                        </Badge>
                     </Link>
                     {user!=null?
                     <div id="UserDataH">

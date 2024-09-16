@@ -17,7 +17,6 @@ function addToBasketServ(prodId)
 {
     axios.post(`http://localhost:8000/api/basket/add`, {ProdIDs:prodId}, { withCredentials: true })
     .then(response => {
-        console.log("Prod sended");
     })
     .catch(error => {
         console.log('Error send: ', error);
@@ -55,7 +54,6 @@ async function delProdFromBasketServ(prodIds)
 {
     axios.patch(`http://localhost:8000/api/basket/`, {ProdIDs:prodIds}, { withCredentials: true })
     .then(response => {
-        console.log("Product deleted");
     })
     .catch(error => {
         console.log('Error delete: ', error);
@@ -72,20 +70,21 @@ export async function delProdFromBasket(prodIds, force=false)
         {
             delProdFromBasketLS(prodIds)
         }
-        if (force)
-            {
-                prodIds.forEach(element => {
-                    localStorage.setItem('countOfProd'+element, Number(localStorage.getItem('countOfProd'+element))-1)
-                });
-            }
+    if (force)
+    {
+        prodIds.forEach(element => {
+            localStorage.setItem('countOfProd'+element, Number(localStorage.getItem('countOfProd'+element))-1)
+        });
+    }
+    setBasketCount()
+        
 }
 
-function clearBasketLS()
+export function clearBasketLS(force=false)
 {
     for (let i = localStorage.length-1; i != -1 ; i--) {
-        console.log(i)
         const key = localStorage.key(i);
-        if (key.startsWith('prod') || key.startsWith('countOfProd')) {
+        if (key.startsWith('prod') || (key.startsWith('countOfProd') && force)) {
             localStorage.removeItem(key);
         }
     }
@@ -96,7 +95,6 @@ async function clearBasketServ()
 {
     axios.delete(`http://localhost:8000/api/basket/`, { withCredentials: true })
     .then(response => {
-        console.log("Basket cleared");
     })
     .catch(error => {
         console.log('Error clear: ', error);
@@ -109,6 +107,7 @@ export async function clearBasket()
         {
             await clearBasketServ()
         }
+    setBasketCount()
 }
 
 function getBasketLS()
@@ -135,11 +134,14 @@ async function getBasketServ() {
 }
 
 export async function getBasket() {
+    var basket = []
     if (await checkSession()) {
-        return await getBasketServ();
+        basket = await getBasketServ();
     } else {
-        return getBasketLS();
+        basket = getBasketLS();
     }
+    setBasketCount(basket)
+    return basket;
 }
 
 export function sendLSBasketToServ()
@@ -147,7 +149,8 @@ export function sendLSBasketToServ()
     var prodIDs = getBasketLS()
     if (prodIDs)
         addToBasketServ(prodIDs)
-        clearBasketLS()
+
+    clearBasketLS()
     
 }
 
@@ -182,4 +185,22 @@ export async function getBasketServByMass(prodIds) {
     console.error('Ошибка при получении продуктов из сервера:', error);
     throw error;
   }
+}
+
+
+export async function setBasketCount(basket=null) {
+    basket = basket?basket:await getBasket()
+    localStorage.setItem('basketCount', basket.length)
+    createUpdateBasketEvent()
+}  
+
+export async function incBasketCount() {
+    localStorage.setItem('basketCount', (Number(localStorage.getItem('basketCount'))) + 1)
+    createUpdateBasketEvent()
+}  
+
+function createUpdateBasketEvent()
+{
+    const event = new Event('basketCountUpdated')
+    window.dispatchEvent(event)
 }

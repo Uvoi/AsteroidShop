@@ -3,7 +3,7 @@ import './styles.css'
 import { useNavigate } from 'react-router-dom';
 import { Button, Skeleton } from '@mui/material';
 import { ReactComponent as BasketSvg } from './../../images/basket.svg'
-import { addToBasket } from '../../functions/basket'
+import { addToBasket, incBasketCount } from '../../functions/basket'
 import { themeContext } from '../../App';
 import { Check } from '@mui/icons-material';
 
@@ -16,6 +16,7 @@ const ProductCard = ({ cardId, prdtTitle, prdtDescription, prdtWeight, prdtCateg
     const handleAddToBasketClick = async () => {
         setIsaAdding(true);
         await addToBasket([cardId]);
+        incBasketCount()
         setTimeout(() => {
             setIsaAdding(false);
         }, 1000);

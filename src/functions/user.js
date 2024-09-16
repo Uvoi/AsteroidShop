@@ -1,4 +1,5 @@
 import axios from "axios";
+import { setBasketCount } from "./basket";
 
 
 export async function checkSession() {
@@ -17,9 +18,10 @@ export async function createSession(action, userData) {
         userData,
         { withCredentials: true }
       );
+      setBasketCount()
       return response.data;
     } catch (error) {
-      throw error; // Пробрасываем ошибку для обработки в вызывающей функции
+      throw error;
     }
   }
 

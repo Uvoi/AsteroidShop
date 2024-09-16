@@ -11,6 +11,7 @@ import OrderItem from '../../components/OrderItem/OrderItem';
 import {changeAddress, changeFullName, changePhoto} from '../../functions/user';
 import SelectAddress from '../../components/SelectAddress/SelectAddress';
 import { getOrders, translateStatus } from '../../functions/order';
+import { clearBasketLS, setBasketCount } from '../../functions/basket';
 
 const Profile = ({updateUser})=>
 {
@@ -82,6 +83,8 @@ const Profile = ({updateUser})=>
             console.error('There was an error!', error);
         });
         updateUser()
+        clearBasketLS(true)
+        setBasketCount()
         navigate('/');
     }
 
