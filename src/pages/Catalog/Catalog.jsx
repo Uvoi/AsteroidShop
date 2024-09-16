@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
 import './styles.css';
 
 import InputLabel from '@mui/material/InputLabel';
@@ -12,6 +11,7 @@ import ProductCard from '../../components/ProductCard/ProductCard';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { themeContext } from '../../App';
 import AdminPanel from '../../components/AdminPanel/AdminPanel';
+import { getCatalog } from '../../functions/catalog';
 
 const Catalog = () => {
   const theme = useContext(themeContext)
@@ -21,14 +21,9 @@ const Catalog = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const getAllData = () => {
-      axios.get('http://127.0.0.1:8000/api/catalog/all', axios.defaults.withCredentials = true)
-        .then(response => {
-          parseData(response.data);
-        })
-        .catch(error => {
-          console.error('Ошибка при обновлении данных:', error);
-        });
+    const fetchData = async () => {
+        const data = await getCatalog();
+        parseData(data);
     };
 
     const parseData = (data) => {
@@ -50,7 +45,7 @@ const Catalog = () => {
         console.error('Полученные данные не являются массивом');
       }
     };
-    getAllData();
+    fetchData();
   }, []);
 
   const selectCategories = {
