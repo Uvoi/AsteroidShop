@@ -28,9 +28,9 @@ const Home = (props)=>
       }, [asteroidClick]);
 
     const buttonsLeft = [
-        { label: 'железные', id:1 },
-        { label: 'каменные', id:2 },
-        { label: 'железо-каменные', id:3 },
+        { label: 'железо-каменные', id:1 },
+        { label: 'железные', id:2 },
+        { label: 'каменные', id:3 },
       ];
 
     const buttonsRight = [
@@ -118,7 +118,7 @@ const Home = (props)=>
                     <motion.img src={homeMainWtBg} 
                         id='homeMainWtBgImg'
                         onClick={()=>{setaAsteroidClick(!asteroidClick)}}
-                        variants={homeMainWtBgImgClicked()}
+                        variants={homeMainWtBgImgClicked}
                         animate={MainWtBgImgAnimation}
                     />
                     {buttonsRight.map((button) => (

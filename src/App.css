@@ -2,9 +2,9 @@ body{
     margin: 0;
     padding: 0;
     font-family: Ubuntu;
-    /* background-color: #130118; */
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
 }
 a{
     color: rgb(255, 255, 255);
@@ -14,24 +14,12 @@ a{
 {
   margin: 0;
   padding: 0;
-  
+  font-family: "Ubuntu";
 }
 
 .App{
   height: 100%;  
 }
-/* button:hover
-{
-    -webkit-text-stroke: 1px black;
-    color: rgba(255, 255, 255, 0);
-    font-size: 30px;
-}
-
-button
-{
-    font-size: 30px;
-    background-color: #629dd4;
-} */
 
 ul
 {
@@ -39,7 +27,6 @@ ul
     padding: 0;
 }
 
-/* bot_line styles */
 .bot_line::before,
 .bot_line::after {
   content: "";
@@ -68,6 +55,11 @@ ul
 @font-face {
     font-family: "Ubuntu";
     src: url("./font/UbuntuRegular.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Space";
+  src: url("./font/ProjectSpace.ttf");
 }
 
 input, textarea, input:hover, textarea:hover 
