@@ -11,7 +11,8 @@ import ProductCard from '../../components/ProductCard/ProductCard';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { themeContext } from '../../App';
 import AdminPanel from '../../components/AdminPanel/AdminPanel';
-import { getCatalog } from '../../functions/catalog';
+import { getCatalog } from '../../functions/product';
+
 
 const Catalog = () => {
   const theme = useContext(themeContext)
