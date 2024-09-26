@@ -7,7 +7,7 @@ export async function addNewComment(ProdID, userEmail, Text)
         userEmail: userEmail,
         Text: Text
     };
-    axios.post(`http://localhost:8000/api/comments/add`, sendCommData, { withCredentials: true })
+    axios.post(`http://localhost:8000/api/comment/`, sendCommData, { withCredentials: true })
     .then(response => {
         console.log("Success");
     })
@@ -19,7 +19,7 @@ export async function addNewComment(ProdID, userEmail, Text)
 export async function getComments(productId) {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/comments/${productId}`,
+        `http://localhost:8000/api/comment/${productId}`,
         { withCredentials: true }
       );
       return response.data;

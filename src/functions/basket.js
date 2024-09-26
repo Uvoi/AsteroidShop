@@ -15,7 +15,7 @@ function addToBasketLS(prodId)
 
 function addToBasketServ(prodId)
 {
-    axios.post(`http://localhost:8000/api/basket/add`, {ProdIDs:prodId}, { withCredentials: true })
+    axios.post(`http://localhost:8000/api/basket/`, {ProdIDs:prodId}, { withCredentials: true })
     .then(response => {
     })
     .catch(error => {
@@ -174,17 +174,34 @@ export function getSelectedProds()
 
 
 export async function getBasketServByMass(prodIds) {
-  try {
-    const response = await axios.post(
-      `http://localhost:8000/api/basket/getByMass`,
-      prodIds,
-      { withCredentials: true }
-    );
-    return response.data;
-  } catch (error) {
-    console.error('Ошибка при получении продуктов из сервера:', error);
-    throw error;
+  if (prodIds.length != 0)
+  {
+    try {
+        const response = await axios.get(
+            `http://localhost:8000/api/basket/data`,
+            {
+                params: { 
+                    prod_mass:prodIds
+                },
+                paramsSerializer: params => {
+                    return Object.keys(params)
+                    .map(key =>
+                        params[key]
+                        .map(value => `${key}=${encodeURIComponent(value)}`)
+                        .join('&')
+                    )
+                    .join('&')
+                },
+                withCredentials: true 
+            }
+        );
+        return response.data;
+      } catch (error) {
+        console.error('Ошибка при получении продуктов из сервера:', error);
+        throw error;
+      }
   }
+  return []
 }
 
 

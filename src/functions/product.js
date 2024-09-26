@@ -15,7 +15,7 @@ export async function deleteProduct(id) {
 export async function addNewProduct(data) {
     try 
     {
-        const response = await axios.post('http://127.0.0.1:8000/api/catalog/add', data, {withCredentials: true});
+        const response = await axios.post('http://127.0.0.1:8000/api/product', data, {withCredentials: true});
         console.log(response.data);
         return true
     }
@@ -28,7 +28,7 @@ export async function addNewProduct(data) {
 
 export async function getProduct(id) {
     try {
-      const response = await axios.get(`http://localhost:8000/api/products/` + id, { withCredentials: true });
+      const response = await axios.get(`http://localhost:8000/api/product/` + id, { withCredentials: true });
       return response.data;
     } catch (error) {
       console.error(error);
@@ -36,3 +36,15 @@ export async function getProduct(id) {
     }
   }
   
+
+  export async function getCatalog () {
+    try {
+      const response = await axios.get('http://127.0.0.1:8000/api/product/', {
+        withCredentials: true,
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Ошибка при обновлении данных:', error);
+      throw error;
+    }
+  };

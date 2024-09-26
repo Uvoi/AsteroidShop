@@ -17,7 +17,7 @@ export async function getOrders(id=-1) {
 
 export async function addOrder(productIds, deliveryAddress) {
     try {
-        const response = await axios.post('http://localhost:8000/api/order/add', {
+        const response = await axios.post('http://localhost:8000/api/order/', {
             productids: productIds,
             deliveryaddress: deliveryAddress
         }, { withCredentials: true });
