@@ -1,6 +1,7 @@
 #Comment #comment
 {
     width: 100%;
+    
 }
 
 #Comment
@@ -46,4 +47,6 @@
     margin-bottom: 5px;
     padding: 0.5vmin 0 0.5vmin 2vmin ;
     line-height: 1.4;
+    word-break: break-word;
+    word-break: break-all;
 }

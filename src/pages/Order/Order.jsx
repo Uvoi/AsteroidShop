@@ -3,7 +3,7 @@ import './styles.css'
 import OrderProduct from '../../components/OrderProduct/OrderProduct';
 import { Accordion, AccordionDetails, AccordionSummary, Backdrop, Button, Checkbox, Divider, Modal, Typography } from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
-import { themeContext, userContext } from '../../App';
+import { userContext } from '../../App';
 import { useNotification } from '../../components/Notification/Notification';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import SelectAddress from '../../components/SelectAddress/SelectAddress';
@@ -12,12 +12,13 @@ import { delProdFromBasket, getBasketServByMass, getSelectedProds } from '../../
 import { changeAddress } from '../../functions/user';
 import OrderCompleteM from '../../components/OrderCompleteM/OrderCompleteM';
 import { addOrder } from '../../functions/order';
+import { useTheme } from '../../themes/ThemeProvider';
 
 
 
 const Order = () =>
 {
-    const theme = useContext(themeContext)
+  const { theme } = useTheme();
     const user = useContext(userContext)
 
     const showNotification = useNotification();

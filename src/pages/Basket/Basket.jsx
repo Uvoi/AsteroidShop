@@ -1,18 +1,18 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import { motion, AnimatePresence} from 'framer-motion';
-import { themeContext } from '../../App';
 import { useNotification } from '../../components/Notification/Notification';
 
 import './styles.css';
 import BasketProduct from '../../components/BasketProduct/BasketProduct';
 import { getBasket, delProdFromBasket, clearBasket, getSelectedProds, getBasketServByMass} from '../../functions/basket';
 import { checkSession } from '../../functions/user';
+import { useTheme } from '../../themes/ThemeProvider';
 
 
 const Basket = () => {
-  const theme = useContext(themeContext)
+  const { theme } = useTheme();
   const showNotification = useNotification();
   const [prodData, setProdData] = useState([]);
   const [elementsVisible, setElementsVisible] = useState(false);
@@ -180,7 +180,7 @@ const Basket = () => {
             prdtCategory={product.category}
             imgLink={product.imgLink}
             check={product.checked}
-            deleteFunc={async(prod)=>(await checkSession() && isDelAll)?NaN:deleteProd(prod)}
+            deleteFunc={async(prod)=>(await checkSession() && isDelAll)?null:deleteProd(prod)}
             checkFunc={setChecked}
             delAllFlag={isDelAll}
           />

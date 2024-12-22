@@ -6,15 +6,16 @@ import { ReactComponent as BasketSvg } from './../../images/basket.svg'
 import StarButton from '../StarButton/StarButton';
 import { Backdrop, Badge, Modal} from '@mui/material';
 import RegLogM from '../RegLogM/RegLogM';
-import { themeContext, userContext } from '../../App';
+import { userContext } from '../../App';
 import { Link } from 'react-router-dom';
+import { useTheme } from '../../themes/ThemeProvider';
 
 
 
 
-const Header = ({onToggleTheme, updateUser, openRegLogModal, setOpenRegLogModal})=>
+const Header = ({updateUser, openRegLogModal, setOpenRegLogModal})=>
 {
-    const theme = useContext(themeContext)
+    const { theme, toggleTheme } = useTheme();
     const user = useContext(userContext)
     const [regOrLog, setRegOrLog] = useState(true);
     const [rotate, setRotate] = useState(false);
@@ -25,7 +26,7 @@ const Header = ({onToggleTheme, updateUser, openRegLogModal, setOpenRegLogModal}
 
     const handleLogoClick = () =>
         {
-            onToggleTheme()
+            toggleTheme()
             setRotate(!rotate)
         }
     
@@ -33,7 +34,6 @@ const Header = ({onToggleTheme, updateUser, openRegLogModal, setOpenRegLogModal}
         const handleChangeBasketCount = () =>
         {
             setBasketCount(Number(localStorage.getItem('basketCount'))||0)
-            console.log('basketCountUpdated')
         }
 
         window.addEventListener('basketCountUpdated',handleChangeBasketCount)

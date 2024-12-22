@@ -4,17 +4,18 @@ import { Backdrop, Button, Input, Modal, Skeleton, TextField } from '@mui/materi
 
 import "./styles.css";
 import { useNotification } from '../../components/Notification/Notification';
-import { themeContext, userContext } from '../../App';
+import { userContext } from '../../App';
 import OrdersList from '../../components/OrdersList/OrdersList';
 import OrderItem from '../../components/OrderItem/OrderItem';
 import {changeAddress, changeFullName, changePhoto, deleteSession} from '../../functions/user';
 import SelectAddress from '../../components/SelectAddress/SelectAddress';
 import { getOrders, translateStatus } from '../../functions/order';
 import { clearBasketLS, setBasketCount } from '../../functions/basket';
+import { useTheme } from '../../themes/ThemeProvider';
 
 const Profile = ({updateUser})=>
 {
-    const theme = useContext(themeContext)
+    const { theme } = useTheme();
     const user = useContext(userContext)
     const navigate = useNavigate();
 

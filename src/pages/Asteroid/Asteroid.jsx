@@ -1,6 +1,5 @@
 import {React, useState, useEffect, useContext} from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import axios from 'axios';
 import { Accordion, AccordionDetails, AccordionSummary, Button, Divider, IconButton, Skeleton, Typography } from '@mui/material';
 import { ArrowDropDown, Check } from '@mui/icons-material';
 
@@ -10,14 +9,15 @@ import CommentsContainer from '../../components/CommentsContainer/CommentsContai
 import Comment from '../../components/Comment/Comment';
 import CommentInput from '../../components/CommentInput/CommentInput';
 import {addToBasket} from '../../functions/basket'
-import { themeContext, userContext } from '../../App';
+import { userContext } from '../../App';
 import { deleteProduct, getProduct } from '../../functions/product';
 import AdminPanel from '../../components/AdminPanel/AdminPanel';
 import { getComments } from '../../functions/comments';
+import { useTheme } from '../../themes/ThemeProvider';
 
 const Asteroid = ()=>
 {
-    const theme = useContext(themeContext)
+    const { theme } = useTheme();
     const [searchParams, setSearchParams] = useSearchParams();
     const [asteroidData, setAsteroidData] = useState({});
     const user = useContext(userContext)

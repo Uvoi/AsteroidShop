@@ -10,7 +10,7 @@ import Asteroid from '../../pages/Asteroid/Asteroid';
 import CheckAdmin from './CheckAdmin/CheckAdmin';
 const Catalog = lazy(() => import('../../pages/Catalog/Catalog'))
 const Help = lazy(() => import('../../pages/Help/Help'))
-const AddNewProduct = lazy(() => import('../../components/AddNewProduct/AddNewProduct'))
+const AddNewProduct = lazy(() => import('../AddNewProduct/AddNewProduct'))
 const Basket = lazy(() => import('../../pages/Basket/Basket')) 
 const Profile = lazy(() => import('../../pages/Profile/Profile'))
 const Order = lazy(() => import('../../pages/Order/Order'))
@@ -22,6 +22,19 @@ const AllUsersList = lazy(() => import('../../pages/AllUsersList/AllUsersList'))
 const AllOrdersList = lazy(() => import('../../pages/AllOrdersList/AllOrdersList'))
 const User = lazy(() => import('../../pages/User/User'))
 
+// import Catalog from '../../pages/Catalog/Catalog';
+// import Help from '../../pages/Help/Help'
+// import AboutUs from '../../pages/AboutUs/AboutUs'
+// import AddNewProduct  from '../AddNewProduct/AddNewProduct'
+// import Basket from '../../pages/Basket/Basket'
+// import Profile from '../../pages/Profile/Profile'
+// import Order from '../../pages/Order/Order'
+// import Unlogined from '../../pages/Unlogined/Unlogined'
+// import Empty from '../../pages/Empty/Empty';
+// import Admin from '../../pages/Admin/Admin'
+// import AllUsersList from '../../pages/AllUsersList/AllUsersList'
+// import AllOrdersList from '../../pages/AllOrdersList/AllOrdersList'
+// import User from '../../pages/User/User'
 
 const Content = ({ updateUser }) => {
 
